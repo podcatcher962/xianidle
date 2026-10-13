@@ -1,0 +1,3692 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>拾闲 XianIdle · 把下班后的半小时，从手机手里拿回来</title>
+<style>
+:root{
+  --bg:#201E1B; --card:#2B2825; --card2:#35322D; --line:#45413A;
+  --tx:#EDE7DD; --tx2:#B0A99D; --acc:#E8A33D; --acc2:#7FA98C;
+  --sage:#7FA98C; --amber:#E8A33D; --rose:#D98E8E; --sky:#8FA3B8;
+  --panel:rgba(43,40,37,.92);
+}
+html[data-theme="light"]{
+  --bg:#EFE9DD; --card:#F7F2E8; --card2:#FFFDF7; --line:#D8CFBE;
+  --tx:#3A342B; --tx2:#7A7264; --acc:#B87A1E; --acc2:#5E8A6B;
+  --sage:#5E8A6B; --amber:#B87A1E; --rose:#B36A6A; --sky:#5F7A99;
+  --panel:rgba(247,242,232,.94);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{
+  background:var(--bg);color:var(--tx);
+  font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;
+  transition:background .3s,color .3s;
+}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+/* ---------- 顶栏 ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:10px;
+  padding:12px 18px;background:var(--panel);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.brand{font-size:20px;font-weight:800;letter-spacing:.1em}
+.brand small{font-size:12px;font-weight:400;color:var(--tx2);margin-left:10px;letter-spacing:.02em}
+.topbar .sp{flex:1}
+.mbtn{padding:7px 13px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--tx2);background:var(--card);white-space:nowrap}
+.mbtn:hover{color:var(--tx);border-color:var(--acc)}
+.mbtn.on{color:var(--acc);border-color:var(--acc)}
+/* ---------- 布局 ---------- */
+.layout{max-width:1120px;margin:0 auto;display:flex;gap:22px;padding:22px 18px 50px;align-items:flex-start}
+.side{width:196px;flex:0 0 auto;position:sticky;top:76px}
+.side-group{margin-bottom:18px}
+.side-group h4{font-size:11px;color:var(--tx2);letter-spacing:.22em;margin:0 4px 8px;font-weight:600}
+.side-item{
+  display:flex;align-items:center;gap:9px;width:100%;text-align:left;
+  padding:8px 10px;border-radius:10px;font-size:14px;color:var(--tx2);
+  border:1px solid transparent;margin-bottom:2px;
+}
+.side-item .ic{font-size:16px;width:20px;text-align:center}
+.side-item:hover{color:var(--tx);background:var(--card)}
+.side-item.on{color:var(--tx);background:var(--card);border-color:var(--line)}
+.side-item .dot{margin-left:auto;font-size:10px;color:var(--acc);letter-spacing:.05em}
+.side-box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px}
+.side-box h4{font-size:11px;color:var(--tx2);letter-spacing:.18em;margin-bottom:9px;font-weight:600}
+.side-box .kv{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.side-box .kv:last-child{border-bottom:none}
+.side-box .kv b{color:var(--acc);font-weight:600;font-variant-numeric:tabular-nums}
+.main{flex:1;min-width:0}
+/* 窄屏 chips 导航 */
+.chips{display:none;gap:8px;overflow-x:auto;padding:10px 14px 4px;position:sticky;top:57px;z-index:30;background:var(--bg)}
+.chip{flex:0 0 auto;border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:13px;color:var(--tx2);background:var(--card)}
+.chip.on{color:var(--acc);border-color:var(--acc)}
+/* ---------- 首页 ---------- */
+.view{display:none}
+.view.on{display:block;animation:fadein .25s}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{
+  background:linear-gradient(150deg,var(--card),var(--card2));
+  border:1px solid var(--line);border-radius:20px;padding:30px 28px;margin-bottom:18px;
+}
+.hero h1{font-size:26px;font-weight:800;letter-spacing:.1em}
+.hero-en{font-size:11px;font-weight:700;letter-spacing:.22em;color:var(--amber);margin-bottom:10px}
+.hero p{color:var(--tx2);font-size:13.5px;line-height:1.9;margin-top:10px;max-width:640px}
+.hero p b{color:var(--acc);font-weight:600}
+.sec-title{display:flex;align-items:baseline;gap:10px;margin:22px 4px 12px}
+.sec-title h2{font-size:17px;font-weight:700;letter-spacing:.12em}
+.sec-title span{font-size:12px;color:var(--tx2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(212px,1fr));gap:12px}
+.gcard{
+  border-radius:16px;padding:17px 16px;display:flex;flex-direction:column;gap:4px;
+  background:var(--card);border:1px solid var(--line);text-align:left;min-height:118px;
+  transition:transform .15s,border-color .15s;
+}
+.gcard:hover{transform:translateY(-2px)}
+.gcard .ic{font-size:26px}
+.gcard .nm{font-size:16px;font-weight:700;margin-top:6px}
+.gcard .ds{font-size:12px;color:var(--tx2);line-height:1.6}
+.gcard .tag{font-size:10px;color:var(--acc);letter-spacing:.14em;margin-top:auto;padding-top:8px}
+.gcard.c1{border-color:color-mix(in srgb,var(--sage) 40%,var(--line))}
+.gcard.c2{border-color:color-mix(in srgb,var(--amber) 40%,var(--line))}
+.gcard.c3{border-color:color-mix(in srgb,var(--sky) 40%,var(--line))}
+.gcard.c4{border-color:color-mix(in srgb,var(--rose) 40%,var(--line))}
+.gcard.soon{opacity:.62}
+/* ---------- 游戏页通用 ---------- */
+.gbar{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.gback{width:32px;height:32px;border-radius:50%;border:1px solid var(--line);color:var(--tx2);font-size:16px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.gback:hover{color:var(--tx);border-color:var(--acc)}
+.gtitle{font-size:16px;font-weight:700;letter-spacing:.06em}
+.gtitle small{font-size:11.5px;color:var(--tx2);font-weight:400;margin-left:8px;letter-spacing:.02em}
+.gbar .sp{flex:1}
+.btn{border:1px solid var(--line);border-radius:99px;padding:7px 16px;font-size:13px;color:var(--tx2);background:var(--card)}
+.btn:hover{color:var(--tx);border-color:var(--acc)}
+.btn-pri{border:1px solid var(--acc);color:var(--acc)}
+.btn-pri:hover{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.btn.on{color:var(--acc);border-color:var(--acc)}
+.gpanel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.stat-strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 14px;font-size:12px;color:var(--tx2)}
+.stat b{color:var(--acc);font-weight:700;font-size:15px;margin-right:4px;font-variant-numeric:tabular-nums}
+.hint{color:var(--tx2);font-size:12px;line-height:1.8}
+/* ---------- 四选一 ---------- */
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+@media (max-width:520px){.opt-grid{grid-template-columns:1fr}}
+.opt{
+  border:1px solid var(--line);border-radius:14px;padding:15px 14px;font-size:14.5px;
+  background:var(--card2);text-align:center;transition:border-color .15s,transform .1s;
+  line-height:1.5;
+}
+.opt:hover{border-color:var(--acc)}
+.opt:active{transform:scale(.98)}
+.opt.ok{border-color:var(--sage);color:var(--sage);background:color-mix(in srgb,var(--sage) 12%,transparent)}
+.opt.no{border-color:var(--rose);color:var(--rose)}
+.opt.pick{border-color:var(--sky);color:var(--sky)}
+.opt:disabled{cursor:default;opacity:.75}
+.opt.ok:disabled,.opt.no:disabled,.opt.pick:disabled{opacity:1}
+/* ---------- 猜电台 ---------- */
+.dial-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.dial{
+  width:172px;height:172px;border-radius:50%;position:relative;flex:0 0 auto;
+  background:radial-gradient(circle at 38% 32%,var(--card2),var(--card) 70%);
+  border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.25),0 1px 0 rgba(255,255,255,.05) inset;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none;
+}
+.live-bar{display:flex;align-items:center;gap:10px;width:100%;max-width:520px;margin:14px auto 2px;
+  padding:9px 14px;background:var(--card2);border:1px solid var(--line);border-radius:999px;
+  font-size:12.5px;color:var(--tx2);text-align:left}
+.live-dot{width:9px;height:9px;border-radius:50%;background:#6b6b6b;flex:none}
+.live-bar.live .live-dot{background:#E05252;box-shadow:0 0 9px #E05252;animation:rdpulse 1.5s infinite}
+.live-bar.buf .live-dot{background:var(--amber);animation:rdpulse .8s infinite}
+@keyframes rdpulse{50%{opacity:.3}}
+.btn-mini{padding:4px 11px;font-size:12px;border-radius:999px}
+.dial::before{content:"";position:absolute;inset:14px;border-radius:50%;border:1px dashed var(--line)}
+.dial .needle{width:3px;height:58px;background:var(--acc);border-radius:3px;transform-origin:50% 100%;position:absolute;bottom:50%;transition:transform .12s}
+.dial .freq{font-size:12px;color:var(--tx2);letter-spacing:.08em;margin-top:52px;font-variant-numeric:tabular-nums}
+.dial.off .needle{opacity:.25}
+.clue-list{width:100%;max-width:520px;display:flex;flex-direction:column;gap:8px}
+.clue{
+  display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--line);
+  border-radius:12px;padding:11px 14px;font-size:14px;animation:fadein .3s;
+}
+.clue .cn{width:22px;height:22px;border-radius:50%;background:color-mix(in srgb,var(--acc) 18%,transparent);
+  color:var(--acc);font-size:11px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-weight:700}
+.clue .cv{color:var(--tx)}
+.clue.locked{opacity:.4;border-style:dashed}
+.clue.locked .cv{color:var(--tx2)}
+/* ---------- 猜诗歌/典故 ---------- */
+.verse-card{
+  background:var(--card2);border:1px solid var(--line);border-radius:16px;
+  padding:26px 22px;text-align:center;margin-bottom:4px;
+}
+.verse-card .q-tag{font-size:11px;color:var(--acc);letter-spacing:.24em;margin-bottom:12px}
+.verse-card .q-main{font-size:21px;font-weight:700;line-height:1.8;letter-spacing:.06em}
+.verse-card .q-sub{font-size:12.5px;color:var(--tx2);margin-top:10px;line-height:1.8}
+.result-note{
+  margin-top:14px;background:var(--card2);border:1px dashed var(--line);border-radius:12px;
+  padding:14px 16px;font-size:13px;color:var(--tx2);line-height:1.9;animation:fadein .3s;
+}
+.result-note b{color:var(--acc);font-weight:600}
+/* ---------- 故事秘境 ---------- */
+.story-text{font-size:15px;line-height:2.1;letter-spacing:.03em;min-height:200px}
+.story-text .scene{color:var(--acc);font-weight:600;letter-spacing:.2em;font-size:12px;display:block;margin-bottom:10px}
+.story-choices{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.story-choice{
+  border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:14px;
+  background:var(--card2);text-align:left;line-height:1.7;transition:border-color .15s;
+}
+.story-choice:hover{border-color:var(--acc)}
+.story-choice .cc{color:var(--acc);font-size:11px;letter-spacing:.2em;display:block;margin-bottom:4px}
+.ending-badge{display:inline-block;border:1px solid var(--acc);color:var(--acc);border-radius:99px;
+  padding:2px 12px;font-size:11px;letter-spacing:.14em;margin:0 6px 6px 0}
+.ending-badge.got{background:color-mix(in srgb,var(--acc) 14%,transparent)}
+/* ---------- 方块 ---------- */
+.cv-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.game-cv{background:#26241F;border:1px solid var(--line);border-radius:14px;touch-action:none}
+html[data-theme="light"] .game-cv{background:#F6F1E6}
+.touch-pad{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.tbtn{width:58px;height:46px;border:1px solid var(--line);border-radius:12px;font-size:17px;color:var(--tx2);background:var(--card)}
+.tbtn:active{color:var(--acc);border-color:var(--acc)}
+/* ---------- 纸飞机 ---------- */
+.plane-wrap{position:relative}
+.plane-hud{position:absolute;left:12px;top:12px;font-size:12px;color:var(--tx2);letter-spacing:.1em;
+  background:color-mix(in srgb,var(--bg) 70%,transparent);border-radius:10px;padding:6px 12px;line-height:1.8}
+.plane-hud b{color:var(--acc);font-variant-numeric:tabular-nums}
+/* ---------- 高尔夫 ---------- */
+.golf-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.power-bar{width:min(340px,80vw);height:16px;border-radius:99px;border:1px solid var(--line);overflow:hidden;background:var(--card2)}
+.power-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--sage),var(--amber),var(--rose));transition:width .05s linear}
+/* ---------- 拼图 ---------- */
+.puzzle-grid{display:grid;gap:3px;background:var(--line);padding:3px;border-radius:12px;margin:0 auto}
+.pz-cell{background:var(--card2);border:none;border-radius:7px;position:relative;overflow:hidden;cursor:pointer}
+.pz-cell.right{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--sage) 60%,transparent) inset}
+.pz-cell img{width:100%;height:100%;display:block;pointer-events:none}
+.pz-cell .num{position:absolute;left:4px;top:2px;font-size:10px;color:var(--tx2);text-shadow:0 1px 2px rgba(0,0,0,.4)}
+/* ---------- 听风/呼吸 复用旧样式 ---------- */
+.wind-row{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px dashed var(--line)}
+.wind-ic{font-size:20px;width:26px;text-align:center}
+.wind-nm{width:48px;font-size:14px}
+.wind-row input[type=range]{flex:1;accent-color:var(--acc);height:26px}
+.wind-v{width:36px;text-align:right;font-size:12px;color:var(--tx2);font-variant-numeric:tabular-nums}
+.wind-master{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+.wchip{border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:12px;color:var(--tx2)}
+.wchip.on{color:var(--acc);border-color:var(--acc)}
+.wplay{margin-top:16px;align-self:flex-start;border:1px solid var(--acc2);color:var(--acc2);border-radius:99px;padding:9px 30px;font-size:13px;letter-spacing:.14em}
+.br-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px 0}
+.br-ring{
+  width:160px;height:160px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--acc2) 55%,transparent),color-mix(in srgb,var(--acc2) 12%,transparent));
+  border:1.5px solid color-mix(in srgb,var(--acc2) 60%,transparent);
+  transition:transform .12s linear;
+}
+.br-num{font-size:36px;font-weight:200;color:var(--tx);font-variant-numeric:tabular-nums}
+.br-phase{font-size:17px;letter-spacing:.32em;margin-right:-.32em;color:var(--tx)}
+.br-info{font-size:12px;color:var(--tx2);letter-spacing:.06em}
+.br-btn{border:1px solid var(--acc);color:var(--acc);border-radius:99px;padding:8px 26px;font-size:13px;letter-spacing:.1em}
+/* ---------- 泡泡 ---------- */
+#bubCanvas{width:100%;height:100%;display:block;cursor:pointer;border-radius:14px}
+.bub-stat{text-align:center;font-size:12px;color:var(--tx2);margin-top:10px;letter-spacing:.08em}
+/* ---------- 弹窗 ---------- */
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:18px;z-index:50}
+.mask.on{display:flex}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;max-width:600px;width:100%;max-height:82vh;overflow:auto;padding:22px 24px}
+.panel h2{font-size:17px;margin-bottom:12px;letter-spacing:.05em}
+.panel h3{font-size:14px;margin:14px 0 6px;color:var(--acc)}
+.panel p,.panel li{font-size:13px;color:var(--tx2);line-height:1.9}
+.panel ul{padding-left:18px;margin:4px 0}
+.panel .close{margin-top:16px;width:100%;padding:9px;border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--tx2)}
+.panel .close:hover{color:var(--tx)}
+.kv{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.kv span:last-child{color:var(--tx2)}
+.foot{margin-top:26px;color:var(--tx2);font-size:12px;text-align:center;line-height:1.9}
+/* ---------- 响应式 ---------- */
+@media (max-width:860px){
+  .layout{flex-direction:column;padding:0 14px 40px;gap:0}
+  .side{display:none}
+  .chips{display:flex}
+  .hero{padding:22px 18px}
+  .hero h1{font-size:21px}
+  .grid{grid-template-columns:1fr 1fr;gap:10px}
+  .gcard{min-height:104px;padding:13px 12px}
+  .gcard .nm{font-size:14.5px}
+}
+@media (max-width:420px){
+  .grid{grid-template-columns:1fr}
+  .brand small{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">拾闲<small>XianIdle · 下班后的解压盒 · v0.2</small></div>
+  <div class="sp"></div>
+  <button class="mbtn" id="btnTheme">🌙 切到纸感</button>
+  <button class="mbtn" data-open="help">帮助</button>
+  <button class="mbtn" data-open="faq">常见问题</button>
+  <button class="mbtn" data-open="disc">免责声明</button>
+  <button class="mbtn" data-open="about">关于</button>
+</div>
+
+<div class="chips" id="chips"></div>
+
+<div class="layout">
+  <nav class="side" id="side"></nav>
+  <main class="main" id="main">
+
+    <!-- ========== 首页 ========== -->
+    <section class="view on" id="v-home">
+      <div class="hero">
+        <div class="hero-en">拾闲 XianIdle · TAKE YOUR AFTER-WORK HALF HOUR BACK</div>
+        <h1>把下班后的半小时，从手机手里拿回来</h1>
+        <p>这里<b>没有计时器、没有红点、没有排行榜</b>——只有泡泡、呼吸声、猜不完的电台，和一点点安静的玩心。桌面和手机都能玩，声音全部在本机合成。</p>
+      </div>
+      <div class="sec-title"><h2>静一静</h2><span>先让心慢下来</span></div>
+      <div class="grid">
+        <button class="gcard c1" data-go="bubble"><span class="ic">🫧</span><span class="nm">捏泡泡</span><span class="ds">一屏幕泡泡，捏爆有回声</span><span class="tag" id="hc-bubble">已捏 0 个 →</span></button>
+        <button class="gcard c2" data-go="breathe"><span class="ic">🌊</span><span class="nm">一呼一吸</span><span class="ds">4-7-8 呼吸法，跟着圆圈慢下来</span><span class="tag" id="hc-breathe">静心 0 分钟 →</span></button>
+        <button class="gcard c3" data-go="wind"><span class="ic">🎐</span><span class="nm">听风</span><span class="ds">细雨 · 山风 · 篝火，自己调</span><span class="tag">三路混音 →</span></button>
+        <button class="gcard c4" data-go="ripple"><span class="ic">💧</span><span class="nm">水面涟漪</span><span class="ds">点一下，看波纹一圈圈散开</span><span class="tag" id="hc-ripple">已起 0 圈 →</span></button>
+        <button class="gcard c1" data-go="sand"><span class="ic">🏖</span><span class="nm">指尖流沙</span><span class="ds">划一道，就留一道沙痕</span><span class="tag">随手涂 →</span></button>
+        <button class="gcard c2" data-go="lantern"><span class="ic">🏮</span><span class="nm">放孔明灯</span><span class="ds">点一下天，灯就升上去，不会掉</span><span class="tag" id="hc-lantern">已放 0 盏 →</span></button>
+      </div>
+      <div class="sec-title"><h2>玩一玩</h2><span>有手感、有获得感，但没有失败</span></div>
+      <div class="grid">
+        <button class="gcard c4" data-go="block"><span class="ic">🧱</span><span class="nm">安静方块</span><span class="ds">堆满了也不会输，它帮你托底</span><span class="tag" id="hc-block">已消 0 行 →</span></button>
+        <button class="gcard c1" data-go="plane"><span class="ic">✈️</span><span class="nm">纸飞机</span><span class="ds">滑翔、收集好心情，不会坠落</span><span class="tag" id="hc-plane">累计 0 km →</span></button>
+        <button class="gcard c2" data-go="golf"><span class="ic">⛳</span><span class="nm">一杆高尔夫</span><span class="ds">一按钮蓄力，一分钟一洞</span><span class="tag">三洞休闲局 →</span></button>
+        <button class="gcard c3" data-go="puzzle"><span class="ic">🧩</span><span class="nm">静心拼图</span><span class="ds">3×3 起步，图案每晚不一样</span><span class="tag" id="hc-puzzle">已拼 0 幅 →</span></button>
+        <button class="gcard c4" data-go="raid"><span class="ic">🚀</span><span class="nm">雷电</span><span class="ds">无限命射击，挨一下只闪一下</span><span class="tag" id="hc-raid">最高 0 分 →</span></button>
+        <button class="gcard c1" data-go="pool"><span class="ic">🎱</span><span class="nm">落袋桌球</span><span class="ds">没有对手，也不用计时</span><span class="tag" id="hc-pool">已进 0 球 →</span></button>
+        <button class="gcard c2" data-go="pin"><span class="ic">🎡</span><span class="nm">弹珠台</span><span class="ds">掉下去？再发一颗就是</span><span class="tag" id="hc-pin">最高 0 分 →</span></button>
+      </div>
+      <div class="sec-title"><h2>猜一猜</h2><span>都是选择题，不用打字</span></div>
+      <div class="grid">
+        <button class="gcard c3" data-go="radio"><span class="ic">📻</span><span class="nm">拾猜电台</span><span class="ds">真电台直播，猜中是哪个台</span><span class="tag" id="hc-radio">题库 0 台 →</span></button>
+        <button class="gcard c4" data-go="qask"><span class="ic">💭</span><span class="nm">猜提问</span><span class="ds">给你一句回答，猜那句提问</span><span class="tag" id="hc-qask">已答 0 题 →</span></button>
+        <button class="gcard c1" data-go="poem"><span class="ic">📜</span><span class="nm">猜诗歌</span><span class="ds">接下句 · 猜作者 · 猜诗名</span><span class="tag" id="hc-poem">题库 0 首 →</span></button>
+        <button class="gcard c2" data-go="idiom"><span class="ic">📖</span><span class="nm">猜典故</span><span class="ds">一个故事，猜一个成语</span><span class="tag" id="hc-idiom">题库 0 则 →</span></button>
+        <button class="gcard c3" data-go="story"><span class="ic">🚪</span><span class="nm">故事秘境</span><span class="ds">一家只售声音的小店，六个结局</span><span class="tag" id="hc-story">已达成 0/6 结局 →</span></button>
+      </div>
+      <div class="sec-title"><h2>聊一聊</h2><span>正在打磨</span></div>
+      <div class="grid">
+        <button class="gcard soon" data-go="chat"><span class="ic">💬</span><span class="nm">树洞</span><span class="ds">下班后第一个说话对象</span><span class="tag">M3 见 · 语音版 →</span></button>
+      </div>
+    </section>
+
+    <!-- ========== 捏泡泡 ========== -->
+    <section class="view" id="v-bubble">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">捏泡泡<small>捏爆的瞬间，有点解气</small></span></div>
+      <div style="max-width:760px;margin:0 auto">
+        <canvas id="bubCanvas" style="width:100%;height:min(62vh,520px)"></canvas>
+        <div class="bub-stat" id="bubStat">已捏爆 0 个</div>
+      </div>
+    </section>
+
+    <!-- ========== 一呼一吸 ========== -->
+    <section class="view" id="v-breathe">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">一呼一吸<small>吸气 4 · 屏息 7 · 呼气 8</small></span></div>
+      <div class="gpanel br-wrap" style="min-height:380px">
+        <div class="br-ring" id="brRing"><span class="br-num" id="brNum">4</span></div>
+        <div class="br-phase" id="brPhase">准备好了吗</div>
+        <div class="br-info" id="brInfo">吸气 4 秒 · 屏息 7 秒 · 呼气 8 秒</div>
+        <button class="br-btn" id="brBtn">开 始</button>
+      </div>
+    </section>
+
+    <!-- ========== 听风 ========== -->
+    <section class="view" id="v-wind">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">听风<small>推子零延迟，随调随响</small></span><span class="sp"></span><span class="hint" id="windState"></span></div>
+      <div class="gpanel" style="max-width:560px">
+        <div class="wind-row"><span class="wind-ic">🌧</span><span class="wind-nm">细雨</span><input type="range" id="wRain" min="0" max="100" value="35"><span class="wind-v" id="vRain">35</span></div>
+        <div class="wind-row"><span class="wind-ic">🌬</span><span class="wind-nm">山风</span><input type="range" id="wWind" min="0" max="100" value="25"><span class="wind-v" id="vWind">25</span></div>
+        <div class="wind-row" style="border-bottom:none"><span class="wind-ic">🔥</span><span class="wind-nm">篝火</span><input type="range" id="wFire" min="0" max="100" value="0"><span class="wind-v" id="vFire">0</span></div>
+        <div class="wind-master">
+          <button class="wchip" data-preset="rain">细雨</button>
+          <button class="wchip" data-preset="wind">山风</button>
+          <button class="wchip" data-preset="fire">篝火夜</button>
+          <button class="wchip" data-preset="calm">全静</button>
+        </div>
+        <button class="wplay" id="wPlay">起 风</button>
+      </div>
+    </section>
+
+    <!-- ========== 拾猜电台 ========== -->
+    <section class="view" id="v-radio">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">拾猜电台<small>转动旋钮，凭线索猜台名</small></span><span class="sp"></span><button class="btn" id="rdSkip">换一题</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="rdScore">0</b>分</div>
+        <div class="stat"><b id="rdStreak">0</b>本局猜对</div>
+        <div class="stat"><b id="rdBest">0</b>最佳单题</div>
+        <div class="stat"><b id="rdLeft">72</b>题待猜</div>
+      </div>
+      <div class="gpanel dial-wrap">
+        <div class="dial" id="rdDial">
+          <div class="needle" id="rdNeedle"></div>
+          <div class="freq" id="rdFreq">FM ——.-</div>
+        </div>
+        <div class="live-bar" id="rdLive">
+          <span class="live-dot" id="rdLiveDot"></span>
+          <span class="live-tx" id="rdLiveTx">旋钮还没转</span>
+          <span class="sp"></span>
+          <button class="btn btn-mini" id="rdMoreBtn" style="display:none">再听一会儿</button>
+          <button class="btn btn-mini" id="rdMuteBtn" style="display:none">🔊 静音</button>
+          <button class="btn btn-mini" id="rdRetryBtn" style="display:none">重试接流</button>
+        </div>
+        <div class="clue-list" id="rdClues"></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+          <button class="btn btn-pri" id="rdStart">转动旋钮，开始猜</button>
+          <button class="btn" id="rdClueBtn" style="display:none">再给一条线索（-10 分）</button>
+        </div>
+        <div class="opt-grid" id="rdOpts" style="max-width:520px"></div>
+        <div class="result-note" id="rdNote" style="display:none;max-width:520px;width:100%"></div>
+      </div>
+    </section>
+
+    <!-- ========== 猜诗歌 ========== -->
+    <section class="view" id="v-poem">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">猜诗歌<small>接下句 · 猜作者 · 猜诗名</small></span><span class="sp"></span><button class="btn" id="pmSkip">换一题</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="pmScore">0</b>分</div>
+        <div class="stat"><b id="pmRight">0</b>猜对</div>
+        <div class="stat"><b id="pmDone">0</b>已答</div>
+      </div>
+      <div class="gpanel" style="max-width:640px">
+        <div class="verse-card">
+          <div class="q-tag" id="pmTag">—— 猜下一句 ——</div>
+          <div class="q-main" id="pmQ">……</div>
+          <div class="q-sub" id="pmSub"></div>
+        </div>
+        <div class="opt-grid" id="pmOpts"></div>
+        <div class="result-note" id="pmNote" style="display:none"></div>
+      </div>
+    </section>
+
+    <!-- ========== 猜典故 ========== -->
+    <section class="view" id="v-idiom">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">猜典故<small>一个故事，一个成语</small></span><span class="sp"></span><button class="btn" id="idSkip">换一题</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="idScore">0</b>分</div>
+        <div class="stat"><b id="idRight">0</b>猜对</div>
+        <div class="stat"><b id="idDone">0</b>已答</div>
+      </div>
+      <div class="gpanel" style="max-width:640px">
+        <div class="verse-card">
+          <div class="q-tag" id="idTag">—— 这个故事说的是哪个成语 ——</div>
+          <div class="q-main" id="idQ" style="font-size:17px;font-weight:600">……</div>
+        </div>
+        <div class="opt-grid" id="idOpts"></div>
+        <div class="result-note" id="idNote" style="display:none"></div>
+      </div>
+    </section>
+
+    <!-- ========== 故事秘境 ========== -->
+    <section class="view" id="v-story">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">故事秘境<small>一家只售声音的小店</small></span><span class="sp"></span><button class="btn" id="stRestart">从头读</button></div>
+      <div class="gpanel" style="max-width:640px">
+        <div class="story-text" id="stText"></div>
+        <div class="story-choices" id="stChoices"></div>
+        <div class="result-note" id="stNote" style="display:none"></div>
+      </div>
+      <div style="margin-top:14px" id="stEndings"></div>
+    </section>
+
+    <!-- ========== 安静方块 ========== -->
+    <section class="view" id="v-block">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">安静方块<small>堆满了也不会输，它帮你托底</small></span><span class="sp"></span>
+        <button class="btn" id="bkNoise">🌧 雨声背景：关</button>
+        <button class="btn" id="bkPause">暂停</button>
+        <button class="btn" id="bkNew">重开一局</button>
+      </div>
+      <div class="cv-wrap">
+        <canvas id="bkCanvas" class="game-cv" width="300" height="560"></canvas>
+        <div class="touch-pad">
+          <button class="tbtn" data-bk="left">←</button>
+          <button class="tbtn" data-bk="rot">⟳</button>
+          <button class="tbtn" data-bk="right">→</button>
+          <button class="tbtn" data-bk="drop">↓</button>
+        </div>
+        <div class="bub-stat" id="bkStat">已消 0 行 · 温柔托底 0 次</div>
+      </div>
+    </section>
+
+    <!-- ========== 纸飞机 ========== -->
+    <section class="view" id="v-plane">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">纸飞机<small>按住上升，松开滑翔</small></span><span class="sp"></span><button class="btn" id="plNew">重新起飞</button></div>
+      <div class="plane-wrap cv-wrap">
+        <div class="plane-hud">里程 <b id="plKm">0.0</b> km<br>好心情 <b id="plMood">0</b> 颗</div>
+        <canvas id="plCanvas" class="game-cv" width="360" height="560" style="touch-action:none"></canvas>
+        <div class="bub-stat">按住屏幕 = 上升 · 撞到云只是弹开，不会坠落</div>
+      </div>
+    </section>
+
+    <!-- ========== 一杆高尔夫 ========== -->
+    <section class="view" id="v-golf">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">一杆高尔夫<small>三洞休闲局 · 无标准杆</small></span><span class="sp"></span><button class="btn" id="gfNew">重新开局</button></div>
+      <div class="golf-wrap">
+        <div class="stat-strip" style="justify-content:center">
+          <div class="stat">第 <b id="gfHole">1</b>/3 洞</div>
+          <div class="stat">本洞 <b id="gfStrokes">0</b> 杆</div>
+          <div class="stat">距洞 <b id="gfDist">0</b> 码</div>
+          <div class="stat">总计 <b id="gfTotal">0</b> 杆</div>
+          <div class="stat" id="gfWindBox">风 <b id="gfWind">—</b></div>
+        </div>
+        <canvas id="gfCanvas" class="game-cv" width="360" height="480" style="touch-action:none"></canvas>
+        <div class="power-bar"><div class="power-fill" id="gfPower"></div></div>
+        <div class="bub-stat" id="gfHint">按住画面蓄力，松开击球。方向大致朝洞口，风力会让球偏一点——掉水坑不罚杆，捡出来重打就是。</div>
+      </div>
+    </section>
+
+    <!-- ========== 静心拼图 ========== -->
+    <section class="view" id="v-puzzle">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">静心拼图<small>把打碎的晚霞拼回去</small></span><span class="sp"></span>
+        <button class="btn" id="pzSize">切换 4×4</button>
+        <button class="btn" id="pzNew">换一张</button>
+      </div>
+      <div class="stat-strip">
+        <div class="stat"><b id="pzMoves">0</b>步</div>
+        <div class="stat"><b id="pzBest">—</b>本尺寸最佳</div>
+        <div class="stat">已拼 <b id="pzDone">0</b> 幅</div>
+      </div>
+      <div id="pzBoard"></div>
+      <div class="result-note" id="pzNote" style="display:none;max-width:420px;margin:14px auto 0"></div>
+    </section>
+
+    <!-- ========== 猜提问 ========== -->
+    <section class="view" id="v-qask">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">猜提问<small>给你一句回答，猜是哪句提问</small></span><span class="sp"></span><button class="btn" id="qaSkip">换一题</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="qaScore">0</b>分</div>
+        <div class="stat"><b id="qaRight">0</b>猜对</div>
+        <div class="stat"><b id="qaDone">0</b>已答</div>
+      </div>
+      <div class="gpanel" style="max-width:660px">
+        <div class="verse-card">
+          <div class="q-tag" id="qaTag">—— 时代 ——</div>
+          <div class="q-main" id="qaA" style="font-size:20px">……</div>
+          <div class="q-sub" id="qaSub">下面四句话，哪一句问出口，会得到上面这句回答？</div>
+        </div>
+        <div class="opt-grid" id="qaOpts"></div>
+        <div class="result-note" id="qaNote" style="display:none"></div>
+      </div>
+    </section>
+
+    <!-- ========== 雷电 ========== -->
+    <section class="view" id="v-raid">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">雷电<small>无限命 · 打不完也输不了</small></span><span class="sp"></span><button class="btn" id="rd2New">重新起飞</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="rd2Score">0</b>分</div>
+        <div class="stat"><b id="rd2Kill">0</b>击落</div>
+        <div class="stat"><b id="rd2Combo">0</b>连击</div>
+      </div>
+      <div class="cv-wrap">
+        <canvas id="rd2Canvas" class="game-cv" width="360" height="560" style="width:min(360px,86vw);height:auto;touch-action:none"></canvas>
+        <div class="bub-stat">拖着机身走（或方向键）· 子弹自动发射 · 挨一下只是闪一下，<b>不掉命、没有 Game Over</b></div>
+      </div>
+    </section>
+
+    <!-- ========== 落袋桌球 ========== -->
+    <section class="view" id="v-pool">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">落袋桌球<small>没有对手，也不用计时</small></span><span class="sp"></span><button class="btn" id="poNew">重新摆球</button></div>
+      <div class="stat-strip">
+        <div class="stat">本局进袋 <b id="poPot">0</b></div>
+        <div class="stat">累计进袋 <b id="poTotal">0</b></div>
+        <div class="stat">出杆 <b id="poShots">0</b></div>
+      </div>
+      <div class="cv-wrap">
+        <canvas id="poCanvas" class="game-cv" width="360" height="520" style="width:min(360px,86vw);height:auto;touch-action:none"></canvas>
+        <div class="bub-stat" id="poHint">从白球往后拖，拉得越远力越大，松手出杆 · 白球进袋不算失误，摆回来继续</div>
+      </div>
+    </section>
+
+    <!-- ========== 弹珠台 ========== -->
+    <section class="view" id="v-pin">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">弹珠台<small>掉下去？再发一颗就是</small></span><span class="sp"></span><button class="btn" id="pnNew">重新开局</button></div>
+      <div class="stat-strip">
+        <div class="stat"><b id="pnScore">0</b>分</div>
+        <div class="stat">撞柱 <b id="pnHit">0</b> 次</div>
+        <div class="stat">已发 <b id="pnBalls">1</b> 颗</div>
+      </div>
+      <div class="cv-wrap">
+        <canvas id="pnCanvas" class="game-cv" width="360" height="560" style="width:min(360px,86vw);height:auto;touch-action:none"></canvas>
+        <div class="touch-pad">
+          <button class="tbtn" id="pnL">◀ 左翻板</button>
+          <button class="tbtn" id="pnR">右翻板 ▶</button>
+        </div>
+        <div class="bub-stat">两侧按钮（或 ← → 键）打翻板 · 球掉下去会自动再发一颗，不扣命不扣分</div>
+      </div>
+    </section>
+
+    <!-- ========== 水面涟漪 ========== -->
+    <section class="view" id="v-ripple">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">水面涟漪<small>点一下，看它散开</small></span><span class="sp"></span><button class="btn" id="rpClear">静一静</button></div>
+      <div class="cv-wrap">
+        <canvas id="rpCanvas" style="width:100%;height:min(64vh,540px);display:block;border-radius:10px"></canvas>
+        <div class="bub-stat" id="rpStat">点一下水面 · 已起 0 圈涟漪</div>
+      </div>
+    </section>
+
+    <!-- ========== 指尖流沙 ========== -->
+    <section class="view" id="v-sand">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">指尖流沙<small>划一道，就留一道</small></span><span class="sp"></span><button class="btn" id="sdClear">抹 平</button></div>
+      <div class="cv-wrap">
+        <canvas id="sdCanvas" style="width:100%;height:min(60vh,500px);display:block;border-radius:10px;touch-action:none"></canvas>
+        <div class="bub-stat">手指划过就是一道沙痕 · 抹平重来，反正也不值钱</div>
+      </div>
+    </section>
+
+    <!-- ========== 放孔明灯 ========== -->
+    <section class="view" id="v-lantern">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">放孔明灯<small>它不会掉下来</small></span><span class="sp"></span><button class="btn" id="ltClear">收 灯</button></div>
+      <div class="cv-wrap">
+        <canvas id="ltCanvas" style="width:100%;height:min(70vh,560px);display:block;border-radius:10px"></canvas>
+        <div class="bub-stat" id="ltStat">点一下天，放一盏灯 · 已放 0 盏</div>
+      </div>
+    </section>
+
+    <!-- ========== 树洞（占位） ========== -->
+    <section class="view" id="v-chat">
+      <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">树洞<small>语音版正在打磨</small></span></div>
+      <div class="gpanel" style="text-align:center;padding:60px 24px">
+        <div style="font-size:40px">💬</div>
+        <div style="font-size:18px;font-weight:700;letter-spacing:.1em;margin:12px 0 8px">下班后第一个说话对象</div>
+        <div class="hint">对着它说说话，它记得你上周三提过的事。<br>本地记忆 · 语音优先 · 选择题式谈心——M3 见。<br><br>在那之前，猜电台和故事秘境都可以先陪你。</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="foot">
+  单文件 · 零外部请求 · 声音全部本机合成<br>
+  <b>拾闲 XianIdle v0.2 · © 永远的兰兰（Lanlan Eternal）· 保留所有权利</b>
+</div>
+
+<!-- ========== 弹窗 ========== -->
+<div class="mask" id="mkHelp"><div class="panel">
+  <h2>帮助 · 怎么玩</h2>
+  <h3>这是什么</h3>
+  <p>「拾闲」是一个下班后的解压盒。没有计时器、没有失败、没有排行榜——一局什么时候停，你说了算。桌面浏览器和手机浏览器都是完整版，硬件版（3.5 寸小主机）会随后推出。</p>
+  <h3> eleven 个玩法</h3>
+  <ul>
+    <li><b>静一静</b>：捏泡泡、一呼一吸（4-7-8 呼吸法）、听风（雨/风/篝火三路混音，推子零延迟）。</li>
+    <li><b>玩一玩</b>：安静方块（堆满自动托底）、纸飞机（按住上升收集好心情）、一杆高尔夫（一按钮蓄力）、静心拼图（3×3 起步）。</li>
+    <li><b>猜一猜</b>：拾猜电台（真电台直播猜台名，题库 72 个国内电台）、猜诗歌（58 首）、猜典故（42 则）、故事秘境（六个结局的分支叙事）。</li>
+  </ul>
+  <h3>几个约定</h3>
+  <ul>
+    <li>所有交互以选择题为主，不用打字；键盘玩家可以用方向键玩方块。</li>
+    <li>声音全部在本机实时合成（Web Audio），不联网、不上传任何数据。</li>
+    <li>手机浏览器打开并「添加到主屏幕」，体验更接近硬件。</li>
+  </ul>
+  <button class="close" data-close="1">知道了</button>
+</div></div>
+
+<div class="mask" id="mkFaq"><div class="panel">
+  <h2>常见问题</h2>
+  <h3>为什么没有计时器和排行榜？</h3>
+  <p>下班后不想再被任何东西追着跑。这里反过来：没有失败，只有「再来一局？」。</p>
+  <h3>数据存在哪？</h3>
+  <p>只存在你自己浏览器的 localStorage，清缓存会丢。可在「关于」页导出 JSON 备份。</p>
+  <h3>为什么没有声音？</h3>
+  <p>浏览器要求先有一次点击才会出声——进入任一玩法并点一下即可。请检查设备音量与标签页静音。</p>
+  <h3>猜电台的台名都真实存在吗？</h3>
+  <p>题库来自「拾声」网络收音机工程的 1254 条台单，精选 72 个有特色的国内电台——题目里播放的就是这些台的公开直播流。少数台只有 HLS 流（浏览器放不了）或临时抽风，会自动降级为线索模式，猜中双倍分。</p>
+  <h3>为什么预览面板里电台不播放？</h3>
+  <p>预览面板的安全策略（CSP）只放行自家服务器和 HTTPS 的媒体，拦住了电台的 HTTP 直播流。<b>双击打开 shixian.html 文件（file:// 方式）就没有这个限制</b>，电台立即真播。面板里会提示「所在页面拦住了外部电台流」，按线索猜一样玩。</p>
+  <h3>能离线用吗？</h3>
+  <p>能。单文件、零外部请求，存到本地双击即用。</p>
+  <h3>硬件版呢？</h3>
+  <p>网页版验证玩法和内容，硬件版验证形态与触感，届时随固件一同发布。</p>
+  <button class="close" data-close="1">知道了</button>
+</div></div>
+
+<div class="mask" id="mkDisc"><div class="panel">
+  <h2>免责声明</h2>
+  <ul>
+    <li>本工具为非官方第三方独立作品，与任何电台、平台、机构无关联。</li>
+    <li>「拾猜电台」会播放题库电台的公开直播流用于猜题，流媒体版权归各电台/平台所有；本工具仅作游戏用途，不存储、不转售任何音频。</li>
+    <li>除上述公开直播流外，其余音效均在本地实时合成；本工具不采集、不上传任何用户数据。</li>
+    <li>预览版功能持续变动，可能与最终硬件版存在差异。</li>
+    <li>按「现状」提供，不保证适用性；因使用本工具造成的任何损失，风险自负。</li>
+    <li>涉及商标与名称的权利归各自权利人所有。</li>
+  </ul>
+  <button class="close" data-close="1">知道了</button>
+</div></div>
+
+<div class="mask" id="mkAbout"><div class="panel">
+  <h2>关于拾闲</h2>
+  <p>下班后的解压盒：捏泡泡、深呼吸、听风、猜电台，还有一家只售声音的小店。</p>
+  <div class="kv"><span>版本</span><span>v0.2（完整版）</span></div>
+  <div class="kv"><span>中文名</span><span>拾闲</span></div>
+  <div class="kv"><span>英文名</span><span>XianIdle</span></div>
+  <div class="kv"><span>作者</span><span>永远的兰兰（Lanlan Eternal）</span></div>
+  <div class="kv"><span>累计捏爆泡泡</span><span id="abPops">0 个</span></div>
+  <div class="kv"><span>静心时长</span><span id="abBreathe">0 分钟</span></div>
+  <div class="kv"><span>拾猜电台得分</span><span id="abRadio">0</span></div>
+  <div class="kv"><span>猜诗歌 / 猜典故</span><span id="abQuiz">0 / 0</span></div>
+  <div class="kv"><span>方块消行 / 纸飞机里程</span><span id="abGames">0 行 / 0.0 km</span></div>
+  <h3>设置备份</h3>
+  <p>主题、音量、计数只存在本机浏览器。换设备或清缓存前，建议先导出：</p>
+  <p style="margin-top:8px">
+    <button class="mbtn" id="btnExport">导出设置 JSON</button>
+    <button class="mbtn" id="btnImport">导入设置 JSON</button>
+    <input type="file" id="fileImport" accept=".json" style="display:none">
+  </p>
+  <h3>授权</h3>
+  <p>可自由使用、原样转发，请保留署名。若要改动，请只留给自己看，改过的版本不要对外分发。</p>
+  <p style="margin-top:10px">© 永远的兰兰（Lanlan Eternal）· 保留所有权利</p>
+  <button class="close" data-close="1">知道了</button>
+</div></div>
+
+<script>
+/* ================= 基础 ================= */
+function esc(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+var KEY='shixian.v2';
+var S={
+  theme:'',
+  vol:{rain:35,wind:25,fire:0},
+  pops:0, breatheSec:0,
+  radio:{score:0,best:0},
+  qask:{score:0,right:0},
+  poem:{score:0,right:0},
+  idiom:{score:0,right:0},
+  block:{clears:0,helps:0},
+  plane:{km:0,mood:0},
+  puzzle:{done:0,best:{}},
+  raid:{score:0,kills:0},
+  pool:{pot:0,shots:0},
+  pin:{score:0,hits:0},
+  ripple:{n:0}, sand:{n:0}, lantern:{n:0},
+  story:{endings:[]}
+};
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(raw){ var d=JSON.parse(raw);
+      if(d&&typeof d==='object'){
+        if(d.theme) S.theme=d.theme;
+        if(d.vol) S.vol=Object.assign(S.vol,d.vol);
+        ['pops','breatheSec'].forEach(function(k){ if(typeof d[k]==='number') S[k]=d[k]; });
+        ['radio','qask','poem','idiom','block','plane','puzzle','raid','pool','pin',
+         'ripple','sand','lantern','story'].forEach(function(k){
+          if(d[k]&&typeof d[k]==='object') S[k]=Object.assign(S[k],d[k]);
+        });
+      }
+    }
+  }catch(e){}
+}
+function save(){
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
+}
+load();
+
+/* ================= 主题 ================= */
+function applyTheme(){
+  var t=S.theme;
+  if(!t){
+    t=(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches)?'light':'dark';
+  }
+  document.documentElement.setAttribute('data-theme',t);
+  var b=document.getElementById('btnTheme');
+  if(b) b.textContent=(t==='light')?'🌙 切到夜深':'☀️ 切到纸感';
+}
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute('data-theme');
+  S.theme=(cur==='light')?'dark':'light';
+  applyTheme(); save(); refreshHome();
+}
+
+/* ================= 音频 ================= */
+var AC=null,MASTER=null,NOISE=null;
+var G={rain:null,wind:null,fire:null};
+var SRC={rain:null,wind:null};
+var LFO=null;
+var fireOn=false,fireLevel=0;
+var windPlaying=false;
+function audioInit(){
+  if(AC){ if(AC.state==='suspended') AC.resume(); return; }
+  try{
+    var Ctx=window.AudioContext||window.webkitAudioContext;
+    if(!Ctx) return;
+    AC=new Ctx();
+    MASTER=AC.createGain(); MASTER.gain.value=0.9; MASTER.connect(AC.destination);
+    var len=AC.sampleRate*2,b=AC.createBuffer(1,len,AC.sampleRate),d=b.getChannelData(0);
+    for(var i=0;i<len;i++) d[i]=Math.random()*2-1;
+    NOISE=b;
+  }catch(e){ AC=null; }
+}
+function popSound(){
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(520,t);
+    o.frequency.exponentialRampToValueAtTime(130,t+0.09);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.45,t+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.12);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.14);
+  }catch(e){}
+}
+function chime(){
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    [528,792].forEach(function(f,idx){
+      var o=AC.createOscillator(),g=AC.createGain();
+      o.type='sine'; o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.exponentialRampToValueAtTime(idx?0.10:0.16,t+0.03);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+1.1);
+      o.connect(g); g.connect(MASTER);
+      o.start(t); o.stop(t+1.2);
+    });
+  }catch(e){}
+}
+function ding(){
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    [660,880,1100].forEach(function(f,idx){
+      var o=AC.createOscillator(),g=AC.createGain();
+      o.type='triangle'; o.frequency.value=f;
+      g.gain.setValueAtTime(0.0001,t+idx*0.07);
+      g.gain.exponentialRampToValueAtTime(0.12,t+0.02+idx*0.07);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+0.7+idx*0.07);
+      o.connect(g); g.connect(MASTER);
+      o.start(t+idx*0.07); o.stop(t+0.8+idx*0.07);
+    });
+  }catch(e){}
+}
+function thud(){
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(160,t);
+    o.frequency.exponentialRampToValueAtTime(70,t+0.12);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.3,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.18);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.2);
+  }catch(e){}
+}
+function windEngine(){
+  if(!AC||!NOISE) return;
+  if(!G.rain){
+    G.rain=AC.createGain(); G.rain.gain.value=0;
+    var hp=AC.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=1400;
+    SRC.rain=AC.createBufferSource(); SRC.rain.buffer=NOISE; SRC.rain.loop=true;
+    SRC.rain.connect(hp); hp.connect(G.rain); G.rain.connect(MASTER);
+    SRC.rain.start();
+
+    G.wind=AC.createGain(); G.wind.gain.value=0;
+    var lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=380; lp.Q.value=0.8;
+    SRC.wind=AC.createBufferSource(); SRC.wind.buffer=NOISE; SRC.wind.loop=true;
+    LFO=AC.createOscillator(); LFO.frequency.value=0.07;
+    var lg=AC.createGain(); lg.gain.value=180;
+    LFO.connect(lg); lg.connect(lp.frequency);
+    SRC.wind.connect(lp); lp.connect(G.wind); G.wind.connect(MASTER);
+    SRC.wind.start(); LFO.start();
+
+    G.fire=AC.createGain(); G.fire.gain.value=0; G.fire.connect(MASTER);
+  }
+}
+function setGain(node,v){
+  if(!node||!AC) return;
+  node.gain.setTargetAtTime(v,AC.currentTime,0.08);
+}
+function fireLoop(){
+  if(!fireOn||!AC) return;
+  try{
+    var t=AC.currentTime+Math.random()*0.25;
+    var b=AC.createBufferSource(); b.buffer=NOISE;
+    var bp=AC.createBiquadFilter(); bp.type='bandpass';
+    bp.frequency.value=1100+Math.random()*2000; bp.Q.value=7;
+    var g=AC.createGain();
+    var amp=(0.04+Math.random()*0.12)*fireLevel;
+    g.gain.setValueAtTime(amp,t);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.03+Math.random()*0.09);
+    b.connect(bp); bp.connect(g); g.connect(G.fire);
+    b.start(t); b.stop(t+0.25);
+  }catch(e){}
+  setTimeout(fireLoop,50+Math.random()*280);
+}
+function windPlay(){
+  audioInit(); windEngine();
+  if(!AC) return;
+  windPlaying=true;
+  setGain(G.rain,S.vol.rain/100*0.5);
+  setGain(G.wind,S.vol.wind/100*0.55);
+  setGain(G.fire,S.vol.fire/100*0.5);
+  fireLevel=S.vol.fire/100;
+  if(!fireOn&&fireLevel>0){ fireOn=true; fireLoop(); }
+  document.getElementById('wPlay').textContent='静 音';
+  windStateText();
+}
+function windStop(){
+  windPlaying=false; fireOn=false;
+  setGain(G.rain,0); setGain(G.wind,0); setGain(G.fire,0);
+  document.getElementById('wPlay').textContent='起 风';
+  windStateText();
+}
+function windToggle(){ if(windPlaying) windStop(); else windPlay(); }
+function windStateText(){
+  var el=document.getElementById('windState');
+  if(el) el.textContent=windPlaying?'正在播放 · 离开本页会自动静音':'未播放';
+}
+function bgmRain(on){
+  if(on){
+    audioInit(); windEngine();
+    if(!AC) return;
+    windPlaying=false; /* 背景音不走「播放中」状态 */
+    setGain(G.rain,0.22); setGain(G.wind,0);
+    fireOn=false; setGain(G.fire,0);
+  }else{
+    if(!windPlaying){ setGain(G.rain,0); setGain(G.wind,0); setGain(G.fire,0); }
+    fireOn=false;
+  }
+}
+
+/* ================= 调台音效（拾猜电台用） ================= */
+var dialNodes=[];
+function dialNoise(){
+  audioInit();
+  if(!AC) return;
+  dialNodes.forEach(function(n){ try{ n.stop(); }catch(e){} });
+  dialNodes=[];
+  var t=AC.currentTime;
+  /* 电流底噪 */
+  var n=AC.createBufferSource(); n.buffer=NOISE; n.loop=true;
+  var lp=AC.createBiquadFilter(); lp.type='bandpass'; lp.frequency.value=900; lp.Q.value=0.6;
+  var g=AC.createGain(); g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.16,t+0.05);
+  g.gain.setValueAtTime(0.16,t+0.7);
+  g.gain.exponentialRampToValueAtTime(0.0001,t+1.6);
+  n.connect(lp); lp.connect(g); g.connect(MASTER);
+  n.start(t); n.stop(t+1.7); dialNodes.push(n);
+  /* 啾啾扫频 */
+  for(var i=0;i<7;i++){
+    var tt=t+0.05+i*0.2+Math.random()*0.08;
+    var o=AC.createOscillator(),gg=AC.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(300+Math.random()*1600,tt);
+    o.frequency.exponentialRampToValueAtTime(300+Math.random()*1600,tt+0.09);
+    gg.gain.setValueAtTime(0.0001,tt);
+    gg.gain.exponentialRampToValueAtTime(0.06,tt+0.02);
+    gg.gain.exponentialRampToValueAtTime(0.0001,tt+0.1);
+    o.connect(gg); gg.connect(MASTER);
+    o.start(tt); o.stop(tt+0.12); dialNodes.push(o);
+  }
+  /* 锁定信号音 */
+  var st=t+1.5;
+  var so=AC.createOscillator(),sg=AC.createGain();
+  so.type='sine'; so.frequency.value=1180;
+  sg.gain.setValueAtTime(0.0001,st);
+  sg.gain.exponentialRampToValueAtTime(0.1,st+0.02);
+  sg.gain.exponentialRampToValueAtTime(0.0001,st+0.5);
+  so.connect(sg); sg.connect(MASTER);
+  so.start(st); so.stop(st+0.55); dialNodes.push(so);
+}
+function dialStop(){
+  dialNodes.forEach(function(n){ try{ n.stop(); }catch(e){} });
+  dialNodes=[];
+}
+
+/* ================= 题库 ================= */
+var RADIO_CATS=["新闻综合","交通台","音乐","文艺","说书","戏曲","怀旧老歌","网络台","教育台","电视伴音","综合","宗教"];
+var RADIO_PROVS=["北京","天津","河北","山西","内蒙古","辽宁","吉林","黑龙江","上海","江苏","浙江","安徽","福建","江西","山东","河南","湖北","湖南","广东","广西","海南","重庆","四川","贵州","云南","西藏","陕西","甘肃","青海","宁夏","新疆","中国台湾","中国香港","中国澳门","其他华语","北美","欧洲","日韩","新马","东南亚","大洋洲","海外中文","全国/网络"];
+var RADIO_BANK=[{"n":"上海戏曲广播","c":5,"p":8,"u":"https://lhttp.qtfm.cn/live/269/64k.mp3","play":1,"alts":[]},{"n":"潮州戏曲广播","c":5,"p":18,"u":"https://lhttp.qingting.fm/live/4595/64k.mp3","play":1,"alts":[]},{"n":"绍兴戏曲广播","c":5,"p":10,"u":"https://lhttp.qtfm.cn/live/5054/64k.mp3","play":1,"alts":[]},{"n":"苏州戏曲广播","c":5,"p":9,"u":"https://lhttp.qtfm.cn/live/20211622/64k.mp3","play":1,"alts":[]},{"n":"安徽戏曲广播","c":5,"p":11,"u":"https://lhttp.qtfm.cn/live/1952/64k.mp3","play":1,"alts":[]},{"n":"北京文艺广播","c":5,"p":0,"u":"https://lhttp.qtfm.cn/live/333/64k.mp3","play":1,"alts":[]},{"n":"南宁故事广播","c":4,"p":19,"u":"https://lhttp.qtfm.cn/live/20440/64k.mp3","play":1,"alts":[]},{"n":"济南故事广播","c":4,"p":14,"u":"https://lhttp.qtfm.cn/live/1672/64k.mp3","play":1,"alts":[]},{"n":"廊坊交通长书广播","c":4,"p":2,"u":"https://lhttp.qtfm.cn/live/3948/64k.mp3","play":1,"alts":[]},{"n":"沧州长书文艺广播","c":4,"p":2,"u":"https://lhttp.qingting.fm/live/5021902/64k.mp3","play":1,"alts":[]},{"n":"唐山小说娱乐广播","c":4,"p":2,"u":"https://lhttp.qtfm.cn/live/1660/64k.mp3","play":1,"alts":[]},{"n":"上海经典音乐广播","c":6,"p":8,"u":"https://lhttp.qtfm.cn/live/267/64k.mp3","play":1,"alts":[]},{"n":"武汉经典音乐广播","c":6,"p":16,"u":"https://lhttp.qtfm.cn/live/1297/64k.mp3","play":1,"alts":[]},{"n":"沈阳经典音乐广播","c":6,"p":5,"u":"https://lhttp.qtfm.cn/live/5022520/64k.mp3","play":1,"alts":[]},{"n":"太原老年之声","c":6,"p":3,"u":"https://lhttp.qtfm.cn/live/20211701/64k.mp3","play":1,"alts":[]},{"n":"广州金曲音乐广播","c":6,"p":18,"u":"https://lhttp.qtfm.cn/live/20192/64k.mp3","play":1,"alts":[]},{"n":"高阳县怀旧金曲964","c":6,"p":2,"u":"https://lhttp.qtfm.cn/live/5021555/64k.mp3","play":1,"alts":[]},{"n":"崇州年代音乐1022","c":6,"p":22,"u":"https://lhttp.qtfm.cn/live/20500066/64k.mp3","play":1,"alts":[]},{"n":"昆明老年广播","c":6,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1937/64k.mp3","play":1,"alts":[]},{"n":"阿基米德故事会","c":7,"p":8,"u":"https://lhttp.qtfm.cn/live/20500182/64k.mp3","play":1,"alts":[]},{"n":"黄梅之声","c":7,"p":42,"u":"https://lhttp-hw.qtfm.cn/live/5022280/64k.mp3","play":1,"alts":[]},{"n":"500 首华语经典","c":7,"p":42,"u":"https://lhttp.qtfm.cn/live/5022308/64k.mp3","play":1,"alts":[]},{"n":"杭州华语之声网络广播","c":7,"p":10,"u":"https://lhttp.qtfm.cn/live/20505/64k.mp3","play":1,"alts":[]},{"n":"襄阳文化教育广播","c":8,"p":16,"u":"https://lhttp.qtfm.cn/live/5057/64k.mp3","play":1,"alts":[]},{"n":"张家口综艺广播","c":3,"p":2,"u":"https://lhttp.qtfm.cn/live/5021910/64k.mp3","play":1,"alts":[]},{"n":"新疆维语文艺广播","c":3,"p":30,"u":"https://lhttp.qtfm.cn/live/20639/64k.mp3","play":1,"alts":[]},{"n":"伊犁文艺交通广播","c":3,"p":30,"u":"https://lhttp.qtfm.cn/live/5022689/64k.mp3","play":1,"alts":[]},{"n":"内蒙古文艺之声","c":3,"p":4,"u":"https://lhttp.qtfm.cn/live/1886/64k.mp3","play":1,"alts":[]},{"n":"北京音乐广播","c":2,"p":0,"u":"https://lhttp.qtfm.cn/live/332/64k.mp3","play":1,"alts":[]},{"n":"大理电台苍洱调频","c":2,"p":24,"u":"https://lhttp.qtfm.cn/live/1940/64k.mp3","play":1,"alts":[]},{"n":"89.3芒果音乐台","c":2,"p":17,"u":"https://lhttp.qtfm.cn/live/4979/64k.mp3","play":1,"alts":[]},{"n":"哈尔滨古典音乐广播","c":2,"p":7,"u":"https://lhttp.qtfm.cn/live/5022338/64k.mp3","play":1,"alts":[]},{"n":"浙江音乐调频","c":2,"p":10,"u":"https://lhttp.qtfm.cn/live/4866/64k.mp3","play":1,"alts":[]},{"n":"张家口986音乐广播","c":2,"p":2,"u":"https://lhttp.qtfm.cn/live/5021801/64k.mp3","play":1,"alts":[]},{"n":"安阳1008音乐广播","c":2,"p":15,"u":"https://lhttp.qtfm.cn/live/2123/64k.mp3","play":1,"alts":[]},{"n":"苏州都市音乐广播","c":2,"p":9,"u":"https://lhttp.qtfm.cn/live/2803/64k.mp3","play":1,"alts":[]},{"n":"四川音乐广播","c":2,"p":22,"u":"https://lhttp.qtfm.cn/live/1110/64k.mp3","play":1,"alts":[]},{"n":"北京交通广播","c":1,"p":0,"u":"https://lhttp.qingting.fm/live/336/64k.mp3","play":1,"alts":[]},{"n":"上海交通广播","c":1,"p":8,"u":"https://lhttp.qtfm.cn/live/266/64k.mp3","play":1,"alts":[]},{"n":"苏州交通经济广播","c":1,"p":9,"u":"https://lhttp.qtfm.cn/live/2806/64k.mp3","play":1,"alts":[]},{"n":"CNR-1 中国之声","c":0,"p":0,"u":"https://lhttp.qtfm.cn/live/15318317/64k.mp3","play":1,"alts":[]},{"n":"广东珠江经济台","c":0,"p":18,"u":"https://lhttp.qtfm.cn/live/1259/64k.mp3","play":1,"alts":[]},{"n":"福建经济广播","c":0,"p":12,"u":"https://lhttp.qtfm.cn/live/1732/64k.mp3","play":1,"alts":[]},{"n":"武汉经济广播","c":0,"p":16,"u":"https://lhttp-hw.qtfm.cn/live/20200/64k.mp3","play":1,"alts":[]},{"n":"泸州对农经济生活广播","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/5021565/64k.mp3","play":1,"alts":[]},{"n":"100.8包河之声","c":0,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/5022668/64k.mp3","play":1,"alts":[]},{"n":"义安电台","c":10,"p":11,"u":"https://lhttp.qingting.fm/live/5021979/64k.mp3","play":1,"alts":[]},{"n":"合肥交通信息广播","c":1,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1960/64k.mp3","play":1,"alts":[]},{"n":"合肥文旅广播","c":10,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1961/64k.mp3","play":1,"alts":[]},{"n":"合肥文艺广播","c":3,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1975/64k.mp3","play":1,"alts":[]},{"n":"CityFM城市音乐台","c":2,"p":42,"u":"https://lhttp.qtfm.cn/live/20500153/64k.mp3","play":1,"alts":[]},{"n":"万盛融媒体中心综合广播","c":0,"p":42,"u":"https://lhttp-hw.qtfm.cn/live/15318480/64k.mp3","play":1,"alts":[]},{"n":"80后音悦台·河南网络电台","c":7,"p":15,"u":"https://play-radio-stream3.hndt.com/now/SFZeH2cb/chunklist.m3u8","play":1,"alts":[]},{"n":"三门峡交通文艺广播","c":1,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/15318227/64k.mp3","play":1,"alts":[]},{"n":"三门峡综合广播","c":0,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/5022134/64k.mp3","play":1,"alts":[]},{"n":"信阳平桥广播","c":10,"p":15,"u":"https://lhttp.qingting.fm/live/15318156/64k.mp3","play":1,"alts":[]},{"n":"兰考综合广播","c":0,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/20500167/64k.mp3","play":1,"alts":[]},{"n":"DLR-3大连体育广播","c":10,"p":5,"u":"https://lhttp.qingting.fm/live/1085/64k.mp3","play":1,"alts":[]},{"n":"DLR-5大连少儿广播","c":8,"p":5,"u":"https://lhttp.qtfm.cn/live/5022506/64k.mp3","play":1,"alts":[]},{"n":"99.1大连都市之声广播","c":0,"p":5,"u":"https://lhttp.qtfm.cn/live/1086/64k.mp3","play":1,"alts":[]},{"n":"东港新东港广播","c":10,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/5022186/64k.mp3","play":1,"alts":[]},{"n":"凌源综合广播","c":0,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/15318298/64k.mp3","play":1,"alts":[]},{"n":"大连交通广播","c":1,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/3997/64k.mp3","play":1,"alts":[]},{"n":"101仙居融媒体广播","c":0,"p":10,"u":"https://lhttp-hw.qtfm.cn/live/5021908/64k.mp3","play":1,"alts":[]},{"n":"105平阳电台","c":10,"p":10,"u":"https://lhttp-hw.qtfm.cn/live/5022624/64k.mp3","play":1,"alts":[]},{"n":"97舟山交通音乐广播","c":1,"p":10,"u":"https://lhttp.qingting.fm/live/1161/64k.mp3","play":1,"alts":[]},{"n":"998舟山新闻综合广播","c":0,"p":10,"u":"https://lhttp.qingting.fm/live/1160/64k.mp3","play":1,"alts":[]},{"n":"东阳综合广播","c":0,"p":10,"u":"https://lhttp.qtfm.cn/live/21181/64k.mp3","play":1,"alts":[]},{"n":"临安综合广播","c":0,"p":10,"u":"https://lhttp.qtfm.cn/live/20005/64k.mp3","play":1,"alts":[]},{"n":"98.3如皋人民广播电台","c":0,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/20207734/64k.mp3","play":1,"alts":[]},{"n":"东海综合广播","c":0,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/20500220/64k.mp3","play":1,"alts":[]},{"n":"仪征人民广播电台","c":0,"p":9,"u":"https://lhttp.qingting.fm/live/15318182/64k.mp3","play":1,"alts":[]},{"n":"南京音乐广播","c":2,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/4963/64k.mp3","play":1,"alts":[]},{"n":"南通交通广播","c":1,"p":9,"u":"https://lhttp.qtfm.cn/live/5021533/64k.mp3","play":1,"alts":[]},{"n":"南通生活广播","c":10,"p":9,"u":"https://lhttp.qtfm.cn/live/21275/64k.mp3","play":1,"alts":[]},{"n":"七星关人民广播电台","c":0,"p":23,"u":"https://lhttp.qingting.fm/live/5021866/64k.mp3","play":1,"alts":[]},{"n":"习水综合广播","c":0,"p":23,"u":"https://lhttp-hw.qtfm.cn/live/15318201/64k.mp3","play":1,"alts":[]},{"n":"六盘水综合广播","c":0,"p":23,"u":"https://lhttp.qingting.fm/live/20211616/64k.mp3","play":1,"alts":[]},{"n":"兴义市广播电视台","c":10,"p":23,"u":"https://lhttp-hw.qtfm.cn/live/20500110/64k.mp3","play":1,"alts":[]},{"n":"万宁综合广播","c":0,"p":20,"u":"https://lhttp-hw.qtfm.cn/live/20500237/64k.mp3","play":1,"alts":[]},{"n":"三台人民广播电台","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/15318544/64k.mp3","play":1,"alts":[]},{"n":"中江县年代音乐994","c":2,"p":22,"u":"https://lhttp.qtfm.cn/live/20500148/64k.mp3","play":1,"alts":[]},{"n":"乐山综合广播","c":0,"p":22,"u":"https://lhttp.qtfm.cn/live/1122/64k.mp3","play":1,"alts":[]},{"n":"乐山音乐交通广播","c":1,"p":22,"u":"https://lhttp.qtfm.cn/live/4864/64k.mp3","play":1,"alts":[]},{"n":"仁寿人民广播电台","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/5021453/64k.mp3","play":1,"alts":[]},{"n":"凉山州综合广播","c":0,"p":22,"u":"https://lhttp.qingting.fm/live/5022143/64k.mp3","play":1,"alts":[]},{"n":"三明综合广播","c":0,"p":12,"u":"https://lhttp.qtfm.cn/live/5022100/64k.mp3","play":1,"alts":[]},{"n":"云霄综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/20500106/64k.mp3","play":1,"alts":[]},{"n":"南安市广播电视台综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/5021731/64k.mp3","play":1,"alts":[]},{"n":"南平综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/5022065/64k.mp3","play":1,"alts":[]},{"n":"厦门音乐广播","c":2,"p":12,"u":"https://lhttp.qtfm.cn/live/1739/64k.mp3","play":1,"alts":[]},{"n":"上海戏剧曲艺广播","c":5,"p":8,"u":"https://lhttp.qingting.fm/live/269/64k.mp3","play":1,"alts":[]},{"n":"两广之声音乐台","c":2,"p":18,"u":"https://lhttp.qtfm.cn/live/20500149/64k.mp3","play":1,"alts":[]},{"n":"中山综合广播·新锐967","c":0,"p":18,"u":"https://lhttp.qingting.fm/live/1277/64k.mp3","play":1,"alts":[]},{"n":"兴宁电台","c":10,"p":18,"u":"https://lhttp-hw.qtfm.cn/live/20500218/64k.mp3","play":1,"alts":[]},{"n":"南方生活广播","c":10,"p":18,"u":"https://lhttp.qtfm.cn/live/468/64k.mp3","play":1,"alts":[]},{"n":"台山五邑旅游频道","c":10,"p":18,"u":"https://lhttp.qingting.fm/live/5022062/64k.mp3","play":1,"alts":[]},{"n":"临朐人民广播电台","c":0,"p":14,"u":"https://lhttp.qingting.fm/live/20500033/64k.mp3","play":1,"alts":[]},{"n":"临沂交通旅游广播","c":1,"p":14,"u":"https://lhttp.qtfm.cn/live/3993/64k.mp3","play":1,"alts":[]},{"n":"临沂文艺广播","c":3,"p":14,"u":"https://lhttp.qtfm.cn/live/3995/64k.mp3","play":1,"alts":[]},{"n":"临沂经济广播","c":10,"p":14,"u":"https://lhttp.qtfm.cn/live/3994/64k.mp3","play":1,"alts":[]},{"n":"临沂综合广播","c":0,"p":14,"u":"https://lhttp.qtfm.cn/live/3992/64k.mp3","play":1,"alts":[]},{"n":"临沂音乐科教广播","c":2,"p":14,"u":"https://lhttp-hw.qtfm.cn/live/4017/64k.mp3","play":1,"alts":[]},{"n":"乌海交通音乐广播","c":1,"p":4,"u":"https://lhttp.qingting.fm/live/15318704/64k.mp3","play":1,"alts":[]},{"n":"内蒙古交通之声","c":1,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1884/64k.mp3","play":1,"alts":[]},{"n":"内蒙古农村牧区广播","c":10,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1888/64k.mp3","play":1,"alts":[]},{"n":"内蒙古新闻综合广播","c":0,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1883/64k.mp3","play":1,"alts":[]},{"n":"内蒙古蒙语广播","c":10,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1882/64k.mp3","play":1,"alts":[]},{"n":"内蒙古音乐之声","c":2,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1886/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐交通广播","c":1,"p":30,"u":"https://lhttp.qtfm.cn/live/1919/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐新闻广播","c":0,"p":30,"u":"https://lhttp.qingting.fm/live/1918/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐旅游音乐广播","c":2,"p":30,"u":"https://lhttp.qtfm.cn/live/1920/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐维语广播","c":10,"p":30,"u":"https://lhttp.qtfm.cn/live/1923/64k.mp3","play":1,"alts":[]},{"n":"五师人民广播电台双河之声","c":0,"p":30,"u":"https://lhttp.qtfm.cn/live/20207772/64k.mp3","play":1,"alts":[]},{"n":"伊犁哈语广播","c":10,"p":30,"u":"https://lhttp.qingting.fm/live/5022692/64k.mp3","play":1,"alts":[]},{"n":"九江交通广播","c":1,"p":13,"u":"https://lhttp.qingting.fm/live/5021918/64k.mp3","play":1,"alts":[]},{"n":"九江年代音乐台","c":2,"p":13,"u":"https://lhttp.qingting.fm/live/20212210/64k.mp3","play":1,"alts":[]},{"n":"九江文化旅游广播","c":10,"p":13,"u":"https://lhttp.qtfm.cn/live/20212210/64k.mp3","play":1,"alts":[]},{"n":"九江赣北之声广播","c":0,"p":13,"u":"https://lhttp.qtfm.cn/live/5022648/64k.mp3","play":1,"alts":[]},{"n":"南康广播电台","c":10,"p":13,"u":"https://lhttp.qtfm.cn/live/5021869/64k.mp3","play":1,"alts":[]},{"n":"南昌交通音乐广播","c":1,"p":13,"u":"https://lhttp.qtfm.cn/live/1804/64k.mp3","play":1,"alts":[]},{"n":"云南交通之声","c":1,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1928/64k.mp3","play":1,"alts":[]},{"n":"云南新闻广播","c":0,"p":24,"u":"https://lhttp.qtfm.cn/live/1926/64k.mp3","play":1,"alts":[]},{"n":"云南民族广播","c":10,"p":24,"u":"https://lhttp.qtfm.cn/live/1933/64k.mp3","play":1,"alts":[]},{"n":"云南经济广播","c":10,"p":24,"u":"https://lhttp.qtfm.cn/live/1927/64k.mp3","play":1,"alts":[]},{"n":"云南音乐广播","c":2,"p":24,"u":"https://lhttp.qtfm.cn/live/1929/64k.mp3","play":1,"alts":[]},{"n":"大理市电台苍洱调频","c":2,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1940/64k.mp3","play":1,"alts":[]},{"n":"保定交通频道","c":1,"p":2,"u":"https://lhttp.qtfm.cn/live/20168/64k.mp3","play":1,"alts":[]},{"n":"保定新闻频道","c":0,"p":2,"u":"https://lhttp.qtfm.cn/live/5022440/64k.mp3","play":1,"alts":[]},{"n":"唐山经济广播","c":10,"p":2,"u":"https://lhttp.qtfm.cn/live/15318431/64k.mp3","play":1,"alts":[]},{"n":"唐山综合广播","c":0,"p":2,"u":"https://lhttp.qtfm.cn/live/1657/64k.mp3","play":1,"alts":[]},{"n":"公主岭综合广播","c":0,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/20212386/64k.mp3","play":1,"alts":[]},{"n":"吉林市音乐广播","c":2,"p":6,"u":"https://lhttp.qtfm.cn/live/20211679/64k.mp3","play":1,"alts":[]},{"n":"吉林旅游广播(2)","c":10,"p":6,"u":"https://lhttp.qingting.fm/live/20487/64k.mp3","play":1,"alts":[]},{"n":"四平交通文艺广播","c":1,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/5022465/64k.mp3","play":1,"alts":[]},{"n":"四平综合广播","c":0,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/15318197/64k.mp3","play":1,"alts":[]},{"n":"北京新闻广播","c":0,"p":0,"u":"https://lhttp.qtfm.cn/live/339/64k.mp3","play":1,"alts":[]},{"n":"南宁交通音乐广播","c":1,"p":19,"u":"https://lhttp.qtfm.cn/live/20767/64k.mp3","play":1,"alts":[]},{"n":"南宁综合广播","c":0,"p":19,"u":"https://lhttp.qtfm.cn/live/20358/64k.mp3","play":1,"alts":[]},{"n":"吕梁综合广播","c":0,"p":3,"u":"https://lhttp-hw.qtfm.cn/live/4020/64k.mp3","play":1,"alts":[]},{"n":"垣曲人民广播电台","c":0,"p":3,"u":"https://lhttp.qingting.fm/live/20500090/64k.mp3","play":1,"alts":[]},{"n":"咸阳综合广播","c":0,"p":26,"u":"https://lhttp.qingting.fm/live/5022397/64k.mp3","play":1,"alts":[]},{"n":"哈尔滨冰城融媒体电台","c":0,"p":7,"u":"https://lhttp-hw.qtfm.cn/live/20212259/64k.mp3","play":1,"alts":[]},{"n":"大庆交通广播","c":1,"p":7,"u":"https://lhttp.qtfm.cn/live/20500061/64k.mp3","play":1,"alts":[]},{"n":"大庆综合广播","c":0,"p":7,"u":"https://lhttp.qtfm.cn/live/20500060/64k.mp3","play":1,"alts":[]},{"n":"大庆音乐广播","c":2,"p":7,"u":"https://lhttp.qtfm.cn/live/20500212/64k.mp3","play":1,"alts":[]},{"n":"大足综合广播","c":0,"p":21,"u":"https://lhttp-hw.qtfm.cn/live/20211676/64k.mp3","play":1,"alts":[]}];
+
+var POEM_BANK=[{"a":"明月几时有","b":"把酒问青天","by":"苏轼","from":"水调歌头","note":"丙辰中秋，密州超然台上。一杯酒敬了千年月亮。"},{"a":"春江潮水连海平","b":"海上明月共潮生","by":"张若虚","from":"春江花月夜","note":"一首诗压住整个唐朝，闻一多称它「诗中的诗，顶峰上的顶峰」。"},{"a":"床前明月光","b":"疑是地上霜","by":"李白","from":"静夜思","note":"二十个字，写尽了所有异乡人的夜晚。"},{"a":"天生我材必有用","b":"千金散尽还复来","by":"李白","from":"将进酒","note":"最狂的安慰——得意时是豪言，失意时是创可贴。"},{"a":"飞流直下三千尺","b":"疑是银河落九天","by":"李白","from":"望庐山瀑布","note":"李白从没写过小数，庐山瀑布从此有了传说身高。"},{"a":"国破山河在","b":"城春草木深","by":"杜甫","from":"春望","note":"国破之年的一草一木，都长得让人心酸。"},{"a":"无边落木萧萧下","b":"不尽长江滚滚来","by":"杜甫","from":"登高","note":"七律的冠冕，古今独步。晚年登台，天地皆秋。"},{"a":"两个黄鹂鸣翠柳","b":"一行白鹭上青天","by":"杜甫","from":"绝句","note":"草堂岁月里难得的亮色，像两张画挂在门上。"},{"a":"空山新雨后","b":"天气晚来秋","by":"王维","from":"山居秋暝","note":"十个字一个秋天，雨后山间的凉意扑面而来。"},{"a":"大漠孤烟直","b":"长河落日圆","by":"王维","from":"使至塞上","note":"千古壮观。 geometry 之美，几何之美尽在其中。"},{"a":"海内存知己","b":"天涯若比邻","by":"王勃","from":"送杜少府之任蜀州","note":"送别诗里少见的豁达——不哭，反而祝你前程。"},{"a":"春眠不觉晓","b":"处处闻啼鸟","by":"孟浩然","from":"春晓","note":"每个人最早的春天记忆，都是这首诗的音频版。"},{"a":"白日依山尽","b":"黄河入海流","by":"王之涣","from":"登鹳雀楼","note":"二十字写完山河，还顺手塞给你一个人生道理。"},{"a":"黄河远上白云间","b":"一片孤城万仞山","by":"王之涣","from":"凉州词","note":"边塞的辽阔与孤独，都在第一句的坡度里。"},{"a":"秦时明月汉时关","b":"万里长征人未还","by":"王昌龄","from":"出塞","note":"月亮还是秦汉那枚，人已换了千百年。"},{"a":"忽如一夜春风来","b":"千树万树梨花开","by":"岑参","from":"白雪歌送武判官归京","note":"写雪的天花板——塞外苦寒，被他写成了花信。"},{"a":"野火烧不尽","b":"春风吹又生","by":"白居易","from":"赋得古原草送别","note":"十六岁少年的考场习作，一出来就是千古绝唱。"},{"a":"日出江花红胜火","b":"春来江水绿如蓝","by":"白居易","from":"忆江南","note":"江南的春天是过曝的，连火都比不上它的花。"},{"a":"春蚕到死丝方尽","b":"蜡炬成灰泪始干","by":"李商隐","from":"无题","note":"最初是爱情，后来被借去形容所有鞠躬尽瘁。"},{"a":"何当共剪西窗烛","b":"却话巴山夜雨时","by":"李商隐","from":"夜雨寄北","note":"最温柔的约定：未来的某夜，我们聊今夜。"},{"a":"停车坐爱枫林晚","b":"霜叶红于二月花","by":"杜牧","from":"山行","note":"秋天写给春天的情书：我比你还艳。"},{"a":"千里莺啼绿映红","b":"水村山郭酒旗风","by":"杜牧","from":"江南春","note":"一幅会响的江南地图，莺啼、酒旗、水村全有。"},{"a":"不知细叶谁裁出","b":"二月春风似剪刀","by":"贺知章","from":"咏柳","note":"春天是裁缝，春风是剪刀——想象力离谱得可爱。"},{"a":"少小离家老大回","b":"乡音无改鬓毛衰","by":"贺知章","from":"回乡偶书","note":"乡音未改，鬓毛先衰。回乡是暖的，也是酸的。"},{"a":"月落乌啼霜满天","b":"江枫渔火对愁眠","by":"张继","from":"枫桥夜泊","note":"一夜失眠，写成了千年地标。寒山寺的钟从此免费。"},{"a":"千山鸟飞绝","b":"万径人踪灭","by":"柳宗元","from":"江雪","note":"大雪把世界删了稿，只剩一个钓鱼的老头。"},{"a":"孤舟蓑笠翁","b":"独钓寒江雪","by":"柳宗元","from":"江雪","note":"上句是空镜，这句是倔强的特写。"},{"a":"谁言寸草心","b":"报得三春晖","by":"孟郊","from":"游子吟","note":"母亲的说明书。语文课本第一泪点。"},{"a":"黄鹤一去不复返","b":"白云千载空悠悠","by":"崔颢","from":"黄鹤楼","note":"传说李白到此搁笔：眼前有景道不得。极罕见的认输。"},{"a":"问君能有几多愁","b":"恰似一江春水向东流","by":"李煜","from":"虞美人","note":"亡国之君的词，成了所有人心碎时的量词。"},{"a":"剪不断","b":"理还乱，是离愁","by":"李煜","from":"相见欢","note":"离愁的物理学：剪不断，理还乱，别是一般滋味。"},{"a":"不识庐山真面目","b":"只缘身在此山中","by":"苏轼","from":"题西林壁","note":"看山是山，看山不是山——东坡早想通了。"},{"a":"欲把西湖比西子","b":"淡妆浓抹总相宜","by":"苏轼","from":"饮湖上初晴后雨","note":"西湖从此有了官方比喻，用了九百多年没换过。"},{"a":"春风又绿江南岸","b":"明月何时照我还","by":"王安石","from":"泊船瓜洲","note":"一个「绿」字改了十几遍——名句都是磨出来的。"},{"a":"众里寻他千百度","b":"蓦然回首，那人却在，灯火阑珊处","by":"辛弃疾","from":"青玉案·元夕","note":"梁启超评：自怜幽独，伤心人别有怀抱。不止是爱情。"},{"a":"知否，知否","b":"应是绿肥红瘦","by":"李清照","from":"如梦令","note":"宿醉醒来问花的女词人——四个字心疼了一夜春红。"},{"a":"此情无计可消除","b":"才下眉头，却上心头","by":"李清照","from":"一剪梅","note":"愁是有脚的：从眉头搬到心头，只用了两步。"},{"a":"山重水复疑无路","b":"柳暗花明又一村","by":"陆游","from":"游山西村","note":"人生绝处逢生的标准配乐。"},{"a":"王师北定中原日","b":"家祭无忘告乃翁","by":"陆游","from":"示儿","note":"八十五岁老人的遗嘱，只有一句家国。"},{"a":"浊酒一杯家万里","b":"燕然未勒归无计","by":"范仲淹","from":"渔家傲·秋思","note":"戍边人的两难：想家，也知道家国未安。"},{"a":"先天下之忧而忧","b":"后天下之乐而乐","by":"范仲淹","from":"岳阳楼记","note":"士大夫的精神天际线，立了一千年。"},{"a":"人生自古谁无死","b":"留取丹心照汗青","by":"文天祥","from":"过零丁洋","note":"零丁洋上的一口气，撑起了民族的脊梁骨。"},{"a":"落红不是无情物","b":"化作春泥更护花","by":"龚自珍","from":"己亥杂诗","note":"离别也可以很肥沃——落花的再就业指南。"},{"a":"粉骨碎身浑不怕","b":"要留清白在人间","by":"于谦","from":"石灰吟","note":"一块石灰的自白，硬过所有金属。"},{"a":"千磨万击还坚劲","b":"任尔东西南北风","by":"郑燮","from":"竹石","note":"郑板桥画竹之前，先把自己活成了竹。"},{"a":"白日不到处","b":"青春恰自来","by":"袁枚","from":"苔","note":"苔花如米小，也学牡丹开——小人物的大合唱。"},{"a":"问渠那得清如许","b":"为有源头活水来","by":"朱熹","from":"观书有感","note":"方塘为什么清澈？因为有人一直在读书。"},{"a":"欲穷千里目","b":"更上一层楼","by":"王之涣","from":"登鹳雀楼","note":"所有电梯广告都该给这句付版权费（已过期）。"},{"a":"红豆生南国","b":"春来发几枝","by":"王维","from":"相思","note":"红豆是古人表情包：想你，但不直说。"},{"a":"两岸猿声啼不住","b":"轻舟已过万重山","by":"李白","from":"早发白帝城","note":"赦免书到，群山后退——最快的一次旅行。"},{"a":"孤帆远影碧空尽","b":"唯见长江天际流","by":"李白","from":"黄鹤楼送孟浩然之广陵","note":"送别不写字，字字是目送。"},{"a":"可怜九月初三夜","b":"露似真珠月似弓","by":"白居易","from":"暮江吟","note":"刺史大人盯着露珠看完了一整夜——可爱。"},{"a":"竹外桃花三两枝","b":"春江水暖鸭先知","by":"苏轼","from":"惠崇春江晚景","note":"春的信使不是人，是鸭子。苏轼认证。"},{"a":"梅子黄时日日晴","b":"小溪泛尽却山行","by":"曾几","from":"三衢道中","note":"黄梅天放晴的快乐，像连上五天的意外假期。"},{"a":"小荷才露尖尖角","b":"早有蜻蜓立上头","by":"杨万里","from":"小池","note":"蜻蜓是夏天的第一个读者。"},{"a":"春色满园关不住","b":"一枝红杏出墙来","by":"叶绍翁","from":"游园不值","note":"没进成园子，反而看见了整个春天。"},{"a":"会当凌绝顶","b":"一览众山小","by":"杜甫","from":"望岳","note":"青年杜甫的豪言——后来他真的很难。"},{"a":"举头望明月","b":"低头思故乡","by":"李白","from":"静夜思","note":"与「床前明月光」同出《静夜思》，背串的人请举手。"}];
+
+var IDIOM_BANK=[{"q":"三国时，一位丞相为鼓舞行军士气，骗士兵说前面的梅林可以解渴，士兵们顿时流出口水。这是哪个成语？","a":"望梅止渴","o":["画饼充饥","指雁为羹","因势利导"],"note":"望梅止渴——曹操的急智，也是「心理暗示」最早的实战案例。"},{"q":"刘备三次到草庐拜访，终于请动一位卧龙出山。这个成语是？","a":"三顾茅庐","o":["礼贤下士","虚左以待","毛遂自荐"],"note":"三顾茅庐——诚意的天花板，后世求贤的标准动作。"},{"q":"春秋时一位越王睡在柴草上、每天尝苦胆，提醒自己勿忘会稽之耻。他是谁？","a":"勾践","o":["夫差","范蠡","伍子胥"],"note":"卧薪尝胆——勾践。忍字头上一把刀，他忍了十年。"},{"q":"巨鹿之战，一位项羽下令砸锅沉船，只带三天干粮决一死战。这是哪个成语？","a":"破釜沉舟","o":["孤注一掷","背水一战","义无反顾"],"note":"破釜沉舟——项羽。退路是胜利的敌人。"},{"q":"秦朝一位权臣在朝堂上指着鹿硬说是马，测试谁敢反对自己。他是谁？","a":"赵高","o":["李斯","秦二世","嫪毐"],"note":"指鹿为马——赵高。颠倒黑白的祖师范本。"},{"q":"长平之战，一位只会纸上谈兵的赵将替换老将廉颇，导致赵军大败。他是谁？","a":"赵括","o":["马谡","赵奢","乐毅"],"note":"纸上谈兵——赵括。兵法背得滚瓜烂熟，第一战就全军覆没。"},{"q":"蔺相如带和氏璧赴秦，识破诡计后完完整整把璧送回赵国。这个成语是？","a":"完璧归赵","o":["物归原主","全身而退","奉还"],"note":"完璧归赵——蔺相如。弱国无外交，但有勇气和脑子。"},{"q":"廉颇听蔺相如以国事为重的话，脱衣背荆条上门请罪。这个成语是？","a":"负荆请罪","o":["过门不入","引咎自责","登门谢罪"],"note":"负荆请罪——大将认错，也是将相和的起点。"},{"q":"汉初一位丞相萧何定的规矩，死后曹参原样照搬、毫不改动。这个成语是？","a":"萧规曹随","o":["照章办事","率由旧章","陈陈相因"],"note":"萧规曹随——曹参的治国哲学：不折腾就是最好的政绩。"},{"q":"苏武出使匈奴被扣，在北海边放了十九年羊，节杖上的毛都掉光了也不降。这是哪个成语？","a":"苏武牧羊","o":["塞翁失马","张骞出使","啮雪吞毡"],"note":"苏武牧羊——十九年，一根节杖就是整个汉使的脊梁。"},{"q":"李广一生不善言辞，却因人品让天下人自发追随，司马迁说他「桃李不言」。这个成语是？","a":"桃李不言，下自成蹊","o":["桃李满门","其身正，不令而行","高山仰止"],"note":"桃李不言，下自成蹊——司马迁给飞将军的颁奖词。"},{"q":"韩信年轻时被恶少逼着从裤裆下钻过，他忍了，后来拜将封王。这个成语是？","a":"胯下之辱","o":["忍辱负重","包羞忍耻","含垢忍辱"],"note":"胯下之辱——韩信。真正的强大，是敢低头。"},{"q":"匡衡幼时家贫，在墙上凿个洞借邻居的灯光读书。这是哪个成语？","a":"凿壁偷光","o":["囊萤映雪","悬梁刺股","燃荻夜读"],"note":"凿壁偷光——匡衡。墙上那个洞，是通往丞相府的路。"},{"q":"战国时苏秦读书困倦，用锥子刺大腿保持清醒；孙敬把头发拴在房梁上。这个成语是？","a":"悬梁刺股","o":["废寝忘食","孜孜不倦","兀兀穷年"],"note":"悬梁刺股——痛并进步着的狠人二人组。"},{"q":"车胤用布袋装萤火虫照明读书，孙康借雪的反光夜读。这个成语是？","a":"囊萤映雪","o":["凿壁偷光","燃糠自照","随月读书"],"note":"囊萤映雪——古人的台灯，是萤火虫和月光。"},{"q":"诸葛亮北伐积劳，临终前后主感叹他「鞠躬尽瘁」。这个成语说的是谁？","a":"诸葛亮","o":["周瑜","庞统","姜维"],"note":"鞠躬尽瘁，死而后已——诸葛亮。出师表外的另一份遗书。"},{"q":"曹植被迫七步成诗，「本是同根生，相煎何太急」。这个成语是？","a":"七步成诗","o":["才高八斗","倚马可待","出口成章"],"note":"七步成诗——曹植。最凶险的考场，考官是他亲哥。"},{"q":"左思写成《三都赋》，豪贵之家争相传抄，洛阳纸价大涨。这是哪个成语？","a":"洛阳纸贵","o":["一字千金","著书立说","纸贵金迷"],"note":"洛阳纸贵——最早的「爆款导致供应链紧张」。"},{"q":"王羲之在木板上写的字，工匠刻时发现墨迹透入木板三分深。这是哪个成语？","a":"入木三分","o":["力透纸背","铁画银钩","龙飞凤舞"],"note":"入木三分——王羲之。笔力大到木匠想报警。"},{"q":"郗鉴选女婿时，众人打扮隆重，唯有王羲之袒胸露腹躺在东床上。他反而中选。这个成语是？","a":"东床快婿","o":["乘龙快婿","坦腹东床","雀屏中选"],"note":"东床快婿——最早的「躺平赢得 offer」。"},{"q":"张僧繇在金陵安乐寺画龙不点睛，说点睛即飞去；众人不信，他一笔点上，雷电破壁。这是哪个成语？","a":"画龙点睛","o":["栩栩如生","呼之欲出","神来之笔"],"note":"画龙点睛——最后那两笔，比前一千笔都贵。"},{"q":"文与可画竹前，胸中已有完整竹影；苏轼写文赞他「故画竹必先得成竹于胸中」。这是哪个成语？","a":"胸有成竹","o":["成竹在胸","意在笔先","运斤成风"],"note":"胸有成竹——先有整片竹林，才敢落第一笔。"},{"q":"孙膑不救赵国京城，直扑魏国都城大梁，魏军回援时在桂陵伏击大败。这是哪个成语？","a":"围魏救赵","o":["声东击西","调虎离山","釜底抽薪"],"note":"围魏救赵——孙膑。解问题不一定解决问题本身。"},{"q":"晋文公重耳流亡楚国时承诺，若日后两国交战必退避三舍（九十里）。这是哪个成语？","a":"退避三舍","o":["知难而退","让对方三尺","以屈求伸"],"note":"退避三舍——重耳。退九十里不是怂，是信用。"},{"q":"楚庄王即位三年不理朝政，一位大臣用「三年不飞，飞将冲天」激他。这是哪个成语？","a":"一鸣惊人","o":["不飞则已","大器晚成","厚积薄发"],"note":"一鸣惊人——楚庄王。沉默有时是在攒大招。"},{"q":"楚庄王借问周鼎轻重，暗含取代周室野心。这是哪个成语？","a":"问鼎中原","o":["觊觎神器","逐鹿中原","包藏祸心"],"note":"问鼎中原——一口鼎的重量，问出了一段霸业。"},{"q":"毛遂随平原君使楚，按剑上前自荐，最终说服楚王合纵。这是哪个成语？","a":"毛遂自荐","o":["自告奋勇","挺身而出","当仁不让"],"note":"毛遂自荐——「脱颖而出」的锥子，本来就在口袋里。"},{"q":"吕不韦认为在赵国当人质的嬴异人「奇货可居」，投资他登上秦王之位。这是哪个成语？","a":"奇货可居","o":["囤积居奇","待价而沽","低买高卖"],"note":"奇货可居——中国史上最成功的一笔风险投资。"},{"q":"荆轲献地图，图穷时露出匕首刺秦，功亏一篑。这是哪个成语？","a":"图穷匕见","o":["原形毕露","图谋不轨","刺王杀驾"],"note":"图穷匕见——真相（或杀机）总在最后一格。"},{"q":"刘备关羽张飞在桃园结为兄弟，誓同生死。这是哪个成语？","a":"桃园结义","o":["义结金兰","拜把子","歃血为盟"],"note":"桃园结义——一个结拜，供了后世两千年江湖。"},{"q":"项羽在鸿门宴上，项庄舞剑意在刺杀刘邦。这是哪个成语？","a":"项庄舞剑，意在沛公","o":["醉翁之意不在酒","指桑骂槐","别有用心"],"note":"项庄舞剑，意在沛公——表面是舞，实际是杀。"},{"q":"孙敬悬梁、苏秦刺股之外，「焚膏继晷」形容夜以继日苦读。膏指的是？","a":"灯油","o":["蜡烛","香火","灯芯草"],"note":"焚膏继晷——古人没有充电宝，只有一灯如豆。"},{"q":"一人画蛇添足，反而输了到手的酒。这个成语讽刺的是？","a":"多此一举","o":["弄巧成拙","画蛇著足","徒劳无功"],"note":"画蛇添足——完成比完美重要，古人早就懂了。"},{"q":"农夫守着树桩等兔子再来，田地荒芜。这是哪个成语？","a":"守株待兔","o":["刻舟求剑","缘木求鱼","坐以待毙"],"note":"守株待兔——把偶然当规律，是最大的风险。"},{"q":"楚人剑掉水里，在船帮刻记号，等船停了才按记号下水找剑。这是哪个成语？","a":"刻舟求剑","o":["守株待兔","按图索骥","胶柱鼓瑟"],"note":"刻舟求剑——世界在动，他的记号没动。"},{"q":"农夫掩耳盗铃，以为自己听不见铃声别人也听不见。这是哪个成语？","a":"掩耳盗铃","o":["自欺欺人","皇帝的新装","熟视无睹"],"note":"掩耳盗铃——欺骗的最高境界：先骗过自己。"},{"q":"塞翁失马，邻居来安慰，他说：怎么知道不是福呢？后来马果然带回来一群骏马。这是哪个成语？","a":"塞翁失马，焉知非福","o":["因祸得福","祸不单行","转危为安"],"note":"塞翁失马，焉知非福——福祸的转换器，交给时间。"},{"q":"愚公发誓子子孙孙挖掉挡门的两座大山，最终感动天帝派人移山。这是哪个成语？","a":"愚公移山","o":["锲而不舍","水滴石穿","精卫填海"],"note":"愚公移山——最慢的方案，最不可阻挡。"},{"q":"炎帝小女淹死在东海，化为鸟，日日衔木石填海。这是哪个成语？","a":"精卫填海","o":["杜鹃啼血","小鸟复仇","化鸟衔石"],"note":"精卫填海——最温柔的复仇，最执着的抗议。"},{"q":"夸父追赶太阳，渴极了喝干黄河渭水，半道渴死，杖化成桃林。这是哪个成语？","a":"夸父追日","o":["逐日狂奔","飞蛾扑火","蚍蜉撼树"],"note":"夸父追日——败了，但桃林留给了后人。"},{"q":"后羿射落九日，留下一个太阳照耀人间。这是哪个成语？","a":"后羿射日","o":["羿射九乌","箭扫长空","十日并出"],"note":"后羿射日——最早的「极端天气应对专家」。"},{"q":"嫦娥吞下仙药飞升月宫，从此与后羿天地相隔。这是哪个成语？","a":"嫦娥奔月","o":["碧海青天","蟾宫折桂","玉兔捣药"],"note":"嫦娥奔月——最古老的月亮故事，也是最古老的异地恋。"}];
+
+var QASK_BANK=[{"t":"票证年代","a":"能，我这是全国通用粮票。","q":"你这粮票出了省还能使吗？","o":["这个月的粮票发下来了吗？","一斤粮票能换几个鸡蛋？","粮票上印的是几斤？"],"note":"粮票分两种：地方粮票只在本地流通，出省必须换成「全国粮票」——换的时候还得单位开介绍信。方案背后的思路是：粮食不够分时，不用钱排队（谁有钱谁多买），改用票证锁定「人人有份」。代价是流动性也被锁住了：一个人想离开土地，先得解决肚子。"},{"t":"票证年代","a":"今年的布票还没发，做不成。","q":"给孩子做件新棉袄吧？","o":["这布结实吗？","裁缝铺几点关门？","这匹布多少钱一尺？"],"note":"每人每年定量一丈几尺布，做一件棉袄要攒一家人的票。「新三年，旧三年，缝缝补补又三年」不是节俭美德，是定量之下的生存算术。"},{"t":"票证年代","a":"轮不到，名额得排到明年。","q":"你想买辆自行车吗？","o":["你会骑车吗？","车修好了吗？","今天怎么上班？"],"note":"七十年代自行车是「三大件」之首（另两件是缝纫机、手表），不是有钱就买得到，要凭票，票由单位按工龄、婚否排队分配。它解释了一件事：短缺年代的稀缺不是价格问题，是配额问题。"},{"t":"票证年代","a":"缝纫机票下来了，蝴蝶牌的。","q":"结婚三大件凑齐了吗？","o":["这衣服谁做的？","布票够用吗？","裁缝在哪儿？"],"note":"「三转一响」（自行车、缝纫机、手表、收音机）是七十年代的婚嫁门槛。一件东西要凭票，说明它紧缺；一整套东西都凭票，说明整个工业产能还喂不饱一个刚起步的消费社会。"},{"t":"票证年代","a":"肉票这个月用完了，买不了。","q":"今天割点肉回来吧？","o":["肉铺几点开门？","这肉新鲜吗？","多少钱一斤？"],"note":"凭票供应把「想买多少」变成了「能买多少」。它的另一面是稳定：无论收入高低，每人的底线供给是一样的。这是短缺时代用公平换效率的一次大规模社会实验。"},{"t":"人民公社","a":"记上了，今天十分。","q":"下地的工分记了吗？","o":["这次摸底考多少分？","这个月的奖金发几级？","账算平了没有？"],"note":"人民公社里农民不下「班」只挣「工分」：壮劳力一天十分，妇女七分，年底按工分总量分红。把劳动折算成一个数字、年终统一结算——这是没有现金流的集体经济想出来的记账方案。"},{"t":"人民公社","a":"队长说了，明儿天不亮就抢收。","q":"麦子熟了，队上什么安排？","o":["明天赶集吗？","明天谁值班？","明天还出工吗？"],"note":"「队长」是公社最基层的调度者，集体经济里没有老板，只有派活的人。抢收是和天气赛跑——没有烘干设备，麦子熟了必须靠人力在雨前割完。"},{"t":"人民公社","a":"去合作社换点盐，顺便听听有没有信。","q":"妈去哪儿了？","o":["队长在哪块地？","供销社几点开门？","谁去公社开会？"],"note":"合作社既是小卖部又是信息站：信件、汇款、通知都在那儿代转，一个村子的消息先在合作社聚齐再散开。没有电话的年代，公共空间就是通信基础设施。"},{"t":"人民公社","a":"挑灯干的，夜里十二点才收工。","q":"这亩地怎么这么快就割完了？","o":["请了几个人帮忙？","用了新镰刀？","今年麦子长得稀？"],"note":"「挑灯夜战」是农业机械化之前的常态：季节不等人，唯一能追加的投入就是人的时间。今天我们用机器替代的是体力，用不加班替代的是这种「把人当燃料」的调度方式。"},{"t":"城乡身份","a":"人家是吃商品粮的，不下地。","q":"他家怎么不用下地？","o":["他家很有钱？","他家地多？","他家有人当干部？"],"note":"「商品粮户口」和「农业粮户口」把人分成两类：前者由国家按月定量供粮，后者靠自己种。城乡二元结构最硬的一道墙不是收入差距，是粮食供给渠道的不同。"},{"t":"城乡身份","a":"农转非办下来了，户口本换了。","q":"他家怎么搬到城里去的？","o":["他家分了几亩地？","他家农活谁干？","他家房子卖了？"],"note":"「农转非」是从农业户口转为非农户口，名额极少、审批极难，一度是一个人能改变命运的最大跳板。当迁徙需要批准时，一次批准就等于一次人生重排。"},{"t":"城乡身份","a":"档案在局里，调动得先过这一关。","q":"为什么换了单位还走不了？","o":["辞职信写好了吗？","新单位接收函呢？","户口迁了吗？"],"note":"人事档案跟着人走，也管着人。单位制下，档案不在手里，人就不能自由流动——这是用一份纸质文件解决「谁归谁管」的方案，直到九十年代才逐步松绑。"},{"t":"单位年代","a":"按工龄排，科级两间，科员一间。","q":"这回分房怎么分？","o":["这房多少钱一平？","房贷怎么还？","这是商品房吗？"],"note":"福利分房的逻辑是「房子是福利不是商品」，按级别、工龄、婚否排队。它让住房几乎不要钱，也让房子几乎不能选、不能卖、不能带走——代价是把人钉在了单位上。"},{"t":"单位年代","a":"我顶我爸的班，进厂了。","q":"你怎么进的纺织厂？","o":["你怎么考上的技校？","你托谁找的关系？","你学的是什么工种？"],"note":"「顶替」「接班」是父母退休时由子女接岗，一个岗位就是一个家庭的饭碗，可以世代相传。它提供了极高的稳定性，也把机会变成了世袭——九十年代末这项制度被取消。"},{"t":"单位年代","a":"介绍信开好了，盖的是公社的章。","q":"出门住店要什么手续？","o":["这封信寄挂号还是平信？","调动档案办好了吗？","粮户关系迁了吗？"],"note":"介绍信是流动人口的通行证：没有它，住不了店、买不了车票、办不了事。用一枚公章证明「这个人我负责」，是低流动社会维持秩序的最省事办法。"},{"t":"通信","a":"按字算，一个字三分五。","q":"这份电报多少钱？","o":["这封信几号能到？","挂号信要加多少钱？","电话费一个月多少？"],"note":"电报按字收费，逼出了一整套惜字如金的电报文体——「母病速归」「货已发勿念」。当每个字都要花钱时，语言会自动被压缩成骨架，这是成本塑造文体最直观的例子。"},{"t":"通信","a":"挂的是长途，得去邮电局排号。","q":"怎么给外地的姐姐捎个话？","o":["电话本上她家几号？","写信几天能到？","加急电报怎么发？"],"note":"八十年代打长途要去邮电局挂号排队，接通后按分钟计费，还常常串线、听不清。那时「联系」是一件需要计划和预算的事，因此也更郑重——一句话要攒到非说不可才说。"},{"t":"通信","a":"请呼 126，姓张，让他回个电话。","q":"怎么找着他？","o":["他家电话多少？","他单位怎么走？","他几点下班？"],"note":"BP 机时代，找一个人要过三道手：你打电话给寻呼台，寻呼台广播，被呼的人看见号码再去找公用电话回电。 环节越多，一次对话的成本越高，「随时能找到」是后来才有的奢侈。"},{"t":"通信","a":"519，让我回电话。","q":"他呼你干嘛？","o":["这呼机号是多少？","这呼机多少钱买的？","他什么时候呼的？"],"note":"数字 BP 机只能显示数字，于是被玩成密码：519＝我要酒，530＝我想你，520＝我爱你。技术限制反而逼出了最早的中文数字谐音文化——后来的网络用语是它的直系后代。"},{"t":"通信","a":"投币，三分钟四毛。","q":"这电话怎么打？","o":["这电话卡多少钱？","这电话能打长途吗？","这电话是谁家的？"],"note":"公用电话亭是移动电话之前城市的公共接口：约时间、报平安、叫人接电话，都靠街角那一台。它把「通信」变成了一件发生在公共场合、有旁人在场的事。"},{"t":"八十年代","a":"听说东头老李家成了万元户。","q":"老李家怎么突然盖起两层楼？","o":["老李家儿子考上大学了？","老李家办喜事？","老李家分了几亩地？"],"note":"「万元户」是八十年代初富裕的代名词，甚至上过邮票。这个词本身记录了当时的价格水平：一万元就能让一个人在一个村子里被议论十年。"},{"t":"八十年代","a":"他从广州倒回来的，翻了三倍。","q":"这牛仔裤怎么这么贵？","o":["这布是上海买的？","这是出口转内销的？","这是侨汇买的？"],"note":"价格双轨制下，同一件商品有计划内价和计划外价，「倒爷」靠两地差价赚钱。它既是投机的温床，也是计划价格向市场价格过渡时无法避免的摩擦——制度缝隙里最先长出来的往往是生意。"},{"t":"八十年代","a":"得用外汇券，人民币不收。","q":"友谊商店的东西怎么买？","o":["这东西凭票吗？","供销社有货吗？","侨汇商店凭券吗？"],"note":"外汇券（1980-1994）是给外国人、华侨、港澳同胞专用的准货币，能在友谊商店买到进口货。它用一种平行货币把「涉外消费」隔离开，直到人民币逐步可兑换才退场。"},{"t":"八十年代","a":"时间就是金钱，效率就是生命。","q":"特区到底该怎么干？","o":["工厂怎么管理？","要不要引进外资？","工资怎么算？"],"note":"1981 年蛇口工业区竖起这块标语牌，一度被质疑「资本主义」。它真正在说的是：把时间当成成本来算，是工业社会与农业社会最根本的分野。后来这句话进了中学课本。"},{"t":"八十年代","a":"两块钱一场，放的是《英雄本色》。","q":"录像厅今晚放什么？","o":["电影院几点开场？","这盘带子多少钱？","电视几点有电影？"],"note":"九十年代录像厅是无数小城的「文化窗口」，两块钱能看一晚上港片。它提供的是在正规渠道之外冒出来的内容供给——每个时代的新媒介，几乎都先在灰色地带普及。"},{"t":"八十年代","a":"两万八，还得交入网费。","q":"这大哥大多少钱？","o":["这手机月租多少？","这号码多少钱？","这电池多少钱？"],"note":"1987 年大哥大进入中国，机身近三万元，入网费另算，通话双向收费。三十年后智能手机比它便宜百倍、性能强百万倍——这是理解「技术普及曲线」最好的一个锚点。"},{"t":"九十年代","a":"拨 163，占线，再拨一次。","q":"怎么上网？","o":["这网吧一小时多少钱？","这网线几兆？","这电脑什么配置？"],"note":"拨号上网 56K，占着电话线，一上网家里电话就打不进来，按分钟计费。那时「在线」是一个需要主动进入的状态，而不是像空气一样的背景。"},{"t":"九十年代","a":"我在聊天室，你加我 QQ。","q":"网上怎么找你？","o":["你博客地址多少？","你邮箱多少？","你手机号多少？"],"note":"聊天室＋QQ 号是中文互联网第一代社交身份。一个九位数的号码就是一个人，陌生人凭它建立关系——「加我 QQ」在当时是比交换名片更热的社交动作。"},{"t":"九十年代","a":"一条一毛，我这个月发超了。","q":"这么晚怎么还在按手机？","o":["这手机多少钱？","这号码好记吗？","信号怎么样？"],"note":"短信按条收费催生了 70 字的极限表达，也催生了最早的「包月套餐」。一条一毛钱的约束，塑造了一代人的语言节奏和社交密度。"},{"t":"九十年代","a":"这是出口转内销的，便宜一半。","q":"这衣服怎么这么便宜？","o":["这是旧的吗？","这是厂里发的？","这是侨汇买的？"],"note":"外贸订单剩余或被退货的货品转回国内销售，质量不错却便宜。计划经济与全球市场对接时，接缝处总会漏出一些「意外的好东西」。"},{"t":"老行当","a":"磨剪子嘞——戗菜刀——","q":"巷子里那一声喊的是啥？","o":["卖豆腐的来了？","收破烂的来了？","换糖的来了？"],"note":"吆喝是前广告时代的信息推送：一趟街走下来，声音就是招牌。每个行当都有固定的调门，居民隔着院墙就能听出是谁——声音是那个年代的二维码。"},{"t":"老行当","a":"响了，捂耳朵！","q":"那黑葫芦罐子怎么了？","o":["锅炸了？","放炮仗呢？","拖拉机发动了？"],"note":"老式爆米机靠手摇加压，开罐一声巨响，一锅米能炸出一大袋。孩子们捂着耳朵围上来——那是物资匮乏年代，用一点技术把廉价原料变成奢侈口感的魔法。"},{"t":"老行当","a":"能用头发换，一撮换两颗。","q":"货郎的糖怎么买？","o":["货郎的针线几分钱？","货郎收鸡蛋吗？","货郎从哪儿进货？"],"note":"货郎担走村串户，收头发、破布、牙膏皮，换针线糖块。在一个缺少现金的农村社会，以物易物把「废弃物」也变成了货币——这是最朴素的循环经济。"},{"t":"老行当","a":"补一补还能用三年，铁水一浇就好了。","q":"这锅漏了，扔了吧？","o":["这锅回炉重铸？","这锅拿去换新的？","这锅留着腌菜？"],"note":"补锅匠、锔碗匠、修伞人，一整套「修」的行业后来几乎全部消失。它们的消失不是因为东西变便宜了，而是因为维修的人工成本终于超过了制造成本。"},{"t":"老行当","a":"当了三块，死当，赎不回来了。","q":"那件皮袄呢？","o":["那件皮袄补好了？","那件皮袄送人了？","那件皮袄还能穿吗？"],"note":"当铺是最古老的「抵押贷款」：把暂时用不上的贵重物换成现金，到期赎回，过期成死当。在没有信用卡的年代，它是普通人唯一的流动性来源。"},{"t":"更早的年代","a":"走的是镖局的票，三十两银子保到底。","q":"这批货怎么运到张家口？","o":["这批货走漕运？","这批货报关了吗？","这批货上保险了吗？"],"note":"镖局是物流与保险的合体：既负责押运，也负责赔付，丢了按票面赔。在没有邮政、没有法警的年代，它用民间信誉解决了「长途运输的信任问题」。"},{"t":"更早的年代","a":"八百里加急，马换人不换。","q":"这份军报几天能到京城？","o":["这份军报走水路？","这份军报用信鸽？","这份军报派谁送？"],"note":"驿站制度靠接力传递信息：每隔几十里换马，一天能跑八百里。它是前工业时代的速度极限——用人和马的体力堆出来的「带宽」，代价极其昂贵，所以只有军国大事才用得起。"},{"t":"更早的年代","a":"先背《百家姓》，背熟了才开讲。","q":"学堂头一天教什么？","o":["算术从加减法开始？","先生先教写字？","先学对对子？"],"note":"私塾的教学顺序是先背诵后讲解，童子未必懂，但要滚瓜烂熟。它的底层判断是：记忆有窗口期，理解可以迟到——先存进去，日后再反刍。"},{"t":"更早的年代","a":"三十两，中人画押，白纸黑字。","q":"这契怎么写才算数？","o":["这地值多少钱？","这地要报官吗？","中人是谁？"],"note":"传统契约靠「中人」作保、双方画押，不必经官。乡土社会用熟人信誉替代司法执行，成本极低，但只在一个「谁都认识谁」的圈子里有效。"},{"t":"近代思想","a":"师夷长技以制夷。","q":"洋人的船炮，我们该怎么办？","o":["要不要跟洋人开战？","要不要禁掉洋货？","要不要学洋人的规矩？"],"note":"魏源《海国图志》（1842）给出的方案是：只学技术，不学制度，学了用来对付老师。这是近代中国第一次系统地回答「如何回应外来冲击」，此后一百年的争论几乎都从这句话分岔出去。"},{"t":"近代思想","a":"中学为体，西学为用。","q":"既要洋人的机器，又要保住自家的根本，怎么摆？","o":["要不要全盘学西洋？","学堂该教什么？","要不要废科举？"],"note":"张之洞的折中方案：守住价值与制度的内核，只借用器物和技术的外壳。它让改革能启动，也埋下了一个难题——技术从来不是中立的工具，它会反过来要求制度让路。"},{"t":"近代思想","a":"多研究些问题，少谈些主义。","q":"改造社会从哪儿下手？","o":["该信哪一种主义？","该不该革命？","该读谁的书？"],"note":"胡适 1919 年在《每周评论》提出，主张先解决具体的一个个问题。李大钊反驳说「根本解决」离不开主义。这场争论至今仍在：渐进改良与整体重构，哪条路更有效，要看问题长在什么土壤上。"},{"t":"近代思想","a":"这是铁屋子，喊醒几个人又有多少用。","q":"既然醒了也出不去，还喊吗？","o":["这屋子怎么出去？","里面有多少人？","谁来救我们？"],"note":"鲁迅《呐喊》自序里的比喻：一间没有窗户、难以摧毁的铁屋，人昏睡将死，喊醒他们反而要承受清醒的痛苦。他最终还是喊了——因为「希望」是可有可无的东西，而喊本身是一种责任。"},{"t":"近代思想","a":"啊，这就是阿Q。","q":"他被人打了，怎么还笑得出来？","o":["这人叫什么名字？","这本书谁写的？","他后来怎么样了？"],"note":"鲁迅《阿Q正传》（1921）：阿Q挨打后在心里认自己为「老子」，于是转败为胜。这就是「精神胜利法」——用心理重构消化现实屈辱。它是一面镜子：当改变处境的成本太高时，人会转而修改对处境的解释。"},{"t":"近代思想","a":"耕者有其田。","q":"地到底该归谁？","o":["今年收成怎么分？","地租降到多少？","要不要办合作社？"],"note":"孙中山把「平均地权」列为民生主义核心，后来的土地改革也以此为旗。土地问题是中国近代最硬的底层命题：一个农业国的全部政治，最后都要回到「谁种、谁收、谁的地」。"},{"t":"改革年代","a":"实践是检验真理的唯一标准。","q":"到底该听谁的？","o":["这话是谁先说的？","要不要继续争论下去？","书上没写的怎么办？"],"note":"1978 年《光明日报》这篇文章，把判断标准从「谁说的」换成「做出来怎么样」。它给了改革一个无需再辩的起点——也示范了一种解决僵局的思路：当争论无法收敛时，换判据。"},{"t":"改革年代","a":"摸着石头过河。","q":"没有现成的路，怎么走？","o":["要不要等别人先试？","这河有多深？","要不要先架桥？"],"note":"这句大白话是改革开放的方法论：不预设终点的蓝图，靠小步试错、局部试点、对了推广、错了收回。它的成本是绕路，它的收益是避免在没把握时押上全部。"},{"t":"改革年代","a":"七七年冬天考的，考场里还有父子俩。","q":"你是什么时候参加的高考？","o":["你们班有多少人？","你复习了多久？","你考了多少分？"],"note":"1977 年冬恢复高考，五百七十万人走进考场，年龄跨度从十几岁到三十几岁，同场应试，录取率不到百分之五。一次考试重启的不只是教育，还有「努力可以改变去向」这个信念。"},{"t":"改革年代","a":"不是考的，是队上推荐的，工农兵学员。","q":"你怎么上的大学？","o":["你是保送的？","你是自费读的？","你复读了几回？"],"note":"1966 到 1976 年高校招生靠群众推荐、领导批准，不再考试。它想打破分数至上的门槛，却把机会交给了另一种标准——取消一种尺子，从来不等于取消筛选，只是换了把尺子。"},{"t":"改革年代","a":"自己动手，丰衣足食。","q":"被封锁了，吃穿怎么办？","o":["要不要向外求援？","今年征多少粮？","要不要再开荒？"],"note":"1941 年南泥湾大生产提出的方案：外部供给被切断时，把军队变成生产者。它的现代版本叫「自给自足」或「内循环」——困境中的第一反应永远是回到自己身上找产能。"}];
+
+var STORY_ENDINGS=["把雨声装进口袋的人","带走一捧篝火的人","带走一段戏文的人","替别人保管故事的人","决定今晚早点睡的人","成为不着急的店员的人"];
+var STORY_NODES={"start":{"scene":"老街 · 二十三点","text":"加完班走出写字楼，夜风把最后一点班味吹散了一半。街角有家店还亮着灯，木牌上写着：本店只售声音，售完即止。门虚掩着，里面有老收音机的嗡嗡声。","choices":[{"t":"推门进去","to":"door"},{"t":"在窗外先听一会儿","to":"window"}]},"window":{"scene":"窗外","text":"你贴着玻璃看。店里没人，只有一架老收音机在柜台上自己响着，调台旋钮慢慢转，像是在挑人。柜子里摆着一排小玻璃瓶，每个瓶子里封着一小段声音：雨声、戏文、笑声明明灭灭。","choices":[{"t":"推门进去","to":"door"},{"t":"算了，回家睡觉","to":"gohome"}]},"door":{"scene":"店内","text":"门上的铃铛响了一声。收音机停了，一个声音从柜台后飘来：「欢迎光临，本店只售声音。你是来买一段带回家的，还是来听一段再走的？」你看不清柜台后的人，只看见一盏罩着湖蓝绢布的小灯。","choices":[{"t":"「我听一段再走。」","to":"listen"},{"t":"「我带一段走。」","to":"shelf"},{"t":"「你们这还招人吗？」（半开玩笑）","to":"clerk"}]},"clerk":{"scene":"招工吗","text":"柜台后沉默了两秒，忽然笑了：「招啊。不过店员没工资，只付声音。」他告诉你，这店开了很多年，规则只有一条：不卖给着急的人。他问：「你着急吗？」","choices":[{"t":"「着急，我明天还上班。」","to":"gohome"},{"t":"「……今天不急了。」","to":"clerk_end"}]},"listen":{"scene":"留声椅","text":"柜台后让你坐一把旧藤椅。「那给你放这段。」绢布灯暗下去，你听见梅雨天的屋檐水，一滴，一滴，落在青石板上。你忽然想起小时候在外婆家午睡，风扇也是这么转的。","choices":[{"t":"「还有别的吗？」","to":"shelf"},{"t":"「就这样，挺好。」","to":"rain_end"}]},"shelf":{"scene":"声音架","text":"柜台后转出一架小木架，三层，每层几只瓶子。「一层是白噪音：雨、风、篝火。二层是人声：戏文、评书、老歌。三层——」他顿了顿，「三层是别人寄存在这的故事，听一段，少一段。」","choices":[{"t":"听一层 · 白噪音","to":"noise"},{"t":"听二层 · 人声","to":"voice"},{"t":"听三层 · 寄存的故事","to":"story3"}]},"noise":{"scene":"一层 · 白噪音","text":"你指了指篝火那瓶。瓶塞拔开的瞬间，噼啪声漫出来，还带着一点柴火的烟味。你抱着膝盖坐在藤椅上，盯着绢布灯里的一点橘黄，眼皮越来越沉。","choices":[{"t":"「就要这个，带走。」","to":"fire_end"},{"t":"「再听听二层。」","to":"voice"}]},"voice":{"scene":"二层 · 人声","text":"二层的小瓶子更多。有一瓶越剧，咿咿呀呀的水袖仿佛就在耳边；有一瓶北方评书，醒木一拍，「上回书说到」；还有一瓶老歌，是妈妈那辈人晾衣服时会哼的调子。","choices":[{"t":"「越剧那瓶，带走。」","to":"opera_end"},{"t":"「三层到底卖什么？」","to":"story3"}]},"story3":{"scene":"三层 · 寄存的故事","text":"第三层只有一只瓶子，没有标签。柜台后的声音说：「这是一个客人上次忘在这的。他说『讲给打烊前最后一个客人听』。你要听吗？听完，你就成了最后一个客人。」","choices":[{"t":"听","to":"tell"},{"t":"不听了，买段戏文回家","to":"opera_end"}]},"tell":{"scene":"瓶中的故事","text":"瓶塞拔开，你听见一个年轻人讲他怎么辞掉第一份工作、怎么在出租屋里煮糊了一锅面、怎么在天台上看完一场没有烟花的跨年。讲到最后他笑了：「其实也没什么，就是想有人知道。」","choices":[{"t":"「把这个故事也买下来。」","to":"story_end"},{"t":"「……让他继续存在这吧。」","to":"clerk_end"}]},"gohome":{"scene":"巷口","text":"灯在身后还亮着。你把闹钟调早了一小时，决定今晚早点睡。走到巷口回头，那家店的门虚掩着，老收音机又在调台了——它大概知道，你还会来。","choices":[],"end":true,"ending":"决定今晚早点睡的人","text2":"有些声音，知道它在，就够了。今晚先好好睡——这是打烊前，它送给你的第一份礼物。"},"rain_end":{"scene":"一瓶细雨","text":"你把「细雨」那瓶揣进大衣口袋。走出店门时，瓶子里正好下一场很小的雨，淅淅沥沥，只够盖住夜班公交的引擎声。","choices":[],"end":true,"ending":"把雨声装进口袋的人","text2":"后来每个睡不着的夜里，你就拧开瓶塞听一小会儿。雨声很旧，像外婆家的夏天，也像下班后终于肯慢下来的自己。"},"fire_end":{"scene":"一捧篝火","text":"篝火那瓶有点烫手。你抱着它走夜路，瓶身里的火苗把你的影子投在墙上，一跳一跳，很大，很软。","choices":[],"end":true,"ending":"带走一捧篝火的人","text2":"冬天、加班、堵车——任何觉得冷的时刻，拧开瓶塞。噼啪声漫出来，你就又回到那个盯着橘黄灯火打瞌睡的夜晚。"},"opera_end":{"scene":"一段越剧","text":"越剧那瓶拎在手里轻飘飘的，拧开却有一条水袖甩出来，咿咿呀呀唱了个开头。你听不懂词，但那个调子，像妈妈晒过的被子。","choices":[],"end":true,"ending":"带走一段戏文的人","text2":"后来你慢慢听懂了：唱的是「原来姹紫嫣红开遍」。下班回家的路上，你把它哼成了自己的进行曲。"},"story_end":{"scene":"替陌生人保管","text":"你把那只没有标签的瓶子捧回家，放在书架上。它比看起来沉得多——里面装着一个陌生人的辞职信、一锅糊面条，和一场没有烟花的跨年。","choices":[],"end":true,"ending":"替别人保管故事的人","text2":"他没说完的后半段，由你慢慢想。某天你也会往瓶子里存一段自己的故事——就存在那家只售声音的小店里，等下一个推门的人。"},"clerk_end":{"scene":"不着急的店员","text":"「那从今晚起，你就是店员了。」他从柜台后递出一把湖蓝绢布小灯的钥匙。天快亮时，你学会了把调台旋钮慢慢转，等它自己挑人。","choices":[],"end":true,"ending":"成为不着急的店员的人","text2":"第一位推门的客人，是个刚下夜班、满脸疲惫的年轻人。你给他放了一段梅雨天的屋檐水——就像你听过的那样。"}};
+
+
+/* ================= 视图切换 ================= */
+var NAV=[
+  {g:'静一静',items:[
+    {id:'bubble',ic:'🫧',nm:'捏泡泡'},
+    {id:'breathe',ic:'🌊',nm:'一呼一吸'},
+    {id:'wind',ic:'🎐',nm:'听风'},
+    {id:'ripple',ic:'💧',nm:'水面涟漪'},
+    {id:'sand',ic:'🏖',nm:'指尖流沙'},
+    {id:'lantern',ic:'🏮',nm:'放孔明灯'}]},
+  {g:'玩一玩',items:[
+    {id:'block',ic:'🧱',nm:'安静方块'},
+    {id:'plane',ic:'✈️',nm:'纸飞机'},
+    {golf:1,id:'golf',ic:'⛳',nm:'一杆高尔夫'},
+    {id:'puzzle',ic:'🧩',nm:'静心拼图'},
+    {id:'raid',ic:'🚀',nm:'雷电'},
+    {id:'pool',ic:'🎱',nm:'落袋桌球'},
+    {id:'pin',ic:'🎡',nm:'弹珠台'}]},
+  {g:'猜一猜',items:[
+    {id:'radio',ic:'📻',nm:'拾猜电台'},
+    {id:'qask',ic:'💭',nm:'猜提问'},
+    {id:'poem',ic:'📜',nm:'猜诗歌'},
+    {id:'idiom',ic:'📖',nm:'猜典故'},
+    {id:'story',ic:'🚪',nm:'故事秘境'}]},
+  {g:'聊一聊',items:[
+    {id:'chat',ic:'💬',nm:'树洞',soon:1}]}
+];
+var VIEW_IDS=['home'].concat(NAV.reduce(function(a,g){ return a.concat(g.items.map(function(i){return i.id;})); },[]));
+var LEAVE={};
+var cur='home';
+function show(name){
+  if(!name||VIEW_IDS.indexOf(name)<0) name='home';
+  var prev=cur;
+  cur=name;
+  /* 离开旧页：统一停掉旧页注册的声音与循环（修听风退出不静音） */
+  if(LEAVE[prev]) LEAVE[prev]();
+  /* leave 钩子幂等，重复调用无副作用，无需清空 */
+  VIEW_IDS.forEach(function(id){
+    var el=document.getElementById('v-'+id);
+    if(el) el.classList.toggle('on',id===name);
+  });
+  document.querySelectorAll('.side-item,.chip').forEach(function(b){
+    b.classList.toggle('on',b.getAttribute('data-go')===name);
+  });
+  if(ENTER[name]) ENTER[name]();
+  if(name!=='home') location.hash=name; else location.hash='';
+  window.scrollTo(0,0);
+}
+function goHome(){ show('home'); }
+var ENTER={};
+
+/* ================= 导航渲染 ================= */
+function renderNav(){
+  var side=document.getElementById('side');
+  var html='';
+  NAV.forEach(function(g){
+    html+='<div class="side-group"><h4>'+g.g+'</h4>';
+    g.items.forEach(function(it){
+      html+='<button class="side-item" data-go="'+it.id+'"><span class="ic">'+it.ic+'</span>'+it.nm+(it.soon?'<span class="dot">M3</span>':'')+'</button>';
+    });
+    html+='</div>';
+  });
+  html+='<div class="side-box"><h4>今 晚</h4>'+
+    '<div class="kv"><span>捏爆泡泡</span><b id="sdPops">0</b></div>'+
+    '<div class="kv"><span>静心</span><b id="sdBreathe">0 分钟</b></div>'+
+    '<div class="kv"><span>猜对题</span><b id="sdQuiz">0</b></div>'+
+    '<div class="kv"><span>方块消行</span><b id="sdBlock">0</b></div>'+
+    '<div class="kv"><span>纸飞机</span><b id="sdPlane">0 km</b></div>'+
+    '<div class="kv"><span>雷电</span><b id="sdRaid">0 分</b></div>'+
+    '<div class="kv"><span>孔明灯</span><b id="sdLantern">0 盏</b></div>'+
+    '<div class="kv"><span>故事结局</span><b id="sdStory">0/6</b></div>'+
+    '</div>';
+  side.innerHTML=html;
+  var chips=document.getElementById('chips');
+  var ch='<button class="chip" data-go="home">🏠 全部</button>';
+  NAV.forEach(function(g){
+    g.items.forEach(function(it){
+      ch+='<button class="chip" data-go="'+it.id+'">'+it.ic+' '+it.nm+'</button>';
+    });
+  });
+  chips.innerHTML=ch;
+  document.querySelectorAll('[data-go]').forEach(function(b){
+    if(b.classList.contains('gcard')||b.classList.contains('side-item')||b.classList.contains('chip')){
+      b.addEventListener('click',function(){ show(b.getAttribute('data-go')); });
+    }
+  });
+  document.querySelectorAll('[data-back]').forEach(function(b){
+    b.addEventListener('click',goHome);
+  });
+}
+function refreshSide(){
+  var set=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+  set('sdPops',S.pops);
+  set('sdBreathe',Math.floor(S.breatheSec/60)+' 分钟');
+  set('sdQuiz',(S.poem.right||0)+(S.idiom.right||0));
+  set('sdBlock',S.block.clears);
+  set('sdPlane',S.plane.km.toFixed(1)+' km');
+  set('sdRaid',(S.raid.score||0)+' 分');
+  set('sdLantern',(S.lantern.n||0)+' 盏');
+  set('sdStory',(S.story.endings||[]).length+'/4');
+}
+function refreshHome(){
+  var set=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+  set('hc-bubble','已捏 '+S.pops+' 个 →');
+  set('hc-breathe','静心 '+Math.floor(S.breatheSec/60)+' 分钟 →');
+  set('hc-ripple','已起 '+(S.ripple.n||0)+' 圈 →');
+  set('hc-lantern','已放 '+(S.lantern.n||0)+' 盏 →');
+  set('hc-block','已消 '+S.block.clears+' 行 →');
+  set('hc-plane','累计 '+S.plane.km.toFixed(1)+' km →');
+  set('hc-puzzle','已拼 '+S.puzzle.done+' 幅 →');
+  set('hc-raid','最高 '+(S.raid.score||0)+' 分 →');
+  set('hc-pool','已进 '+(S.pool.pot||0)+' 球 →');
+  set('hc-pin','最高 '+(S.pin.score||0)+' 分 →');
+  set('hc-radio','题库 '+RADIO_BANK.length+' 台 →');
+  set('hc-qask','已答 '+(S.qask.right||0)+' 题 →');
+  set('hc-poem','题库 '+POEM_BANK.length+' 首 →');
+  set('hc-idiom','题库 '+IDIOM_BANK.length+' 则 →');
+  set('hc-story','已达成 '+(S.story.endings||[]).length+'/6 结局 →');
+  refreshSide();
+}
+/* ================= 泡泡 ================= */
+var bubRAF=0,bubCtx=0,bubs=[],parts=[],dpr=1;
+function bubResize(){
+  var cv=document.getElementById('bubCanvas');
+  if(!cv) return;
+  dpr=Math.min(window.devicePixelRatio||1,2);
+  var r=cv.getBoundingClientRect();
+  cv.width=Math.max(10,Math.round(r.width*dpr));
+  cv.height=Math.max(10,Math.round(r.height*dpr));
+}
+function bubStart(){
+  var cv=document.getElementById('bubCanvas');
+  if(!cv) return;
+  if(!bubCtx) bubCtx=cv.getContext('2d');
+  bubResize();
+  if(!bubs.length) bubSeed();
+  if(!bubRAF) bubRAF=requestAnimationFrame(bubFrame);
+}
+function bubStop(){
+  if(bubRAF){ cancelAnimationFrame(bubRAF); bubRAF=0; }
+}
+function bubSeed(){
+  bubs=[];
+  for(var i=0;i<9;i++) bubs.push(bubMake());
+}
+function bubMake(){
+  var cv=document.getElementById('bubCanvas');
+  var W=cv.width/dpr;
+  var r=16+Math.random()*22;
+  var hues=[42,150,200,340,95,20];
+  return {
+    x:r+Math.random()*(W-2*r),
+    y:cv.height/dpr+r+Math.random()*80,
+    r:r, vy:-(14+Math.random()*22),
+    ph:Math.random()*6.28, amp:6+Math.random()*10,
+    hue:hues[Math.floor(Math.random()*hues.length)]
+  };
+}
+function bubFrame(){
+  if(!bubCtx) return;
+  var cv=document.getElementById('bubCanvas');
+  var W=cv.width/dpr,H=cv.height/dpr;
+  bubCtx.setTransform(dpr,0,0,dpr,0,0);
+  var dark=document.documentElement.getAttribute('data-theme')!=='light';
+  var g=bubCtx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#2A2823'); g.addColorStop(1,'#221F1B'); }
+  else{ g.addColorStop(0,'#F7F2E7'); g.addColorStop(1,'#EDE5D3'); }
+  bubCtx.fillStyle=g; bubCtx.fillRect(0,0,W,H);
+  var i,b;
+  for(i=bubs.length-1;i>=0;i--){
+    b=bubs[i];
+    b.y+=b.vy/60; b.ph+=0.02;
+    var x=b.x+Math.sin(b.ph)*b.amp;
+    if(b.y<-b.r*2){ bubs.splice(i,1); bubs.push(bubMake()); continue; }
+    var rg=bubCtx.createRadialGradient(x-b.r*0.3,b.y-b.r*0.35,b.r*0.1,x,b.y,b.r);
+    rg.addColorStop(0,'hsla('+b.hue+',70%,'+(dark?72:62)+'%,.92)');
+    rg.addColorStop(1,'hsla('+b.hue+',60%,'+(dark?55:48)+'%,.55)');
+    bubCtx.fillStyle=rg;
+    bubCtx.beginPath(); bubCtx.arc(x,b.y,b.r,0,6.2832); bubCtx.fill();
+    bubCtx.strokeStyle='hsla('+b.hue+',60%,'+(dark?85:70)+'%,.5)';
+    bubCtx.lineWidth=1; bubCtx.stroke();
+    bubCtx.fillStyle='rgba(255,255,255,.5)';
+    bubCtx.beginPath(); bubCtx.arc(x-b.r*0.32,b.y-b.r*0.36,b.r*0.16,0,6.2832); bubCtx.fill();
+  }
+  for(i=parts.length-1;i>=0;i--){
+    var p=parts[i];
+    p.x+=p.vx/60; p.y+=p.vy/60; p.vy+=0.12; p.life-=0.03;
+    if(p.life<=0){ parts.splice(i,1); continue; }
+    bubCtx.fillStyle='hsla('+p.hue+',75%,65%,'+p.life+')';
+    bubCtx.beginPath(); bubCtx.arc(p.x,p.y,p.r*p.life,0,6.2832); bubCtx.fill();
+  }
+  bubRAF=requestAnimationFrame(bubFrame);
+}
+function bubPop(px,py){
+  for(var i=0;i<bubs.length;i++){
+    var b=bubs[i];
+    var x=b.x+Math.sin(b.ph)*b.amp;
+    var dx=px-x,dy=py-b.y;
+    if(dx*dx+dy*dy<(b.r+6)*(b.r+6)){
+      for(var j=0;j<7;j++){
+        parts.push({x:x,y:b.y,r:2+Math.random()*4,
+          vx:(Math.random()-0.5)*160,vy:(Math.random()-0.5)*160-40,
+          life:1,hue:b.hue});
+      }
+      bubs.splice(i,1); bubs.push(bubMake());
+      S.pops++; save();
+      document.getElementById('bubStat').textContent='已捏爆 '+S.pops+' 个';
+      popSound(); refreshSide();
+      return;
+    }
+  }
+}
+function bubInit(){
+  var cv=document.getElementById('bubCanvas');
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault();
+    var r=cv.getBoundingClientRect();
+    bubPop(e.clientX-r.left,e.clientY-r.top);
+  });
+  window.addEventListener('resize',function(){ if(cur==='bubble') bubResize(); });
+  document.getElementById('bubStat').textContent='已捏爆 '+S.pops+' 个';
+}
+ENTER.bubble=bubStart;
+LEAVE.bubble=bubStop;
+
+/* ================= 一呼一吸 ================= */
+var brTimer=0,brRun=false,brPhase=0,brT=0,brCycles=0;
+var BR_PH=[{n:'吸气',s:4},{n:'屏息',s:7},{n:'呼气',s:8}];
+function brEnter(){
+  if(S.breatheSec>0){
+    document.getElementById('brInfo').textContent='今晚已静心 '+Math.floor(S.breatheSec/60)+' 分钟';
+  }else{
+    document.getElementById('brInfo').textContent='吸气 4 秒 · 屏息 7 秒 · 呼气 8 秒';
+  }
+}
+function brStop(){
+  brRun=false;
+  if(brTimer){ clearInterval(brTimer); brTimer=0; }
+  document.getElementById('brBtn').textContent='开 始';
+  document.getElementById('brPhase').textContent='准备好了吗';
+  document.getElementById('brNum').textContent='4';
+  document.getElementById('brRing').style.transform='scale(.55)';
+}
+function brStart(){
+  audioInit();
+  brRun=true; brPhase=0; brT=0; brCycles=0;
+  document.getElementById('brBtn').textContent='停 下';
+  chime();
+  if(brTimer) clearInterval(brTimer);
+  brTimer=setInterval(brTick,100);
+  brTick();
+}
+function brTick(){
+  if(!brRun) return;
+  brT+=0.1;
+  var ph=BR_PH[brPhase];
+  var left=Math.max(0,Math.ceil(ph.s-brT));
+  document.getElementById('brNum').textContent=left;
+  document.getElementById('brPhase').textContent=ph.n;
+  var k=brT/ph.s;
+  var sc;
+  if(brPhase===0) sc=0.55+0.45*k;
+  else if(brPhase===1) sc=1;
+  else sc=1-0.45*k;
+  document.getElementById('brRing').style.transform='scale('+sc.toFixed(3)+')';
+  if(brT>=ph.s){
+    brT=0; brPhase++;
+    if(brPhase>=BR_PH.length){
+      brPhase=0; brCycles++;
+      S.breatheSec+=19; save();
+      document.getElementById('brInfo').textContent='已完成 '+brCycles+' 轮 · 今晚静心 '+Math.floor(S.breatheSec/60)+' 分钟';
+      refreshSide();
+    }
+    chime();
+  }
+}
+function brInit(){
+  document.getElementById('brBtn').addEventListener('click',function(){
+    if(brRun) brStop(); else brStart();
+  });
+  document.getElementById('brRing').style.transform='scale(.55)';
+}
+ENTER.breathe=brEnter;
+LEAVE.breathe=function(){ brStop(); };
+
+/* ================= 听风 ================= */
+function windInitSync(){
+  var ids=[['wRain','vRain','rain'],['wWind','vWind','wind'],['wFire','vFire','fire']];
+  ids.forEach(function(it){
+    var el=document.getElementById(it[0]);
+    el.value=S.vol[it[2]];
+    document.getElementById(it[1]).textContent=el.value;
+  });
+  windStateText();
+}
+function windInit(){
+  var ids=[['wRain','vRain','rain'],['wWind','vWind','wind'],['wFire','vFire','fire']];
+  ids.forEach(function(it){
+    var el=document.getElementById(it[0]);
+    el.value=S.vol[it[2]];
+    document.getElementById(it[1]).textContent=el.value;
+    el.addEventListener('input',function(){
+      S.vol[it[2]]=parseInt(el.value,10)||0;
+      document.getElementById(it[1]).textContent=el.value;
+      save();
+      if(windPlaying){
+        if(it[2]==='rain') setGain(G.rain,S.vol.rain/100*0.5);
+        if(it[2]==='wind') setGain(G.wind,S.vol.wind/100*0.55);
+        if(it[2]==='fire'){
+          setGain(G.fire,S.vol.fire/100*0.5);
+          fireLevel=S.vol.fire/100;
+          if(!fireOn&&fireLevel>0){ fireOn=true; fireLoop(); }
+          if(fireLevel<=0) fireOn=false;
+        }
+      }
+    });
+  });
+  document.getElementById('wPlay').addEventListener('click',windToggle);
+  document.querySelectorAll('[data-preset]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var p=btn.getAttribute('data-preset');
+      var v={rain:35,wind:25,fire:0};
+      if(p==='rain') v={rain:55,wind:15,fire:0};
+      if(p==='wind') v={rain:10,wind:60,fire:0};
+      if(p==='fire') v={rain:0,wind:10,fire:55};
+      if(p==='calm') v={rain:0,wind:0,fire:0};
+      S.vol=v; save();
+      windInitSync();
+      document.querySelectorAll('[data-preset]').forEach(function(b){ b.classList.toggle('on',b===btn); });
+      if(windPlaying){
+        setGain(G.rain,v.rain/100*0.5);
+        setGain(G.wind,v.wind/100*0.55);
+        setGain(G.fire,v.fire/100*0.5);
+        fireLevel=v.fire/100;
+        if(fireLevel>0&&!fireOn){ fireOn=true; fireLoop(); }
+        if(fireLevel<=0) fireOn=false;
+      }
+    });
+  });
+  windStateText();
+}
+ENTER.wind=function(){ windStateText(); };
+LEAVE.wind=function(){ windStop(); };
+
+/* ================= 拾猜电台 ================= */
+var rdOrder=[],rdIdx=0,rdCur=null,rdClues=0,rdAnswered=false,rdRight=0;
+var rdAudio=null,rdAudioTimer=0,rdMuted=false,rdArmed=false;
+function rdShuffle(){
+  rdOrder=RADIO_BANK.map(function(_,i){return i;});
+  for(var i=rdOrder.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=rdOrder[i]; rdOrder[i]=rdOrder[j]; rdOrder[j]=t;
+  }
+  rdIdx=0;
+}
+function rdStation(i){ return RADIO_BANK[rdOrder[i]]; }
+function rdName(s){ return s.n; }
+function rdCatName(s){ return RADIO_CATS[s.c]; }
+function rdProvName(s){ return RADIO_PROVS[s.p]||'其他'; }
+function rdIsPlayable(s){ return !!(s&&s.u&&s.play); }
+function rdFreqOf(n){
+  var m=n.match(/(\d{2,4}(?:\.\d)?)/);
+  if(!m) return null;
+  var d=m[1];
+  var f=d.indexOf('.')>=0?parseFloat(d):(d.length===3||d.length===4?parseInt(d,10)/10:0);
+  if(f>=87.5&&f<=108.0) return 'FM '+f.toFixed(1);
+  return null;
+}
+/* ---- 真实电台直播 ---- */
+var rdEl=null,rdWatchdog=0,rdStarted=false,rdGen=0;
+function rdStopAudio(){
+  clearTimeout(rdAudioTimer); rdAudioTimer=0;
+  clearTimeout(rdWatchdog); rdWatchdog=0; rdStarted=false;
+  if(rdEl){
+    try{ rdEl.pause(); rdEl.removeAttribute('src'); rdEl.load(); }catch(e){}
+  }
+  rdAudio=null;
+}
+function rdLiveUpdate(st){
+  var bar=document.getElementById('rdLive'),
+      tx=document.getElementById('rdLiveTx'),
+      more=document.getElementById('rdMoreBtn'),
+      mute=document.getElementById('rdMuteBtn'),
+      retry=document.getElementById('rdRetryBtn');
+  if(!bar) return;
+  bar.classList.remove('live','buf');
+  more.style.display='none'; mute.style.display='none'; retry.style.display='none';
+  if(st==='idle'){ tx.textContent='点「开播」，真电台直播进场'; }
+  else if(st==='buffering'){ bar.classList.add('buf'); tx.textContent='正在接通直播流…'; }
+  else if(st==='live'){
+    bar.classList.add('live');
+    tx.textContent='直播中 · 这就是要猜的电台，边听边猜';
+    mute.style.display=''; mute.textContent=rdMuted?'🔇 已静音 · 点我恢复':'🔊 静音';
+  }
+  else if(st==='paused'){ tx.textContent='电台先歇会儿 · 想再听就点「再听一会儿」'; more.style.display=''; }
+  else if(st==='clueonly'){ tx.textContent='这个台只有 HLS 流，浏览器放不出声——纯线索模式，猜中双倍分'; }
+  else if(st==='blocked'){
+    tx.textContent='所在页面拦住了外部电台流（预览面板的安全策略）。请用浏览器打开已发布的在线版，或双击 shixian.html 本地打开——先按线索猜（双倍分）';
+    retry.style.display='';
+  }
+  else if(st==='failed'){
+    tx.textContent='这个台这会儿连不上（可能是网络或电台侧临时故障），已切纯线索模式（双倍分）';
+    retry.style.display='';
+  }
+}
+function rdPlayStation(){
+  if(!rdCur){ return; }
+  if(!rdIsPlayable(rdCur)){ rdLiveUpdate('clueonly'); return; }
+  if(!rdArmed){ rdLiveUpdate('idle'); return; }
+  rdStopAudio();
+  if(!rdEl){ rdEl=new Audio(); rdEl.preload='none'; }
+  rdGen++;
+  var myGen=rdGen;
+  rdEl.volume=rdMuted?0:0.8;
+  rdAudio=rdEl;
+  rdLiveUpdate('buffering');
+  function onPlaying(){ if(myGen!==rdGen) return; rdStarted=true; rdLiveUpdate('live'); }
+  function onErr(){ if(myGen!==rdGen||rdStarted) return; cleanup(); rdAudioFail(); }
+  function cleanup(){
+    rdEl.removeEventListener('playing',onPlaying);
+    rdEl.removeEventListener('error',onErr);
+    clearTimeout(rdWatchdog); rdWatchdog=0;
+  }
+  rdEl.addEventListener('playing',onPlaying);
+  rdEl.addEventListener('error',onErr);
+  /* 看门狗：8 秒没起来按失败处理（CSP 拦截时 error 也可能迟到） */
+  rdWatchdog=setTimeout(function(){
+    if(myGen!==rdGen||rdStarted) return;
+    cleanup(); rdAudioFail();
+  },8000);
+  try{ rdEl.src=rdCur.u; }catch(e){}
+  var p=rdEl.play();
+  if(p&&p.catch) p.catch(function(e){
+    if(e&&e.name!=='AbortError'&&myGen===rdGen&&!rdStarted){ cleanup(); rdAudioFail(); }
+  });
+  clearTimeout(rdAudioTimer);
+  rdAudioTimer=setTimeout(function(){ rdPauseAudio(); },90000);
+}
+function rdPauseAudio(){
+  clearTimeout(rdAudioTimer); rdAudioTimer=0;
+  if(rdEl){ try{ rdEl.pause(); }catch(e){} }
+  rdLiveUpdate('paused');
+}
+function rdAudioFail(){
+  rdStopAudio();
+  if(rdCur){ rdCur.play=0; }
+  if(rdClues<2) rdClues=2;
+  rdRender();
+  rdLiveUpdate(location.protocol!=='file:'?'blocked':'failed');
+}
+function rdClueTexts(s){
+  var n=s.n;
+  var inner=n.replace(/广播|电台|之声|之音|频道|网络广播|电视台|FM|AM|[0-9.\s]/g,'');
+  var pickChar=inner.length?inner[Math.floor(inner.length/2)]:n[0];
+  return [
+    '这是一档「'+rdCatName(s)+'」',
+    '它来自'+rdProvName(s),
+    '台名一共 '+n.length+' 个字，第一个字是「'+n[0]+'」',
+    '名字里藏着一个「'+pickChar+'」字'
+  ];
+}
+function rdScore(clues){ return [60,40,25,15,10][clues]; }
+function rdBuildOpts(){
+  var s=rdCur;
+  var pool=RADIO_BANK.filter(function(x){ return x.n!==s.n; });
+  var same=pool.filter(function(x){ return x.c===s.c; });
+  var others=pool.filter(function(x){ return x.c!==s.c; });
+  same.sort(function(){ return Math.random()-0.5; });
+  others.sort(function(){ return Math.random()-0.5; });
+  var picks=same.slice(0,2);
+  for(var i=0;i<others.length&&picks.length<3;i++) picks.push(others[i]);
+  picks.push(s);
+  picks.sort(function(){ return Math.random()-0.5; });
+  return picks;
+}
+function rdRender(){
+  var s=rdCur;
+  var texts=rdClueTexts(s);
+  var html='';
+  for(var i=0;i<4;i++){
+    if(i<rdClues){
+      html+='<div class="clue"><span class="cn">'+(i+1)+'</span><span class="cv">'+esc(texts[i])+'</span></div>';
+    }else{
+      html+='<div class="clue locked"><span class="cn">'+(i+1)+'</span><span class="cv">还没揭示</span></div>';
+    }
+  }
+  document.getElementById('rdClues').innerHTML=html;
+  document.getElementById('rdClueBtn').style.display=rdAnswered?'none':'';
+  document.getElementById('rdClueBtn').textContent='再给一条线索（-'+(rdScore(rdClues+1)<rdScore(rdClues)?(rdScore(rdClues)-rdScore(rdClues+1)):10)+' 分）';
+  var box=document.getElementById('rdOpts');
+  var opts=rdBuildOpts();
+  box.innerHTML='';
+  opts.forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt';
+    b.textContent=o.n;
+    b.addEventListener('click',function(){ rdAnswer(b,o); });
+    box.appendChild(b);
+  });
+}
+function rdAnswer(btn,pick){
+  if(rdAnswered) return;
+  rdAnswered=true;
+  rdStopAudio();
+  var ok=pick.n===rdCur.n;
+  var mult=rdIsPlayable(rdCur)?1:2;   /* 纯线索模式双倍分 */
+  var box=document.getElementById('rdOpts');
+  box.querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===rdCur.n) b.classList.add('ok');
+    else if(b===btn) b.classList.add('no');
+  });
+  if(ok){
+    var gain=rdScore(rdClues)*mult;
+    S.radio.score+=gain; save();
+    rdRight++;
+    if(gain>(S.radio.best||0)) S.radio.best=gain, save();
+    ding();
+    document.getElementById('rdNote').style.display='block';
+    document.getElementById('rdNote').innerHTML='<b>猜中了，+'+gain+' 分'+(mult>1?'（双倍）':'')+'。</b>'+esc(rdCur.n)+' —— '+esc(rdCatName(rdCur))+' · '+esc(rdProvName(rdCur))+'。<br>'+(mult>1?'这个台浏览器里放不出声，全凭线索也拿下了。':'刚才那段直播就是它，只用了 '+rdClues+' 条线索，耳朵很灵。');
+    document.getElementById('rdStart').textContent='下一题';
+  }else{
+    thud();
+    document.getElementById('rdNote').style.display='block';
+    document.getElementById('rdNote').innerHTML='<b>不是这台。</b>正确答案是 <b>'+esc(rdCur.n)+'</b>（'+esc(rdCatName(rdCur))+' · '+esc(rdProvName(rdCur))+'）。没关系，下一题找回场子。';
+    document.getElementById('rdStart').textContent='下一题';
+  }
+  document.getElementById('rdClueBtn').style.display='none';
+  rdLiveUpdate('paused');
+  rdStat();
+}
+function rdStat(){
+  document.getElementById('rdScore').textContent=S.radio.score;
+  document.getElementById('rdBest').textContent=S.radio.best||0;
+  document.getElementById('rdStreak').textContent=rdRight;
+  document.getElementById('rdLeft').textContent=Math.max(0,RADIO_BANK.length-rdIdx);
+}
+function rdNext(withAudio){
+  rdStopAudio();
+  if(rdIdx>=rdOrder.length) rdShuffle();
+  rdCur=rdStation(rdIdx++);
+  rdClues=rdIsPlayable(rdCur)?1:2;   /* 纯线索模式多送一条补偿 */
+  rdAnswered=false;
+  document.getElementById('rdNote').style.display='none';
+  document.getElementById('rdStart').textContent=rdArmed?'转动旋钮，换一题':'转动旋钮，开播';
+  /* 旋钮视觉 + 半秒调台静态，随后真电台淡入 */
+  dialNoise();
+  var needle=document.getElementById('rdNeedle');
+  var freq=rdFreqOf(rdCur.n)||('FM '+(88+Math.random()*18).toFixed(1));
+  document.getElementById('rdFreq').textContent=freq;
+  var ang=-60+Math.random()*120;
+  needle.style.transform='rotate('+ang.toFixed(1)+'deg)';
+  document.getElementById('rdDial').classList.remove('off');
+  if(!rdIsPlayable(rdCur)) rdLiveUpdate('clueonly');
+  else rdLiveUpdate(rdArmed?'buffering':'idle');
+  rdRender();
+  rdStat();
+  if(withAudio&&rdArmed){
+    setTimeout(function(){ if(rdAudio===null&&!rdAnswered) rdPlayStation(); },650);
+  }
+}
+function rdInit(){
+  document.getElementById('rdStart').addEventListener('click',function(){
+    audioInit(); rdArmed=true;
+    if(!rdCur||rdAnswered) rdNext(true);
+    else if(rdAudio&&!rdAudio.paused) rdNext(true);
+    else rdPlayStation();
+  });
+  document.getElementById('rdClueBtn').addEventListener('click',function(){
+    if(rdAnswered) return;
+    if(rdClues<4){ rdClues++; rdRender(); }
+  });
+  document.getElementById('rdSkip').addEventListener('click',function(){
+    rdArmed=true; rdNext(true);
+  });
+  document.getElementById('rdMuteBtn').addEventListener('click',function(){
+    rdMuted=!rdMuted;
+    if(rdAudio) rdAudio.volume=rdMuted?0:0.8;
+    rdLiveUpdate(rdAudio&&!rdAudio.paused?'live':'paused');
+  });
+  document.getElementById('rdMoreBtn').addEventListener('click',function(){
+    rdArmed=true; rdPlayStation();
+  });
+  document.getElementById('rdRetryBtn').addEventListener('click',function(){
+    rdArmed=true;
+    if(rdCur){ rdCur.play=1; }
+    rdPlayStation();
+  });
+  document.getElementById('rdDial').classList.add('off');
+  rdStat();
+}
+ENTER.radio=function(){
+  if(!rdCur) rdNext(false);
+  rdStat();
+};
+LEAVE.radio=function(){ rdStopAudio(); dialStop(); };
+
+/* ================= 猜诗歌 ================= */
+var pmOrder=[],pmIdx=0,pmCur=null,pmAnswered=false,pmKind=0;
+var PM_KINDS=['next','author','from'];
+var PM_KIND_TAG={next:'—— 猜下一句 ——',author:'—— 猜作者 ——',from:'—— 猜是哪首 ——'};
+function pmShuffle(){
+  pmOrder=POEM_BANK.map(function(_,i){return i;});
+  for(var i=pmOrder.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=pmOrder[i]; pmOrder[i]=pmOrder[j]; pmOrder[j]=t;
+  }
+  pmIdx=0;
+}
+function pmShuffleArr(a){
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+function pmQuestion(){
+  var p=pmCur;
+  var kind=PM_KINDS[pmIdx%3];
+  pmKind=kind;
+  var others=POEM_BANK.filter(function(x){ return x!==p; });
+  pmShuffleArr(others);
+  var ans,opts;
+  if(kind==='next'){
+    ans=p.b;
+    opts=[ans];
+    for(var i=0;i<3;i++){ var o=others[i]; opts.push(o.b); }
+  }else if(kind==='author'){
+    ans=p.by;
+    opts=[ans];
+    var seen={};
+    for(var i=0;i<others.length&&opts.length<4;i++){
+      if(others[i].by!==ans&&!seen[others[i].by]){ seen[others[i].by]=1; opts.push(others[i].by); }
+    }
+  }else{
+    ans=p.from;
+    opts=[ans];
+    var seen2={};
+    for(var i=0;i<others.length&&opts.length<4;i++){
+      if(others[i].from!==ans&&!seen2[others[i].from]){ seen2[others[i].from]=1; opts.push(others[i].from); }
+    }
+  }
+  while(opts.length<4) opts.push('——');
+  return {kind:kind,ans:ans,opts:pmShuffleArr(opts)};
+}
+function pmRender(){
+  var q=pmQuestion();
+  document.getElementById('pmTag').textContent=PM_KIND_TAG[q.kind];
+  var main=document.getElementById('pmQ');
+  var sub=document.getElementById('pmSub');
+  if(q.kind==='next'){
+    main.textContent='「'+pmCur.a+'」的下一句是？';
+    sub.textContent='';
+  }else if(q.kind==='author'){
+    main.textContent='「'+pmCur.a+'」出自谁的手笔？';
+    sub.textContent='';
+  }else{
+    main.textContent='「'+pmCur.a+'，'+pmCur.b+'」是哪一首里的？';
+    sub.textContent='';
+  }
+  var box=document.getElementById('pmOpts');
+  box.innerHTML='';
+  q.opts.forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt';
+    b.textContent=o;
+    b.addEventListener('click',function(){ pmAnswer(b,o,q.ans); });
+    box.appendChild(b);
+  });
+  document.getElementById('pmNote').style.display='none';
+}
+function pmAnswer(btn,pick,ans){
+  if(pmAnswered) return;
+  pmAnswered=true;
+  var ok=pick===ans;
+  document.getElementById('pmOpts').querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===ans) b.classList.add('ok');
+    else if(b===btn) b.classList.add('no');
+  });
+  if(ok){
+    S.poem.score+=10; S.poem.right++; save();
+    ding();
+  }else{
+    thud();
+  }
+  document.getElementById('pmNote').style.display='block';
+  document.getElementById('pmNote').innerHTML=(ok?'<b>对，+10 分。</b>':'<b>记混了吧。</b>')+' '+esc(pmCur.a)+'，'+esc(pmCur.b)+' —— '+esc(pmCur.by)+'《'+esc(pmCur.from)+'》。<br>'+esc(pmCur.note);
+  pmStat();
+}
+function pmStat(){
+  document.getElementById('pmScore').textContent=S.poem.score;
+  document.getElementById('pmRight').textContent=S.poem.right;
+  document.getElementById('pmDone').textContent=pmIdx;
+}
+function pmNext(){
+  if(pmIdx>=pmOrder.length) pmShuffle();
+  pmCur=POEM_BANK[pmOrder[pmIdx++]];
+  pmAnswered=false;
+  pmRender();
+  pmStat();
+}
+function pmInit(){
+  document.getElementById('pmSkip').addEventListener('click',function(){ pmNext(); });
+  pmStat();
+}
+ENTER.poem=function(){ if(!pmCur) pmNext(); };
+
+/* ================= 猜典故 ================= */
+var idOrder=[],idIdx=0,idCur=null,idAnswered=false;
+function idShuffle(){
+  idOrder=IDIOM_BANK.map(function(_,i){return i;});
+  for(var i=idOrder.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=idOrder[i]; idOrder[i]=idOrder[j]; idOrder[j]=t;
+  }
+  idIdx=0;
+}
+function idRender(){
+  var q=idCur;
+  document.getElementById('idQ').textContent=q.q;
+  var box=document.getElementById('idOpts');
+  box.innerHTML='';
+  pmShuffleArr(q.o.concat([q.a])).forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt';
+    b.textContent=o;
+    b.addEventListener('click',function(){ idAnswer(b,o); });
+    box.appendChild(b);
+  });
+  document.getElementById('idNote').style.display='none';
+}
+function idAnswer(btn,pick){
+  if(idAnswered) return;
+  idAnswered=true;
+  var ok=pick===idCur.a;
+  document.getElementById('idOpts').querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===idCur.a) b.classList.add('ok');
+    else if(b===btn) b.classList.add('no');
+  });
+  if(ok){ S.idiom.score+=10; S.idiom.right++; save(); ding(); }
+  else{ thud(); }
+  document.getElementById('idNote').style.display='block';
+  document.getElementById('idNote').innerHTML=(ok?'<b>对，+10 分。</b>':'<b>差一点。</b>')+' '+esc(idCur.note);
+  idStat();
+}
+function idStat(){
+  document.getElementById('idScore').textContent=S.idiom.score;
+  document.getElementById('idRight').textContent=S.idiom.right;
+  document.getElementById('idDone').textContent=idIdx;
+}
+function idNext(){
+  if(idIdx>=idOrder.length) idShuffle();
+  idCur=IDIOM_BANK[idOrder[idIdx++]];
+  idAnswered=false;
+  idRender();
+  idStat();
+}
+function idInit(){
+  document.getElementById('idSkip').addEventListener('click',function(){ idNext(); });
+  idStat();
+}
+ENTER.idiom=function(){ if(!idCur) idNext(); };
+
+/* ================= 故事秘境 ================= */
+var stNode='start';
+function stRender(){
+  var n=STORY_NODES[stNode];
+  var box=document.getElementById('stText');
+  var ch=document.getElementById('stChoices');
+  var note=document.getElementById('stNote');
+  if(!n){ stNode='start'; n=STORY_NODES[stNode]; }
+  box.innerHTML='<span class="scene">'+esc(n.scene)+'</span>'+esc(n.text);
+  ch.innerHTML='';
+  note.style.display='none';
+  if(n.end){
+    note.style.display='block';
+    note.innerHTML='<b>达成结局：'+esc(n.ending)+'</b><br>'+esc(n.text2);
+    if(S.story.endings.indexOf(n.ending)<0){
+      S.story.endings.push(n.ending); save(); stEndings();
+    }
+    var again=document.createElement('button');
+    again.className='story-choice';
+    again.innerHTML='<span class="cc">再走一趟</span>店里挂钟敲了一下——你回到了推开门之前。';
+    again.addEventListener('click',function(){ stNode='start'; stRender(); });
+    ch.appendChild(again);
+  }else{
+    n.choices.forEach(function(c,i){
+      var b=document.createElement('button');
+      b.className='story-choice';
+      b.innerHTML='<span class="cc">'+(i+1)+'</span>'+esc(c.t);
+      b.addEventListener('click',function(){ stNode=c.to; stRender(); });
+      ch.appendChild(b);
+    });
+  }
+  stEndings();
+}
+function stEndings(){
+  var box=document.getElementById('stEndings');
+  var html='<div class="hint" style="letter-spacing:.1em">结局收集 '+(S.story.endings||[]).length+'/4</div><div style="margin-top:8px">';
+  STORY_ENDINGS.forEach(function(e){
+    var got=(S.story.endings||[]).indexOf(e)>=0;
+    html+='<span class="ending-badge'+(got?' got':'')+'">'+(got?'✓ '+esc(e):'？？？')+'</span>';
+  });
+  box.innerHTML=html+'</div>';
+  refreshSide();
+}
+function stInit(){
+  document.getElementById('stRestart').addEventListener('click',function(){ stNode='start'; stRender(); });
+  stEndings();
+}
+ENTER.story=function(){ stRender(); };
+
+/* ================= 通用小工具 ================= */
+function cvXY(cv,e){
+  var r=cv.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(cv.width/(r.width||1)),
+          y:(e.clientY-r.top)*(cv.height/(r.height||1))};
+}
+function isDark(){ return document.documentElement.getAttribute('data-theme')!=='light'; }
+function fitCanvas(cv){
+  var r=cv.getBoundingClientRect();
+  var w=Math.max(10,Math.round(r.width)),h=Math.max(10,Math.round(r.height));
+  if(cv.width!==w||cv.height!==h){ cv.width=w; cv.height=h; return true; }
+  return false;
+}
+
+/* ---- 补充音效 ---- */
+function boom(){                       /* 爆炸：噪声过低通 */
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var b=AC.createBufferSource(); b.buffer=NOISE;
+    var lp=AC.createBiquadFilter(); lp.type='lowpass';
+    lp.frequency.setValueAtTime(1600,t);
+    lp.frequency.exponentialRampToValueAtTime(140,t+0.28);
+    var g=AC.createGain();
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.32,t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.34);
+    b.connect(lp); lp.connect(g); g.connect(MASTER);
+    b.start(t); b.stop(t+0.36);
+  }catch(e){}
+}
+function zap(){                        /* 射击：极轻的一声 */
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='square';
+    o.frequency.setValueAtTime(880,t);
+    o.frequency.exponentialRampToValueAtTime(1500,t+0.05);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.035,t+0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.06);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.07);
+  }catch(e){}
+}
+function ping(f){                      /* 水滴 */
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='sine';
+    o.frequency.setValueAtTime(f,t);
+    o.frequency.exponentialRampToValueAtTime(f*0.55,t+0.16);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.20,t+0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.24);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.26);
+  }catch(e){}
+}
+function knock(){                      /* 台球碰撞 */
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='triangle';
+    o.frequency.setValueAtTime(1400,t);
+    o.frequency.exponentialRampToValueAtTime(520,t+0.05);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.14,t+0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.09);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.1);
+  }catch(e){}
+}
+function hiss(){                       /* 沙沙 */
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var b=AC.createBufferSource(); b.buffer=NOISE;
+    var bp=AC.createBiquadFilter(); bp.type='highpass'; bp.frequency.value=2200;
+    var g=AC.createGain();
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.05,t+0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.16);
+    b.connect(bp); bp.connect(g); g.connect(MASTER);
+    b.start(t); b.stop(t+0.18);
+  }catch(e){}
+}
+
+/* ================= 猜提问 ================= */
+var qaOrder=[],qaIdx=0,qaCur=null,qaAnswered=false;
+function qaShuffle(){
+  qaOrder=QASK_BANK.map(function(_,i){return i;});
+  for(var i=qaOrder.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=qaOrder[i]; qaOrder[i]=qaOrder[j]; qaOrder[j]=t;
+  }
+  qaIdx=0;
+}
+function qaRender(){
+  var q=qaCur;
+  document.getElementById('qaTag').textContent='—— '+q.t+' ——';
+  document.getElementById('qaA').textContent='「'+q.a+'」';
+  var opts=pmShuffleArr([q.q].concat(q.o));
+  var box=document.getElementById('qaOpts');
+  box.innerHTML='';
+  opts.forEach(function(o){
+    var b=document.createElement('button');
+    b.className='opt';
+    b.textContent=o;
+    b.addEventListener('click',function(){ qaAnswer(b,o); });
+    box.appendChild(b);
+  });
+  document.getElementById('qaNote').style.display='none';
+}
+function qaAnswer(btn,pick){
+  if(qaAnswered) return;
+  qaAnswered=true;
+  var ok=pick===qaCur.q;
+  document.getElementById('qaOpts').querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    if(b.textContent===qaCur.q) b.classList.add('ok');
+    else if(b===btn) b.classList.add('no');
+  });
+  if(ok){ S.qask.score+=10; S.qask.right=(S.qask.right||0)+1; save(); ding(); }
+  else{ thud(); }
+  var n=document.getElementById('qaNote');
+  n.style.display='block';
+  n.innerHTML=(ok?'<b>对，就是这句，+10 分。</b>':'<b>不是这句。</b>正确的提问是：<b>'+esc(qaCur.q)+'</b>')
+    +'<br><br>'+esc(qaCur.note);
+  qaStat();
+}
+function qaStat(){
+  document.getElementById('qaScore').textContent=S.qask.score;
+  document.getElementById('qaRight').textContent=S.qask.right||0;
+  document.getElementById('qaDone').textContent=qaIdx;
+}
+function qaNext(){
+  if(qaIdx>=qaOrder.length) qaShuffle();
+  qaCur=QASK_BANK[qaOrder[qaIdx++]];
+  qaAnswered=false;
+  qaRender();
+  qaStat();
+}
+function qaInit(){
+  document.getElementById('qaSkip').addEventListener('click',function(){ qaNext(); });
+  qaStat();
+}
+ENTER.qask=function(){ if(!qaCur) qaNext(); };
+
+/* ================= 雷电（无限命） ================= */
+var rd2=null,rd2Stars=[],rd2RAF=0,rd2Fire=0,rd2Key={l:0,r:0,u:0,d:0},rd2Drag=null;
+function rd2New(){
+  rd2={sx:180,sy:470,bul:[],ebul:[],en:[],pt:[],pop:[],
+       sc:0,kill:0,combo:0,inv:0,t:0,shake:0,spawn:0,bossAt:12};
+  S.raid.score=0; S.raid.kills=0; save();
+  rd2Stat();
+}
+function rd2Stat(){
+  document.getElementById('rd2Score').textContent=rd2?rd2.sc:(S.raid.score||0);
+  document.getElementById('rd2Kill').textContent=rd2?rd2.kill:(S.raid.kills||0);
+  document.getElementById('rd2Combo').textContent=rd2?rd2.combo:0;
+}
+function rd2SeedStars(){
+  rd2Stars=[];
+  for(var i=0;i<70;i++){
+    rd2Stars.push({x:Math.random()*360,y:Math.random()*560,
+      r:Math.random()<0.75?0.7:1.4,sp:0.5+Math.random()*2.2});
+  }
+}
+function rd2SpawnEnemy(){
+  var W=360;
+  var r=Math.random();
+  var kind=0;
+  if(r<0.6) kind=0;
+  else if(r<0.85) kind=1;
+  else kind=2;
+  var hp=kind===2?4:(kind===1?2:1);
+  if(rd2.kill>0&&rd2.kill%rd2.bossAt===0&&!rd2.bossLive){
+    kind=3; hp=26;
+  }
+  var x=24+Math.random()*(W-48);
+  var e={x:x,y:-26,kind:kind,hp:hp,max:hp,
+    vy:kind===3?0.35:(kind===2?0.7:1.05+Math.random()*0.6),
+    vx:0,ph:Math.random()*6.28,r:kind===3?26:(kind===2?16:12),ft:0};
+  rd2.en.push(e);
+  if(kind===3) rd2.bossLive=1;
+}
+function rd2Shoot(){
+  rd2.bul.push({x:rd2.sx,y:rd2.sy-16,vy:-8.4,d:3});
+  if(rd2.t%3===0) zap();
+}
+function rd2Part(x,y,n,hue,spd){
+  for(var i=0;i<n;i++){
+    var a=Math.random()*6.2832,v=spd*(0.35+Math.random()*0.9);
+    rd2.pt.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,
+      life:1,hue:hue,r:1.4+Math.random()*2.6});
+  }
+}
+function rd2Pop(x,y,tx){
+  rd2.pop.push({x:x,y:y,t:tx,life:1});
+}
+function rd2HitPlayer(){
+  if(rd2.inv>0) return;
+  rd2.inv=78; rd2.combo=0; rd2.shake=10;
+  thud();
+  rd2Part(rd2.sx,rd2.sy,14,30,4);
+}
+function rd2Step(){
+  var W=360,H=560,i,j,a;
+  rd2.t++;
+  if(rd2.inv>0) rd2.inv--;
+  if(rd2.shake>0) rd2.shake*=0.86;
+  /* 按键 */
+  if(rd2Key.l) rd2.sx-=4.6;
+  if(rd2Key.r) rd2.sx+=4.6;
+  if(rd2Key.u) rd2.sy-=3.6;
+  if(rd2Key.d) rd2.sy+=3.6;
+  if(rd2Drag!==null) rd2.sx+=(rd2Drag-rd2.sx)*0.28;
+  rd2.sx=Math.max(20,Math.min(W-20,rd2.sx));
+  rd2.sy=Math.max(300,Math.min(H-26,rd2.sy));
+  /* 自动开火 */
+  rd2Fire++;
+  if(rd2Fire>=7){ rd2Fire=0; rd2Shoot(); }
+  /* 出敌 */
+  rd2.spawn--;
+  if(rd2.spawn<=0){
+    rd2SpawnEnemy();
+    var base=Math.max(28,72-rd2.kill*1.1);
+    rd2.spawn=base+Math.random()*26;
+  }
+  /* 子弹 */
+  for(i=rd2.bul.length-1;i>=0;i--){
+    var b=rd2.bul[i];
+    b.y+=b.vy;
+    if(b.y<-20){ rd2.bul.splice(i,1); continue; }
+  }
+  /* 敌机 */
+  for(i=rd2.en.length-1;i>=0;i--){
+    var e=rd2.en[i];
+    e.ph+=0.045; e.ft++;
+    if(e.kind===1) e.x+=Math.sin(e.ph)*2.1;
+    if(e.kind===2) e.x+=Math.sin(e.ph*0.5)*0.9;
+    if(e.kind===3){
+      e.x+=Math.sin(e.ph*0.5)*1.5;
+      if(e.y<90) e.y+=e.vy;
+      if(e.ft%26===0){
+        for(var k=-1;k<=1;k++){
+          rd2.ebul.push({x:e.x,y:e.y+18,vx:k*1.5,vy:2.4,r:4});
+        }
+      }
+    }else{
+      e.y+=e.vy;
+    }
+    e.x=Math.max(14,Math.min(W-14,e.x));
+    /* 敌机开火 */
+    if(e.kind<3&&Math.random()<0.006&&e.y>40){
+      var dx=rd2.sx-e.x,dy=rd2.sy-e.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+      rd2.ebul.push({x:e.x,y:e.y,vx:dx/d*2.6,vy:dy/d*2.6,r:3.4});
+    }
+    /* 被我击中 */
+    for(j=rd2.bul.length-1;j>=0;j--){
+      var bb=rd2.bul[j];
+      if(Math.abs(bb.x-e.x)<e.r+4&&Math.abs(bb.y-e.y)<e.r+6){
+        rd2.bul.splice(j,1);
+        e.hp--;
+        rd2Part(bb.x,bb.y,3,45,2.2);
+        if(e.hp<=0){
+          rd2.en.splice(i,1);
+          rd2.kill++; rd2.combo++;
+          var gain=Math.round(10*(1+Math.min(rd2.combo,20)*0.1))*(e.kind===3?20:1);
+          rd2.sc+=gain;
+          if(e.kind===3){ rd2.bossLive=0; rd2.bossAt+=12; }
+          S.raid.score=rd2.sc; S.raid.kills=rd2.kill; save();
+          rd2Part(e.x,e.y,e.kind===3?46:16,e.kind===3?20:35,e.kind===3?6:3.4);
+          rd2Pop(e.x,e.y,'+'+gain);
+          boom();
+          rd2Stat();
+          break;
+        }
+      }
+    }
+    if(e.y>H+30){ rd2.en.splice(i,1); if(e.kind===3) rd2.bossLive=0; }
+  }
+  /* 敌弹 */
+  for(i=rd2.ebul.length-1;i>=0;i--){
+    var eb=rd2.ebul[i];
+    eb.x+=eb.vx; eb.y+=eb.vy;
+    if(eb.y>H+20||eb.x<-20||eb.x>W+20){ rd2.ebul.splice(i,1); continue; }
+    if(Math.abs(eb.x-rd2.sx)<13&&Math.abs(eb.y-rd2.sy)<15){
+      rd2.ebul.splice(i,1);
+      rd2HitPlayer();
+      continue;
+    }
+  }
+  /* 撞机 */
+  for(i=rd2.en.length-1;i>=0;i--){
+    var e2=rd2.en[i];
+    if(Math.abs(e2.x-rd2.sx)<e2.r+13&&Math.abs(e2.y-rd2.sy)<e2.r+13){
+      if(e2.kind===3){ e2.hp-=2; rd2HitPlayer(); }
+      else{ rd2.en.splice(i,1); rd2.kill++; rd2.combo=0; rd2HitPlayer(); }
+    }
+  }
+  /* 粒子 */
+  for(i=rd2.pt.length-1;i>=0;i--){
+    var p=rd2.pt[i];
+    p.x+=p.vx; p.y+=p.vy; p.vx*=0.97; p.vy*=0.97; p.life-=0.028;
+    if(p.life<=0) rd2.pt.splice(i,1);
+  }
+  for(i=rd2.pop.length-1;i>=0;i--){
+    var pp=rd2.pop[i];
+    pp.y-=0.7; pp.life-=0.02;
+    if(pp.life<=0) rd2.pop.splice(i,1);
+  }
+  /* 星星 */
+  for(i=0;i<rd2Stars.length;i++){
+    var s=rd2Stars[i];
+    s.y+=s.sp;
+    if(s.y>560){ s.y=-2; s.x=Math.random()*360; }
+  }
+}
+function rd2Draw(){
+  var cv=document.getElementById('rd2Canvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height;
+  var dark=isDark();
+  ctx.save();
+  if(rd2.shake>0.4){
+    ctx.translate((Math.random()-0.5)*rd2.shake,(Math.random()-0.5)*rd2.shake);
+  }
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#141a26'); g.addColorStop(1,'#22241F'); }
+  else{ g.addColorStop(0,'#DCE6EE'); g.addColorStop(1,'#F2EADC'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  /* 星 */
+  for(var i=0;i<rd2Stars.length;i++){
+    var s=rd2Stars[i];
+    ctx.fillStyle=dark?'rgba(230,238,250,'+(0.25+s.sp*0.22)+')':'rgba(120,110,95,.22)';
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fill();
+  }
+  /* 粒子 */
+  for(i=0;i<rd2.pt.length;i++){
+    var p=rd2.pt[i];
+    ctx.fillStyle='hsla('+p.hue+',85%,'+(dark?66:56)+'%,'+p.life.toFixed(2)+')';
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r*p.life,0,6.2832); ctx.fill();
+  }
+  /* 敌机 */
+  for(i=0;i<rd2.en.length;i++){
+    var e=rd2.en[i];
+    ctx.save(); ctx.translate(e.x,e.y);
+    if(e.kind===3){
+      ctx.fillStyle=dark?'#8E5A5A':'#B4636B';
+      ctx.beginPath();
+      ctx.moveTo(0,26); ctx.lineTo(-30,4); ctx.lineTo(-18,-20);
+      ctx.lineTo(18,-20); ctx.lineTo(30,4); ctx.closePath(); ctx.fill();
+      ctx.fillStyle=dark?'#D8A0A0':'#8E4A52';
+      ctx.beginPath(); ctx.ellipse(0,-4,13,9,0,0,6.2832); ctx.fill();
+      ctx.fillStyle='rgba(0,0,0,.35)';
+      ctx.fillRect(-24,20,48,4);
+      ctx.fillStyle='rgba(255,220,180,.9)';
+      ctx.fillRect(-24,20,48*(e.hp/e.max),4);
+    }else if(e.kind===2){
+      ctx.fillStyle=dark?'#6E7F92':'#8D98A8';
+      ctx.beginPath();
+      ctx.moveTo(0,14); ctx.lineTo(-16,-8); ctx.lineTo(16,-8); ctx.closePath(); ctx.fill();
+      ctx.fillStyle=dark?'#93A6BB':'#6E7887';
+      ctx.fillRect(-11,-13,22,5);
+    }else if(e.kind===1){
+      ctx.fillStyle=dark?'#8B7FA8':'#A898C4';
+      ctx.beginPath();
+      ctx.moveTo(0,12); ctx.lineTo(-13,-8); ctx.lineTo(0,-2); ctx.lineTo(13,-8);
+      ctx.closePath(); ctx.fill();
+    }else{
+      ctx.fillStyle=dark?'#5E8C7E':'#7FA98C';
+      ctx.beginPath();
+      ctx.moveTo(0,11); ctx.lineTo(-11,-9); ctx.lineTo(11,-9); ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
+  }
+  /* 敌弹 */
+  for(i=0;i<rd2.ebul.length;i++){
+    var eb=rd2.ebul[i];
+    ctx.fillStyle='rgba(255,150,120,.9)';
+    ctx.beginPath(); ctx.arc(eb.x,eb.y,eb.r,0,6.2832); ctx.fill();
+    ctx.fillStyle='rgba(255,220,190,.5)';
+    ctx.beginPath(); ctx.arc(eb.x,eb.y,eb.r+2,0,6.2832); ctx.fill();
+  }
+  /* 我方子弹 */
+  ctx.fillStyle=dark?'#F2EAD9':'#4a4436';
+  for(i=0;i<rd2.bul.length;i++){
+    var b=rd2.bul[i];
+    ctx.fillRect(b.x-1.6,b.y-8,3.2,12);
+  }
+  /* 机身 */
+  if(!(rd2.inv>0&&Math.floor(rd2.t/4)%2===0)){
+    ctx.save(); ctx.translate(rd2.sx,rd2.sy);
+    ctx.fillStyle=dark?'#E8E2D4':'#3E4A5A';
+    ctx.beginPath();
+    ctx.moveTo(0,-18); ctx.lineTo(-14,10); ctx.lineTo(-5,5);
+    ctx.lineTo(0,12); ctx.lineTo(5,5); ctx.lineTo(14,10);
+    ctx.closePath(); ctx.fill();
+    /* 尾焰 */
+    var fl=6+Math.random()*7;
+    var fg=ctx.createLinearGradient(0,10,0,10+fl);
+    fg.addColorStop(0,'rgba(255,210,120,.95)');
+    fg.addColorStop(1,'rgba(255,120,60,0)');
+    ctx.fillStyle=fg;
+    ctx.beginPath(); ctx.moveTo(-4,10); ctx.lineTo(4,10); ctx.lineTo(0,10+fl); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+  /* 飘分 */
+  for(i=0;i<rd2.pop.length;i++){
+    var pp=rd2.pop[i];
+    ctx.fillStyle='rgba(255,214,140,'+pp.life.toFixed(2)+')';
+    ctx.font='13px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(pp.t,pp.x,pp.y);
+  }
+  /* 连击 */
+  if(rd2.combo>1){
+    ctx.fillStyle=dark?'rgba(255,220,160,.9)':'rgba(180,120,40,.9)';
+    ctx.font='bold 15px sans-serif'; ctx.textAlign='left';
+    ctx.fillText('连击 ×'+rd2.combo,14,28);
+  }
+  ctx.restore();
+  rd2RAF=requestAnimationFrame(rd2Frame);
+}
+function rd2Frame(){ rd2Step(); rd2Draw(); }
+function rd2Stop(){
+  if(rd2RAF){ cancelAnimationFrame(rd2RAF); rd2RAF=0; }
+  rd2Key={l:0,r:0,u:0,d:0}; rd2Drag=null;
+}
+function rd2Init(){
+  var cv=document.getElementById('rd2Canvas');
+  rd2SeedStars();
+  function move(e){
+    e.preventDefault();
+    var p=cvXY(cv,e);
+    rd2Drag=p.x;
+    rd2.sy=p.y;
+  }
+  cv.addEventListener('pointerdown',function(e){ audioInit(); rd2Drag=cvXY(cv,e).x; });
+  cv.addEventListener('pointermove',function(e){ if(rd2Drag!==null) move(e); });
+  window.addEventListener('pointerup',function(){ rd2Drag=null; });
+  window.addEventListener('pointercancel',function(){ rd2Drag=null; });
+  window.addEventListener('keydown',function(e){
+    if(cur!=='raid') return;
+    if(e.key==='ArrowLeft'){ rd2Key.l=1; rd2Drag=null; e.preventDefault(); }
+    if(e.key==='ArrowRight'){ rd2Key.r=1; rd2Drag=null; e.preventDefault(); }
+    if(e.key==='ArrowUp'){ rd2Key.u=1; e.preventDefault(); }
+    if(e.key==='ArrowDown'){ rd2Key.d=1; e.preventDefault(); }
+  });
+  window.addEventListener('keyup',function(e){
+    if(e.key==='ArrowLeft') rd2Key.l=0;
+    if(e.key==='ArrowRight') rd2Key.r=0;
+    if(e.key==='ArrowUp') rd2Key.u=0;
+    if(e.key==='ArrowDown') rd2Key.d=0;
+  });
+  document.getElementById('rd2New').addEventListener('click',function(){ rd2New(); });
+}
+ENTER.raid=function(){
+  if(!rd2){
+    rd2={sx:180,sy:470,bul:[],ebul:[],en:[],pt:[],pop:[],
+         sc:S.raid.score||0,kill:S.raid.kills||0,combo:0,inv:0,t:0,shake:0,spawn:10,bossAt:12};
+  }
+  rd2Stat();
+  if(!rd2RAF) rd2Frame();
+};
+LEAVE.raid=rd2Stop;
+
+/* ================= 落袋桌球 ================= */
+var po={balls:[],cue:null,pot:0,shots:0,raf:0,aim:null,aiming:false,moving:false,rafOn:false};
+var PO_W=360,PO_H=520,PO_PAD=20;
+function poRect(){ return {x:PO_PAD,y:PO_PAD,w:PO_W-PO_PAD*2,h:PO_H-PO_PAD*2}; }
+function poPockets(){
+  var r=poRect();
+  return [{x:r.x,y:r.y},{x:r.x+r.w/2,y:r.y-2},{x:r.x+r.w,y:r.y},
+          {x:r.x,y:r.y+r.h},{x:r.x+r.w/2,y:r.y+r.h+2},{x:r.x+r.w,y:r.y+r.h}];
+}
+function poRack(){
+  var r=poRect();
+  po.balls=[];
+  po.cue={x:r.x+r.w*0.24,y:r.y+r.h/2,vx:0,vy:0,r:7,c:'#F5F0E4',cue:1,on:1};
+  po.balls.push(po.cue);
+  var cols=['#D9534F','#E8A33D','#6FA8B8','#7FA98C','#B39BC8','#C8A76F'];
+  var ax=r.x+r.w*0.66,ay=r.y+r.h/2,d=15.4,k=0;
+  for(var row=0;row<3;row++){
+    for(var i=0;i<=row;i++){
+      po.balls.push({x:ax+row*13.6,y:ay-row*7.9+i*15.8,vx:0,vy:0,r:7.4,c:cols[k%6],on:1,num:k+1});
+      k++;
+      if(k>=6) break;
+    }
+    if(k>=6) break;
+  }
+  po.pot=0; po.shots=0; po.moving=false;
+  poStat();
+  document.getElementById('poHint').textContent='从白球往后拖瞄准——拖得越远力越大，松手出杆。白球进袋不算失误，摆回来继续。';
+}
+function poStat(){
+  document.getElementById('poPot').textContent=po.pot;
+  document.getElementById('poTotal').textContent=S.pool.pot||0;
+  document.getElementById('poShots').textContent=po.shots;
+}
+function poAllStopped(){
+  for(var i=0;i<po.balls.length;i++){
+    var b=po.balls[i];
+    if(b.on&&(Math.abs(b.vx)>0.05||Math.abs(b.vy)>0.05)) return false;
+  }
+  return true;
+}
+function poStep(){
+  var r=poRect(),i,j,b;
+  var sub=3;
+  for(var s=0;s<sub;s++){
+    for(i=0;i<po.balls.length;i++){
+      b=po.balls[i];
+      if(!b.on) continue;
+      b.x+=b.vx/sub; b.y+=b.vy/sub;
+      b.vx*=Math.pow(0.9885,1/sub); b.vy*=Math.pow(0.9885,1/sub);
+      if(Math.abs(b.vx)<0.02) b.vx=0;
+      if(Math.abs(b.vy)<0.02) b.vy=0;
+      if(b.x-b.r<r.x){ b.x=r.x+b.r; b.vx=-b.vx*0.86; knock(); }
+      if(b.x+b.r>r.x+r.w){ b.x=r.x+r.w-b.r; b.vx=-b.vx*0.86; knock(); }
+      if(b.y-b.r<r.y){ b.y=r.y+b.r; b.vy=-b.vy*0.86; knock(); }
+      if(b.y+b.r>r.y+r.h){ b.y=r.y+r.h-b.r; b.vy=-b.vy*0.86; knock(); }
+    }
+    /* 球球碰撞 */
+    for(i=0;i<po.balls.length;i++){
+      var a=po.balls[i];
+      if(!a.on) continue;
+      for(j=i+1;j<po.balls.length;j++){
+        b=po.balls[j];
+        if(!b.on) continue;
+        var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy);
+        var min=a.r+b.r;
+        if(d>0&&d<min){
+          var nx=dx/d,ny=dy/d;
+          var rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;
+          if(rel<0){
+            a.vx+=rel*nx; a.vy+=rel*ny;
+            b.vx-=rel*nx; b.vy-=rel*ny;
+            if(Math.abs(rel)>0.6) knock();
+          }
+          var push=(min-d)/2;
+          a.x-=nx*push; a.y-=ny*push;
+          b.x+=nx*push; b.y+=ny*push;
+        }
+      }
+    }
+  }
+  /* 落袋 */
+  var pk=poPockets();
+  for(i=0;i<po.balls.length;i++){
+    b=po.balls[i];
+    if(!b.on) continue;
+    for(j=0;j<pk.length;j++){
+      var dx=b.x-pk[j].x,dy=b.y-pk[j].y;
+      if(dx*dx+dy*dy<17*17){
+        b.on=0;
+        if(b.cue){
+          document.getElementById('poHint').textContent='白球进袋了——不算失误，摆回开球点，继续。';
+          thud();
+        }else{
+          po.pot++;
+          S.pool.pot=(S.pool.pot||0)+1; save();
+          var left=po.balls.filter(function(x){return x.on&&!x.cue;}).length;
+          document.getElementById('poHint').textContent=left>0
+            ?'进了！还剩 '+left+' 颗，慢慢来。'
+            :'清台了！'+po.pot+' 颗全部落袋，重新摆一局？';
+          ding(); refreshHome();
+        }
+        poStat();
+        break;
+      }
+    }
+  }
+  /* 白球复位 */
+  if(po.cue&&!po.cue.on&&poAllStopped()){
+    po.cue.on=1; po.cue.x=poRect().x+poRect().w*0.24; po.cue.y=poRect().y+poRect().h/2;
+    po.cue.vx=0; po.cue.vy=0;
+  }
+  if(po.balls.filter(function(x){return x.on&&!x.cue;}).length===0){
+    setTimeout(function(){ if(cur==='pool') poRack(); },900);
+  }
+  po.moving=!poAllStopped();
+}
+function poDraw(){
+  var cv=document.getElementById('poCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,r=poRect(),dark=isDark(),i;
+  ctx.fillStyle=dark?'#2A2A26':'#EDE7DA';
+  ctx.fillRect(0,0,W,H);
+  /* 台呢 */
+  var g=ctx.createLinearGradient(0,r.y,0,r.y+r.h);
+  if(dark){ g.addColorStop(0,'#2E4636'); g.addColorStop(1,'#26392D'); }
+  else{ g.addColorStop(0,'#8FB08A'); g.addColorStop(1,'#7E9E79'); }
+  ctx.fillStyle=g;
+  ctx.fillRect(r.x-9,r.y-9,r.w+18,r.h+18);
+  /* 库边 */
+  ctx.strokeStyle=dark?'rgba(190,160,110,.5)':'rgba(120,92,60,.55)';
+  ctx.lineWidth=6;
+  ctx.strokeRect(r.x-6,r.y-6,r.w+12,r.h+12);
+  ctx.strokeStyle=dark?'rgba(255,255,255,.07)':'rgba(255,255,255,.18)';
+  ctx.lineWidth=1;
+  ctx.strokeRect(r.x,r.y,r.w,r.h);
+  /* 袋口 */
+  var pk=poPockets();
+  for(i=0;i<pk.length;i++){
+    ctx.fillStyle='#151310';
+    ctx.beginPath(); ctx.arc(pk[i].x,pk[i].y,15,0,6.2832); ctx.fill();
+  }
+  /* 瞄准线 */
+  if(po.aiming&&po.aim&&po.cue.on&&poAllStopped()){
+    var a=po.aim;
+    var dx=a.x-po.cue.x,dy=a.y-po.cue.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+    var pw=Math.min(1,d/200);
+    ctx.setLineDash([6,7]);
+    ctx.strokeStyle='rgba(255,255,255,.5)';
+    ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(po.cue.x,po.cue.y);
+    ctx.lineTo(po.cue.x+dx/d*(60+180*pw),po.cue.y+dy/d*(60+180*pw));
+    ctx.stroke(); ctx.setLineDash([]);
+    /* 球杆 */
+    var bx=po.cue.x-dx/d*(16+34*pw),by=po.cue.y-dy/d*(16+34*pw);
+    ctx.strokeStyle=dark?'#C9A874':'#8a6f45';
+    ctx.lineWidth=4;
+    ctx.beginPath(); ctx.moveTo(bx,by);
+    ctx.lineTo(bx-dx/d*70,by-dy/d*70); ctx.stroke();
+  }
+  /* 球 */
+  for(i=0;i<po.balls.length;i++){
+    var b=po.balls[i];
+    if(!b.on) continue;
+    ctx.fillStyle='rgba(0,0,0,.3)';
+    ctx.beginPath(); ctx.arc(b.x+2,b.y+3,b.r,0,6.2832); ctx.fill();
+    var bg=ctx.createRadialGradient(b.x-b.r*0.35,b.y-b.r*0.4,1,b.x,b.y,b.r);
+    bg.addColorStop(0,'#ffffff');
+    bg.addColorStop(0.28,b.c);
+    bg.addColorStop(1,'rgba(0,0,0,.55)');
+    ctx.fillStyle=bg;
+    ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.2832); ctx.fill();
+    if(!b.cue){
+      ctx.fillStyle='rgba(255,255,255,.9)';
+      ctx.beginPath(); ctx.arc(b.x,b.y,b.r*0.42,0,6.2832); ctx.fill();
+      ctx.fillStyle='#3a332a';
+      ctx.font='bold 8px sans-serif'; ctx.textAlign='center';
+      ctx.fillText(String(b.num),b.x,b.y+3);
+    }
+  }
+  po.raf=requestAnimationFrame(poFrame);
+}
+function poFrame(){ poStep(); poDraw(); }
+function poStop(){ if(po.raf){ cancelAnimationFrame(po.raf); po.raf=0; } }
+function poInit(){
+  var cv=document.getElementById('poCanvas');
+  poRack();
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault(); audioInit();
+    if(!poAllStopped()) return;
+    po.aiming=true; po.aim=cvXY(cv,e);
+  });
+  cv.addEventListener('pointermove',function(e){
+    if(po.aiming) po.aim=cvXY(cv,e);
+  });
+  window.addEventListener('pointerup',function(){
+    if(!po.aiming) return;
+    po.aiming=false;
+    var a=po.aim;
+    po.aim=null;
+    if(!a||!po.cue.on||!poAllStopped()) return;
+    var dx=a.x-po.cue.x,dy=a.y-po.cue.y,d=Math.sqrt(dx*dx+dy*dy);
+    if(d<8) return;
+    var pw=Math.min(1,d/200);
+    var sp=2.4+pw*11;
+    po.cue.vx=dx/d*sp; po.cue.vy=dy/d*sp;
+    po.shots++; S.pool.shots=(S.pool.shots||0)+1; save();
+    knock(); poStat();
+  });
+  window.addEventListener('pointercancel',function(){ po.aiming=false; po.aim=null; });
+  document.getElementById('poNew').addEventListener('click',function(){ poRack(); });
+}
+ENTER.pool=function(){ if(!po.raf) poFrame(); poStat(); };
+LEAVE.pool=poStop;
+
+/* ================= 弹珠台 ================= */
+var pn={ball:null,sc:0,hit:0,balls:1,raf:0,bump:[],fl:{l:0,r:0},flA:{l:0,r:0},wob:0};
+var PN_W=360,PN_H=560;
+function pnBumpers(){
+  return [{x:110,y:130,r:17,c:180},{x:250,y:130,r:17,c:320},
+          {x:180,y:210,r:19,c:45},{x:96,y:270,r:15,c:280},{x:264,y:270,r:15,c:100}];
+}
+function pnServe(){
+  pn.ball={x:300+Math.random()*20,y:70,vx:-1.2+Math.random()*0.8,vy:0.6,r:7};
+  if(pn.balls===undefined) pn.balls=1;
+}
+function pnNewGame(){
+  pn.sc=0; pn.hit=0; pn.balls=1; pn.bump=pnBumpers();
+  pnServe();
+  pnStat();
+}
+function pnStat(){
+  document.getElementById('pnScore').textContent=pn.sc;
+  document.getElementById('pnHit').textContent=pn.hit;
+  document.getElementById('pnBalls').textContent=pn.balls;
+}
+function pnSeg(ax,ay,bx,by,px,py){
+  var dx=bx-ax,dy=by-ay;
+  var t=((px-ax)*dx+(py-ay)*dy)/(dx*dx+dy*dy);
+  t=Math.max(0,Math.min(1,t));
+  return {x:ax+dx*t,y:ay+dy*t};
+}
+function pnStep(){
+  var i,b=pn.ball;
+  if(!b) return;
+  b.vy+=0.17;
+  b.x+=b.vx; b.y+=b.vy;
+  b.vx*=0.998; b.vy*=0.998;
+  /* 墙 */
+  if(b.x-b.r<12){ b.x=12+b.r; b.vx=Math.abs(b.vx)*0.72; knock(); }
+  if(b.x+b.r>PN_W-12){ b.x=PN_W-12-b.r; b.vx=-Math.abs(b.vx)*0.72; knock(); }
+  if(b.y-b.r<12){ b.y=12+b.r; b.vy=Math.abs(b.vy)*0.72; knock(); }
+  /* 翻板角度 */
+  var target=pn.fl.l?1:0;
+  pn.flA.l+=(target-pn.flA.l)*0.34;
+  target=pn.fl.r?1:0;
+  pn.flA.r+=(target-pn.flA.r)*0.34;
+  /* 翻板碰撞 */
+  var fl=pnFlippers();
+  for(i=0;i<fl.length;i++){
+    var f=fl[i],cp=pnSeg(f.ax,f.ay,f.bx,f.by,b.x,b.y);
+    var dx=b.x-cp.x,dy=b.y-cp.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+    if(d<b.r+5){
+      var nx=dx/d,ny=dy/d;
+      b.x=cp.x+nx*(b.r+5); b.y=cp.y+ny*(b.r+5);
+      var rel=b.vx*nx+b.vy*ny;
+      if(rel<0){ b.vx-=rel*nx*1.6; b.vy-=rel*ny*1.6; }
+      b.vx-=f.nx*f.push; b.vy-=f.ny*f.push;
+      if(f.push>0.4) knock();
+    }
+  }
+  /* 弹柱 */
+  for(i=0;i<pn.bump.length;i++){
+    var m=pn.bump[i];
+    var ddx=b.x-m.x,ddy=b.y-m.y,dd=Math.sqrt(ddx*ddx+ddy*ddy)||1;
+    if(dd<b.r+m.r){
+      var nx2=ddx/dd,ny2=ddy/dd;
+      b.x=m.x+nx2*(b.r+m.r); b.y=m.y+ny2*(b.r+m.r);
+      var rel2=b.vx*nx2+b.vy*ny2;
+      b.vx-=rel2*nx2*1.55; b.vy-=rel2*ny2*1.55;
+      b.vx+=nx2*3.4; b.vy+=ny2*3.4;
+      m.flash=1;
+      pn.sc+=50; pn.hit++;
+      S.pin.score=pn.sc; S.pin.hits=pn.hit; save();
+      blip(); pnStat();
+    }
+  }
+  /* 掉出去 → 再发一颗，不扣分 */
+  if(b.y>PN_H-6){
+    pn.balls++; pnServe();
+    S.pin.score=pn.sc; save();
+    pnStat();
+  }
+}
+function pnFlippers(){
+  var base=468;
+  var a0=0.45,a1=-0.45;
+  var al=a0+(a1-a0)*pn.flA.l;
+  var ar=(Math.PI-a0)+((Math.PI-a1)-(Math.PI-a0))*pn.flA.r;
+  var L=64;
+  return [
+    {ax:104,ay:base,bx:104+Math.cos(al)*L,by:base+Math.sin(al)*L,
+     nx:-Math.sin(al),ny:Math.cos(al),push:pn.fl.l?3.6:0},
+    {ax:256,ay:base,bx:256+Math.cos(ar)*L,by:base+Math.sin(ar)*L,
+     nx:-Math.sin(ar),ny:Math.cos(ar),push:pn.fl.r?3.6:0}
+  ];
+}
+function blip(){
+  if(!AC||AC.state!=='running') return;
+  try{
+    var t=AC.currentTime;
+    var o=AC.createOscillator(),g=AC.createGain();
+    o.type='triangle';
+    o.frequency.setValueAtTime(720,t);
+    o.frequency.exponentialRampToValueAtTime(1180,t+0.07);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.14,t+0.006);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+0.12);
+    o.connect(g); g.connect(MASTER);
+    o.start(t); o.stop(t+0.14);
+  }catch(e){}
+}
+function pnDraw(){
+  var cv=document.getElementById('pnCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,dark=isDark(),i;
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#232A38'); g.addColorStop(1,'#22241F'); }
+  else{ g.addColorStop(0,'#E4EAF0'); g.addColorStop(1,'#F4EEDF'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  /* 轨道 */
+  ctx.strokeStyle=dark?'rgba(210,220,235,.28)':'rgba(90,80,66,.32)';
+  ctx.lineWidth=5;
+  ctx.beginPath();
+  ctx.moveTo(12,12); ctx.lineTo(W-12,12); ctx.lineTo(W-12,H-10);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(12,12); ctx.lineTo(12,H-10);
+  ctx.stroke();
+  /* 弹柱 */
+  for(i=0;i<pn.bump.length;i++){
+    var m=pn.bump[i];
+    if(m.flash>0) m.flash-=0.06;
+    var fl=Math.max(0,m.flash||0);
+    ctx.fillStyle='hsla('+m.c+',62%,'+(dark?46:52)+'%,1)';
+    ctx.beginPath(); ctx.arc(m.x,m.y,m.r,0,6.2832); ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,'+(0.22+fl*0.6)+')';
+    ctx.beginPath(); ctx.arc(m.x-m.r*0.3,m.y-m.r*0.3,m.r*0.45,0,6.2832); ctx.fill();
+    if(fl>0){
+      ctx.strokeStyle='rgba(255,255,255,'+(fl*0.7)+')';
+      ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(m.x,m.y,m.r+4+ (1-fl)*10,0,6.2832); ctx.stroke();
+    }
+  }
+  /* 翻板 */
+  var fl2=pnFlippers();
+  for(i=0;i<fl2.length;i++){
+    var f=fl2[i];
+    ctx.strokeStyle=dark?'#E8D9A8':'#8a7a52';
+    ctx.lineWidth=9; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(f.ax,f.ay); ctx.lineTo(f.bx,f.by); ctx.stroke();
+    ctx.fillStyle=dark?'#F2EAD9':'#6d6552';
+    ctx.beginPath(); ctx.arc(f.ax,f.ay,5,0,6.2832); ctx.fill();
+  }
+  /* 球 */
+  var b=pn.ball;
+  if(b){
+    ctx.fillStyle='rgba(0,0,0,.32)';
+    ctx.beginPath(); ctx.arc(b.x+2,b.y+3,b.r,0,6.2832); ctx.fill();
+    var bg=ctx.createRadialGradient(b.x-2,b.y-2,1,b.x,b.y,b.r);
+    bg.addColorStop(0,'#ffffff'); bg.addColorStop(1,'#9aa3ad');
+    ctx.fillStyle=bg;
+    ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.2832); ctx.fill();
+  }
+  pn.raf=requestAnimationFrame(pnFrame);
+}
+function pnFrame(){ pnStep(); pnDraw(); }
+function pnStop(){ if(pn.raf){ cancelAnimationFrame(pn.raf); pn.raf=0; } pn.fl={l:0,r:0}; }
+function pnInit(){
+  pn.bump=pnBumpers();
+  pn.sc=S.pin.score||0; pn.hit=S.pin.hits||0; pn.balls=1;
+  pnServe(); pnStat();
+  function bind(el,side){
+    if(!el) return;
+    el.addEventListener('pointerdown',function(e){ e.preventDefault(); audioInit(); pn.fl[side]=1; });
+    el.addEventListener('pointerup',function(){ pn.fl[side]=0; });
+    el.addEventListener('pointerleave',function(){ pn.fl[side]=0; });
+    el.addEventListener('pointercancel',function(){ pn.fl[side]=0; });
+  }
+  bind(document.getElementById('pnL'),'l');
+  bind(document.getElementById('pnR'),'r');
+  window.addEventListener('keydown',function(e){
+    if(cur!=='pin') return;
+    if(e.key==='ArrowLeft'){ pn.fl.l=1; audioInit(); e.preventDefault(); }
+    if(e.key==='ArrowRight'){ pn.fl.r=1; audioInit(); e.preventDefault(); }
+  });
+  window.addEventListener('keyup',function(e){
+    if(e.key==='ArrowLeft') pn.fl.l=0;
+    if(e.key==='ArrowRight') pn.fl.r=0;
+  });
+  document.getElementById('pnNew').addEventListener('click',function(){ pnNewGame(); });
+}
+ENTER.pin=function(){ if(!pn.raf) pnFrame(); pnStat(); };
+LEAVE.pin=pnStop;
+
+/* ================= 水面涟漪 ================= */
+var rpRings=[],rpRAF=0,rpT=0;
+function rpFrame(){
+  var cv=document.getElementById('rpCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,dark=isDark();
+  rpT++;
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#16232E'); g.addColorStop(1,'#1B2C36'); }
+  else{ g.addColorStop(0,'#CFE0E8'); g.addColorStop(1,'#E8F0F2'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  /* 水面横向波纹 */
+  ctx.strokeStyle=dark?'rgba(180,215,235,.10)':'rgba(90,130,155,.16)';
+  ctx.lineWidth=1.4;
+  for(var y=0;y<H;y+=16){
+    ctx.beginPath();
+    for(var x=0;x<=W;x+=12){
+      var yy=y+Math.sin(x*0.02+rpT*0.02+y*0.05)*2.4;
+      if(x===0) ctx.moveTo(x,yy); else ctx.lineTo(x,yy);
+    }
+    ctx.stroke();
+  }
+  /* 涟漪 */
+  for(var i=rpRings.length-1;i>=0;i--){
+    var r=rpRings[i];
+    r.r+=2.3; r.a=1-r.r/r.max;
+    if(r.a<=0){ rpRings.splice(i,1); continue; }
+    for(var k=0;k<3;k++){
+      var rr=r.r-k*13;
+      if(rr<=0) continue;
+      ctx.strokeStyle=(dark?'rgba(200,230,245,':'rgba(70,110,140,')+(r.a*(0.5-k*0.13)).toFixed(3)+')';
+      ctx.lineWidth=2.2-k*0.5;
+      ctx.beginPath(); ctx.ellipse(r.x,r.y,rr,rr*0.62,0,0,6.2832); ctx.stroke();
+    }
+    ctx.fillStyle=(dark?'rgba(220,240,250,':'rgba(255,255,255,')+(r.a*0.25).toFixed(3)+')';
+    ctx.beginPath(); ctx.ellipse(r.x,r.y,r.r*0.4,r.r*0.25,0,0,6.2832); ctx.fill();
+  }
+  rpRAF=requestAnimationFrame(rpFrame);
+}
+function rpStop(){ if(rpRAF){ cancelAnimationFrame(rpRAF); rpRAF=0; } }
+function rpInit(){
+  var cv=document.getElementById('rpCanvas');
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault(); audioInit();
+    var p=cvXY(cv,e);
+    rpRings.push({x:p.x,y:p.y,r:4,max:150+Math.random()*120});
+    S.ripple.n=(S.ripple.n||0)+1; save();
+    document.getElementById('rpStat').textContent='点一下水面 · 已起 '+S.ripple.n+' 圈涟漪';
+    ping(300+ (1-p.y/cv.height)*560 + Math.random()*60);
+    if(S.ripple.n%10===0) refreshHome();
+  });
+  document.getElementById('rpClear').addEventListener('click',function(){ rpRings=[]; });
+  window.addEventListener('resize',function(){ if(cur==='ripple') fitCanvas(cv); });
+}
+ENTER.ripple=function(){
+  var cv=document.getElementById('rpCanvas');
+  fitCanvas(cv);
+  document.getElementById('rpStat').textContent='点一下水面 · 已起 '+(S.ripple.n||0)+' 圈涟漪';
+  if(!rpRAF) rpFrame();
+};
+LEAVE.ripple=rpStop;
+
+/* ================= 指尖流沙 ================= */
+var sdRAF=0,sdDown=false,sdLast=null,sdHissT=0,sdT=0;
+function sdFill(){
+  var cv=document.getElementById('sdCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,dark=isDark();
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#3A3227'); g.addColorStop(1,'#2A241C'); }
+  else{ g.addColorStop(0,'#E6D6B4'); g.addColorStop(1,'#D6C29A'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  /* 沙粒 */
+  for(var i=0;i<2600;i++){
+    var x=Math.random()*W,y=Math.random()*H;
+    ctx.fillStyle=dark?'rgba(230,215,180,'+(0.03+Math.random()*0.07)+')'
+                      :'rgba(140,115,75,'+(0.04+Math.random()*0.09)+')';
+    ctx.fillRect(x,y,1.3,1.3);
+  }
+  /* 顶部微光 */
+  var lg=ctx.createLinearGradient(0,0,0,H*0.4);
+  lg.addColorStop(0,dark?'rgba(255,240,210,.05)':'rgba(255,250,235,.35)');
+  lg.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=lg; ctx.fillRect(0,0,W,H*0.4);
+}
+function sdStroke(x0,y0,x1,y1){
+  var cv=document.getElementById('sdCanvas');
+  var ctx=cv.getContext('2d');
+  var dark=isDark();
+  ctx.lineCap='round'; ctx.lineJoin='round';
+  ctx.globalAlpha=0.5;
+  ctx.strokeStyle=dark?'#221C15':'#BFA376';
+  ctx.lineWidth=22;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+  ctx.globalAlpha=0.32;
+  ctx.strokeStyle=dark?'#16120D':'#A98D63';
+  ctx.lineWidth=11;
+  ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+  ctx.globalAlpha=1;
+  /* 飞散的沙粒 */
+  var dx=x1-x0,dy=y1-y0,len=Math.sqrt(dx*dx+dy*dy)||1;
+  var n=Math.min(16,Math.round(len/3));
+  for(var i=0;i<n;i++){
+    var t=Math.random();
+    var px=x0+dx*t+(Math.random()-0.5)*22,py=y0+dy*t+(Math.random()-0.5)*22;
+    ctx.fillStyle=dark?'rgba(226,210,172,'+(0.18+Math.random()*0.3)+')'
+                      :'rgba(122,98,62,'+(0.18+Math.random()*0.3)+')';
+    ctx.beginPath(); ctx.arc(px,py,0.7+Math.random()*1.5,0,6.2832); ctx.fill();
+  }
+}
+function sdFrame(){
+  /* 只需要保持一个极轻的呼吸感：偶尔飘一点沙 */
+  var cv=document.getElementById('sdCanvas');
+  var ctx=cv.getContext('2d');
+  sdT++;
+  if(sdT%22===0){
+    var W=cv.width,H=cv.height,dark=isDark();
+    for(var i=0;i<6;i++){
+      ctx.fillStyle=dark?'rgba(230,215,180,.10)':'rgba(150,124,82,.12)';
+      ctx.fillRect(Math.random()*W,Math.random()*H,1.4,1.4);
+    }
+  }
+  sdRAF=requestAnimationFrame(sdFrame);
+}
+function sdStop(){ if(sdRAF){ cancelAnimationFrame(sdRAF); sdRAF=0; } sdDown=false; sdLast=null; }
+function sdInit(){
+  var cv=document.getElementById('sdCanvas');
+  function pos(e){ return cvXY(cv,e); }
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault(); audioInit();
+    sdDown=true; sdLast=pos(e);
+    S.sand.n=(S.sand.n||0)+1;
+    save();
+  });
+  cv.addEventListener('pointermove',function(e){
+    if(!sdDown) return;
+    e.preventDefault();
+    var p=pos(e);
+    if(sdLast){
+      sdStroke(sdLast.x,sdLast.y,p.x,p.y);
+      var now=Date.now();
+      if(now-sdHissT>130){ sdHissT=now; hiss(); }
+    }
+    sdLast=p;
+  });
+  window.addEventListener('pointerup',function(){ sdDown=false; sdLast=null; });
+  window.addEventListener('pointercancel',function(){ sdDown=false; sdLast=null; });
+  document.getElementById('sdClear').addEventListener('click',function(){ sdFill(); });
+  window.addEventListener('resize',function(){
+    if(cur==='sand'){ fitCanvas(cv); sdFill(); }
+  });
+}
+ENTER.sand=function(){
+  var cv=document.getElementById('sdCanvas');
+  fitCanvas(cv); sdFill();
+  if(!sdRAF) sdFrame();
+};
+LEAVE.sand=sdStop;
+
+/* ================= 放孔明灯 ================= */
+var ltLamps=[],ltRAF=0,ltStars=[],ltT=0;
+function ltSeedStars(){
+  ltStars=[];
+  var cv=document.getElementById('ltCanvas');
+  var W=cv.width||360,H=cv.height||520;
+  for(var i=0;i<80;i++){
+    ltStars.push({x:Math.random()*W,y:Math.random()*H*0.75,
+      r:Math.random()<0.8?0.8:1.6,ph:Math.random()*6.28});
+  }
+}
+var LT_TXT=['平安','顺利','早点睡','想你了','慢慢来','会好的','别急','回家'];
+function ltFrame(){
+  var cv=document.getElementById('ltCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height,dark=isDark();
+  ltT++;
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#0F1420'); g.addColorStop(0.6,'#1B2230'); g.addColorStop(1,'#2A241F'); }
+  else{ g.addColorStop(0,'#B9C4D4'); g.addColorStop(0.6,'#D8D2C6'); g.addColorStop(1,'#F0E7D6'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  /* 星 */
+  for(var i=0;i<ltStars.length;i++){
+    var s=ltStars[i];
+    var tw=0.55+Math.sin(ltT*0.03+s.ph)*0.35;
+    ctx.fillStyle=(dark?'rgba(240,238,225,':'rgba(255,255,255,')+(tw*0.8).toFixed(2)+')';
+    ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,6.2832); ctx.fill();
+  }
+  /* 地平线 */
+  ctx.fillStyle=dark?'rgba(10,12,18,.9)':'rgba(120,110,95,.35)';
+  ctx.beginPath();
+  ctx.moveTo(0,H);
+  for(var x=0;x<=W;x+=30) ctx.lineTo(x,H-42-Math.sin(x*0.012)*16);
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+  /* 灯 */
+  for(i=ltLamps.length-1;i>=0;i--){
+    var l=ltLamps[i];
+    l.ph+=0.014;
+    l.y-=l.sp;
+    l.x+=Math.sin(l.ph)*0.55;
+    if(l.y<-60){ ltLamps.splice(i,1); continue; }
+    var a=Math.min(1,l.y/(-160+H)*1.0+0.25);
+    a=Math.max(0.15,Math.min(1,a));
+    ctx.save();
+    ctx.translate(l.x,l.y);
+    /* 光晕 */
+    var rg=ctx.createRadialGradient(0,0,2,0,0,52*l.sc);
+    rg.addColorStop(0,'rgba(255,205,130,'+(0.42*a).toFixed(3)+')');
+    rg.addColorStop(1,'rgba(255,180,90,0)');
+    ctx.fillStyle=rg;
+    ctx.beginPath(); ctx.arc(0,0,52*l.sc,0,6.2832); ctx.fill();
+    /* 灯身 */
+    var gh=ctx.createLinearGradient(0,-16*l.sc,0,18*l.sc);
+    gh.addColorStop(0,'rgba(255,232,190,'+(0.95*a).toFixed(3)+')');
+    gh.addColorStop(1,'rgba(240,150,80,'+(0.9*a).toFixed(3)+')');
+    ctx.fillStyle=gh;
+    ctx.beginPath();
+    ctx.moveTo(-11*l.sc,14*l.sc);
+    ctx.quadraticCurveTo(-14*l.sc,-6*l.sc,0,-16*l.sc);
+    ctx.quadraticCurveTo(14*l.sc,-6*l.sc,11*l.sc,14*l.sc);
+    ctx.closePath(); ctx.fill();
+    /* 竖纹 */
+    ctx.strokeStyle='rgba(190,110,50,'+(0.35*a).toFixed(3)+')';
+    ctx.lineWidth=0.8;
+    for(var k=-1;k<=1;k++){
+      ctx.beginPath();
+      ctx.moveTo(k*6*l.sc,13*l.sc);
+      ctx.lineTo(k*4.2*l.sc,-13*l.sc);
+      ctx.stroke();
+    }
+    /* 底口火光 */
+    ctx.fillStyle='rgba(255,190,110,'+(0.85*a).toFixed(3)+')';
+    ctx.beginPath(); ctx.ellipse(0,13*l.sc,5*l.sc,2.2*l.sc,0,0,6.2832); ctx.fill();
+    /* 字 */
+    if(l.txt){
+      ctx.fillStyle='rgba(120,70,30,'+(0.75*a).toFixed(3)+')';
+      ctx.font=(9*l.sc).toFixed(1)+'px sans-serif';
+      ctx.textAlign='center';
+      ctx.fillText(l.txt,0,4*l.sc);
+    }
+    ctx.restore();
+  }
+  ltRAF=requestAnimationFrame(ltFrame);
+}
+function ltStop(){ if(ltRAF){ cancelAnimationFrame(ltRAF); ltRAF=0; } }
+function ltInit(){
+  var cv=document.getElementById('ltCanvas');
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault(); audioInit();
+    var p=cvXY(cv,e);
+    ltLamps.push({x:p.x,y:p.y,sp:0.55+Math.random()*0.5,
+      ph:Math.random()*6.28,sc:0.72+Math.random()*0.5,
+      txt:LT_TXT[Math.floor(Math.random()*LT_TXT.length)]});
+    S.lantern.n=(S.lantern.n||0)+1; save();
+    document.getElementById('ltStat').textContent='点一下天，放一盏灯 · 已放 '+S.lantern.n+' 盏';
+    chime();
+    if(S.lantern.n%5===0) refreshHome();
+  });
+  document.getElementById('ltClear').addEventListener('click',function(){ ltLamps=[]; });
+  window.addEventListener('resize',function(){
+    if(cur==='lantern'){ fitCanvas(cv); ltSeedStars(); }
+  });
+}
+ENTER.lantern=function(){
+  var cv=document.getElementById('ltCanvas');
+  fitCanvas(cv); ltSeedStars();
+  document.getElementById('ltStat').textContent='点一下天，放一盏灯 · 已放 '+(S.lantern.n||0)+' 盏';
+  if(!ltRAF) ltFrame();
+};
+LEAVE.lantern=ltStop;
+
+
+/* ================= 弹窗 ================= */
+function modalInit(){
+  document.querySelectorAll('[data-open]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-open');
+      var mk=document.getElementById('mk'+k.charAt(0).toUpperCase()+k.slice(1));
+      if(mk){ mk.classList.add('on'); aboutRefresh(); }
+    });
+  });
+  document.querySelectorAll('[data-close]').forEach(function(b){
+    b.addEventListener('click',function(){
+      b.closest('.mask').classList.remove('on');
+    });
+  });
+  document.querySelectorAll('.mask').forEach(function(m){
+    m.addEventListener('click',function(e){ if(e.target===m) m.classList.remove('on'); });
+  });
+  document.getElementById('btnTheme').addEventListener('click',toggleTheme);
+}
+function aboutRefresh(){
+  var set=function(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; };
+  set('abPops',S.pops+' 个');
+  set('abBreathe',Math.floor(S.breatheSec/60)+' 分钟');
+  set('abRadio',S.radio.score);
+  set('abQuiz',S.poem.score+' / '+S.idiom.score);
+  set('abGames',S.block.clears+' 行 / '+S.plane.km.toFixed(1)+' km');
+}
+function backupInit(){
+  document.getElementById('btnExport').addEventListener('click',function(){
+    var blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='shixian-settings.json';
+    a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); },800);
+  });
+  var fi=document.getElementById('fileImport');
+  document.getElementById('btnImport').addEventListener('click',function(){ fi.click(); });
+  fi.addEventListener('change',function(){
+    var f=fi.files&&fi.files[0];
+    if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      try{
+        var d=JSON.parse(r.result);
+        if(d&&typeof d==='object'){
+          ['theme'].forEach(function(k){ if(d[k]) S[k]=d[k]; });
+          if(d.vol) S.vol=Object.assign(S.vol,d.vol);
+          ['pops','breatheSec'].forEach(function(k){ if(typeof d[k]==='number') S[k]=d[k]; });
+          ['radio','qask','poem','idiom','block','plane','puzzle','raid','pool','pin',
+           'ripple','sand','lantern','story'].forEach(function(k){
+            if(d[k]&&typeof d[k]==='object') S[k]=Object.assign(S[k],d[k]);
+          });
+          save(); applyTheme(); aboutRefresh(); refreshHome();
+          windInitSync();
+          alert('设置已导入');
+        }
+      }catch(e){ alert('文件不是有效的设置 JSON'); }
+    };
+    r.readAsText(f);
+    fi.value='';
+  });
+}
+/* ================= 安静方块 ================= */
+var BK_COLS=10,BK_ROWS=20,BK_CELL=28;
+var bkGrid=[],bkPiece=null,bkTimer=0,bkRAF=0,bkPaused=false,bkNoiseOn=false;
+var BK_PIECES=[
+  {c:'#8FA3B8',cells:[[0,0],[1,0],[2,0],[3,0]]},
+  {c:'#E8A33D',cells:[[0,0],[1,0],[0,1],[1,1]]},
+  {c:'#7FA98C',cells:[[1,0],[0,1],[1,1],[2,1]]},
+  {c:'#D98E8E',cells:[[2,0],[0,1],[1,1],[2,1]]},
+  {c:'#B39BC8',cells:[[0,0],[1,0],[1,1],[2,1]]},
+  {c:'#6FA8B8',cells:[[0,0],[0,1],[1,1],[2,1]]},
+  {c:'#C8A76F',cells:[[0,1],[1,1],[2,1],[2,0]]}
+];
+function bkNewGrid(){
+  bkGrid=[];
+  for(var r=0;r<BK_ROWS;r++){ bkGrid.push(new Array(BK_COLS).fill(null)); }
+}
+function bkRandPiece(){
+  var p=BK_PIECES[Math.floor(Math.random()*BK_PIECES.length)];
+  return {c:p.c,cells:p.cells.map(function(c){return [c[0],c[1]];}),
+    x:Math.floor((BK_COLS-4)/2),y:0};
+}
+function bkRotate(p){
+  var maxX=0,maxY=0;
+  p.cells.forEach(function(c){ maxX=Math.max(maxX,c[0]); maxY=Math.max(maxY,c[1]); });
+  var nc=p.cells.map(function(c){ return [maxY-c[1],c[0]]; });
+  return nc;
+}
+function bkFits(p,cells){
+  for(var i=0;i<cells.length;i++){
+    var x=p.x+cells[i][0],y=p.y+cells[i][1];
+    if(x<0||x>=BK_COLS||y>=BK_ROWS) return false;
+    if(y>=0&&bkGrid[y][x]) return false;
+  }
+  return true;
+}
+function bkLock(){
+  var overflow=true;
+  bkPiece.cells.forEach(function(c){
+    var x=bkPiece.x+c[0],y=bkPiece.y+c[1];
+    if(y>=0&&y<BK_ROWS&&x>=0&&x<BK_COLS){ bkGrid[y][x]=bkPiece.c; overflow=false; }
+  });
+  if(overflow){
+    /* 顶部堵死 → 温柔托底，不是 Game Over */
+    bkGrid.splice(0,2);
+    bkGrid.push(new Array(BK_COLS).fill(null));
+    bkGrid.push(new Array(BK_COLS).fill(null));
+    S.block.helps++; save();
+    document.getElementById('bkStat').textContent='已消 '+S.block.clears+' 行 · 温柔托底 '+S.block.helps+' 次（它帮你把塔垫矮了两格）';
+    thud();
+    refreshSide();
+  }
+  bkClearLines();
+  bkPiece=bkRandPiece();
+  if(!bkFits(bkPiece,bkPiece.cells)){
+    bkPiece.y=-2;
+    if(!bkFits(bkPiece,bkPiece.cells)){
+      /* 再兜底 */
+      bkGrid.splice(0,2);
+      bkGrid.push(new Array(BK_COLS).fill(null));
+      bkGrid.push(new Array(BK_COLS).fill(null));
+      S.block.helps++; save();
+    }
+  }
+}
+function bkClearLines(){
+  var kept=0;
+  for(var r=BK_ROWS-1;r>=0;r--){
+    var full=bkGrid[r].every(function(c){ return c; });
+    if(full){
+      bkGrid.splice(r,1);
+      bkGrid.unshift(new Array(BK_COLS).fill(null));
+      kept++; r++;
+    }
+  }
+  if(kept>0){
+    S.block.clears+=kept; save();
+    ding();
+    document.getElementById('bkStat').textContent='已消 '+S.block.clears+' 行 · 温柔托底 '+S.block.helps+' 次';
+    refreshSide();
+  }
+}
+function bkMove(dx){
+  if(!bkPiece||bkPaused) return;
+  if(bkFits(bkPiece,bkPiece.cells.map(function(c){return [c[0]+dx,c[1]];}))) bkPiece.x+=dx;
+}
+function bkRot(){
+  if(!bkPiece||bkPaused) return;
+  var nc=bkRotate(bkPiece);
+  if(bkFits(bkPiece,nc)) bkPiece.cells=nc;
+}
+function bkStep(){
+  if(bkPaused||!bkPiece) return;
+  if(bkFits(bkPiece,bkPiece.cells.map(function(c){return [c[0],c[1]+1];}))){
+    bkPiece.y++;
+  }else{
+    bkLock();
+  }
+}
+function bkDraw(){
+  var cv=document.getElementById('bkCanvas');
+  var ctx=cv.getContext('2d');
+  var dark=document.documentElement.getAttribute('data-theme')!=='light';
+  ctx.fillStyle=dark?'#26241F':'#F6F1E6';
+  ctx.fillRect(0,0,cv.width,cv.height);
+  ctx.strokeStyle=dark?'rgba(255,255,255,.05)':'rgba(0,0,0,.06)';
+  for(var x=1;x<BK_COLS;x++){ ctx.beginPath(); ctx.moveTo(x*BK_CELL,0); ctx.lineTo(x*BK_CELL,cv.height); ctx.stroke(); }
+  for(var r=0;r<BK_ROWS;r++){
+    for(var c=0;c<BK_COLS;c++){
+      if(bkGrid[r][c]){
+        ctx.fillStyle=bkGrid[r][c];
+        bkCell(ctx,c,r);
+      }
+    }
+  }
+  if(bkPiece){
+    bkPiece.cells.forEach(function(cc){
+      var x=bkPiece.x+cc[0],y=bkPiece.y+cc[1];
+      if(y>=0){ ctx.fillStyle=bkPiece.c; bkCell(ctx,x,y); }
+    });
+  }
+  if(bkPaused){
+    ctx.fillStyle=dark?'rgba(0,0,0,.55)':'rgba(240,235,225,.7)';
+    ctx.fillRect(0,0,cv.width,cv.height);
+    ctx.fillStyle=dark?'#EDE7DD':'#3A342B';
+    ctx.font='16px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('歇一会儿 · 已暂停',cv.width/2,cv.height/2);
+  }
+}
+function bkCell(ctx,x,y){
+  var px=x*BK_CELL,py=y*BK_CELL;
+  ctx.globalAlpha=0.9;
+  ctx.fillRect(px+1,py+1,BK_CELL-2,BK_CELL-2);
+  ctx.globalAlpha=0.35;
+  ctx.fillStyle='#fff';
+  ctx.fillRect(px+1,py+1,BK_CELL-2,3);
+  ctx.globalAlpha=1;
+}
+function bkLoop(){
+  bkDraw();
+  bkRAF=requestAnimationFrame(bkLoop);
+}
+function bkStopAll(){
+  if(bkTimer){ clearInterval(bkTimer); bkTimer=0; }
+  if(bkRAF){ cancelAnimationFrame(bkRAF); bkRAF=0; }
+  if(bkNoiseOn){ bgmRain(false); }
+}
+function bkInit(){
+  bkNewGrid();
+  bkPiece=bkRandPiece();
+  document.getElementById('bkStat').textContent='已消 '+S.block.clears+' 行 · 温柔托底 '+S.block.helps+' 次';
+  document.querySelectorAll('[data-bk]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-bk');
+      if(k==='left') bkMove(-1);
+      if(k==='right') bkMove(1);
+      if(k==='rot') bkRot();
+      if(k==='drop'){ while(bkFits(bkPiece,bkPiece.cells.map(function(c){return [c[0],c[1]+1];}))) bkPiece.y++; bkLock(); }
+    });
+  });
+  document.getElementById('bkPause').addEventListener('click',function(){
+    bkPaused=!bkPaused;
+    this.textContent=bkPaused?'继续':'暂停';
+    this.classList.toggle('on',bkPaused);
+  });
+  document.getElementById('bkNew').addEventListener('click',function(){
+    bkNewGrid(); bkPiece=bkRandPiece(); bkPaused=false;
+    document.getElementById('bkPause').textContent='暂停';
+  });
+  document.getElementById('bkNoise').addEventListener('click',function(){
+    bkNoiseOn=!bkNoiseOn;
+    this.textContent=bkNoiseOn?'🌧 雨声背景：开':'🌧 雨声背景：关';
+    this.classList.toggle('on',bkNoiseOn);
+    bgmRain(bkNoiseOn);
+  });
+  window.addEventListener('keydown',function(e){
+    if(cur!=='block') return;
+    if(e.key==='ArrowLeft'){ bkMove(-1); e.preventDefault(); }
+    if(e.key==='ArrowRight'){ bkMove(1); e.preventDefault(); }
+    if(e.key==='ArrowUp'){ bkRot(); e.preventDefault(); }
+    if(e.key==='ArrowDown'){ bkStep(); e.preventDefault(); }
+  });
+  /* 定时器与渲染循环交给 ENTER/LEAVE 管理，不在后台常驻 */
+}
+ENTER.block=function(){
+  if(!bkTimer){ bkTimer=setInterval(bkStep,700); }
+  if(!bkRAF) bkLoop();
+  if(bkNoiseOn) bgmRain(true);
+};
+LEAVE.block=bkStopAll;
+
+/* ================= 纸飞机 ================= */
+var plX=70,plY=240,plVy=0,plKm=0,plMood=0,plRAF=0,plHold=false;
+var plTrail=[],plMoods=[],plClouds=[],plT=0;
+function plReset(){
+  plX=70; plY=240; plVy=0; plTrail=[]; plMoods=[]; plClouds=[];
+  for(var i=0;i<3;i++) plMoodSpawn();
+  for(var i=0;i<3;i++) plCloudSpawn();
+  plHud();
+}
+function plMoodSpawn(){
+  var cv=document.getElementById('plCanvas');
+  plMoods.push({x:cv.width-30,y:40+Math.random()*(cv.height-90),ph:Math.random()*6.28});
+}
+function plCloudSpawn(){
+  var cv=document.getElementById('plCanvas');
+  plClouds.push({x:cv.width+40,y:60+Math.random()*(cv.height-120),
+    r:26+Math.random()*20,vx:-(0.6+Math.random()*0.7)});
+}
+function plHud(){
+  document.getElementById('plKm').textContent=plKm.toFixed(1);
+  document.getElementById('plMood').textContent=plMood;
+}
+function plFrame(){
+  var cv=document.getElementById('plCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height;
+  var dark=document.documentElement.getAttribute('data-theme')!=='light';
+  /* 天空 */
+  var g=ctx.createLinearGradient(0,0,0,H);
+  if(dark){ g.addColorStop(0,'#2A2E38'); g.addColorStop(1,'#26241F'); }
+  else{ g.addColorStop(0,'#DCE6EE'); g.addColorStop(1,'#F6F1E6'); }
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  plT++;
+  /* 远山 */
+  ctx.fillStyle=dark?'rgba(255,255,255,.05)':'rgba(90,80,60,.08)';
+  ctx.beginPath(); ctx.moveTo(0,H);
+  for(var x=0;x<=W;x+=40) ctx.lineTo(x,H-60-Math.sin(x*0.01+1)*30-Math.sin(x*0.03)*14);
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fill();
+  /* 云 */
+  plClouds.forEach(function(c){
+    c.x+=c.vx;
+    if(c.x<-c.r*3) { c.x=W+c.r*3; c.y=60+Math.random()*(H-120); }
+    ctx.fillStyle=dark?'rgba(220,225,230,.14)':'rgba(255,255,255,.75)';
+    ctx.beginPath();
+    ctx.arc(c.x,c.y,c.r,0,6.2832);
+    ctx.arc(c.x+c.r*0.8,c.y+c.r*0.15,c.r*0.75,0,6.2832);
+    ctx.arc(c.x-c.r*0.7,c.y+c.r*0.2,c.r*0.65,0,6.2832);
+    ctx.fill();
+  });
+  /* 好心情 */
+  plMoods.forEach(function(m,i){
+    m.ph+=0.05;
+    var y=m.y+Math.sin(m.ph)*8;
+    var dx=plX+14-m.x,dy=plY-m.y;
+    if(dx*dx+dy*dy<26*26){
+      plMood+=5; plMoods.splice(i,1); plMoodSpawn();
+      ding(); plHud(); save();
+    }
+    ctx.fillStyle='#E8A33D';
+    ctx.beginPath(); ctx.arc(m.x,y,4,0,6.2832); ctx.fill();
+    ctx.globalAlpha=0.3;
+    ctx.beginPath(); ctx.arc(m.x,y,8+Math.sin(m.ph)*2,0,6.2832); ctx.fill();
+    ctx.globalAlpha=1;
+  });
+  /* 飞机物理 */
+  if(plHold) plVy-=0.42; else plVy+=0.09;
+  plVy=Math.max(-3.2,Math.min(3.2,plVy));
+  plY+=plVy;
+  if(plY<14){ plY=14; plVy=0.4; }
+  if(plY>H-20){ plY=H-20; plVy=-0.4; }
+  plKm+=0.012;
+  /* 撞云：弹开，不坠落 */
+  plClouds.forEach(function(c){
+    var dx=plX-c.x,dy=plY-c.y;
+    if(dx*dx+dy*dy<c.r*c.r){
+      plVy=-plVy*0.8-0.6;
+      plX-=6;
+      plMood=Math.max(0,plMood-2);
+      thud(); plHud(); save();
+    }
+  });
+  plX+=0.15;
+  if(plX>W-30) plX=30;
+  /* 拖尾 */
+  plTrail.push({x:plX,y:plY,life:1});
+  if(plTrail.length>26) plTrail.shift();
+  plTrail.forEach(function(t,i){
+    t.life-=0.035;
+    ctx.globalAlpha=Math.max(0,t.life*0.5);
+    ctx.fillStyle=dark?'#EDE7DD':'#8a7f6d';
+    ctx.beginPath(); ctx.arc(t.x-6-i*1.2,t.y+Math.sin(i*0.4)*3,3*(i/plTrail.length)+1,0,6.2832); ctx.fill();
+    ctx.globalAlpha=1;
+  });
+  /* 飞机 */
+  ctx.save();
+  ctx.translate(plX,plY);
+  ctx.rotate(Math.max(-0.5,Math.min(0.5,plVy*0.22)));
+  ctx.fillStyle=dark?'#F2EAD9':'#5a4f3d';
+  ctx.beginPath();
+  ctx.moveTo(16,0); ctx.lineTo(-10,-9); ctx.lineTo(-4,0); ctx.lineTo(-10,9);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+  if(plT%600===0) plHud();
+  plRAF=requestAnimationFrame(plFrame);
+}
+function plStop(){
+  if(plRAF){ cancelAnimationFrame(plRAF); plRAF=0; }
+  plHold=false;
+}
+function plInit(){
+  var cv=document.getElementById('plCanvas');
+  function down(e){ e.preventDefault(); plHold=true; audioInit(); }
+  function up(){ plHold=false; }
+  cv.addEventListener('pointerdown',down);
+  window.addEventListener('pointerup',up);
+  window.addEventListener('pointercancel',up);
+  document.getElementById('plNew').addEventListener('click',function(){ plReset(); });
+  plReset();
+}
+ENTER.plane=function(){ if(!plRAF) plFrame(); };
+LEAVE.plane=plStop;
+
+/* ================= 一杆高尔夫 ================= */
+var gfHole=1,gfStrokes=0,gfTotal=0,gfWind=0,gfCharging=false,gfPower=0,gfDir=1;
+var gfBall=null,gfCup=null,gfHazards=[],gfMoving=false,gfRAF=0,gfDone=false,gfTrail=[];
+function gfLevel(){
+  var cv=document.getElementById('gfCanvas');
+  var W=cv.width,H=cv.height;
+  gfCup={x:60+Math.random()*(W-120),y:70+Math.random()*(H-160)};
+  gfBall={x:W/2+(Math.random()-0.5)*80,y:H-60,vx:0,vy:0};
+  gfHazards=[];
+  var n=2+Math.floor(Math.random()*2);
+  for(var i=0;i<n;i++){
+    gfHazards.push({x:50+Math.random()*(W-100),y:70+Math.random()*(H-180),
+      r:24+Math.random()*16,type:Math.random()<0.5?'water':'sand',
+      sa:[0,1,2,3,4,5,6,7].map(function(){ return Math.random()*6.2832; }),
+      sr:[0.3,0.5,0.7,0.85,0.45,0.6,0.8,0.35]});
+  }
+  gfWind=Math.round((Math.random()-0.5)*4);
+  gfStrokes=0; gfTrail=[];
+  gfStat();
+  var w=document.getElementById('gfWind');
+  w.textContent=(gfWind===0?'无风':(gfWind>0?'东风 '+gfWind+' 级':'西风 '+(-gfWind)+' 级'));
+  document.getElementById('gfHint').textContent='新的一洞。按住画面蓄力，松开击球——掉水坑不罚杆，捡出来重打就是。';
+}
+function gfStat(){
+  document.getElementById('gfHole').textContent=gfHole;
+  document.getElementById('gfStrokes').textContent=gfStrokes;
+  document.getElementById('gfTotal').textContent=gfTotal;
+  if(gfBall&&gfCup){
+    var dx=gfCup.x-gfBall.x,dy=gfCup.y-gfBall.y;
+    document.getElementById('gfDist').textContent=Math.round(Math.sqrt(dx*dx+dy*dy)/3.5);
+  }
+}
+/* ---- 高尔夫渲染语言 ---- */
+function gfArrow(ctx,x,y,dir,dark){
+  ctx.fillStyle=dark?'rgba(190,215,235,.55)':'rgba(70,105,140,.55)';
+  ctx.beginPath();
+  if(dir>0){ ctx.moveTo(x,y-4); ctx.lineTo(x+9,y); ctx.lineTo(x,y+4); }
+  else{ ctx.moveTo(x+9,y-4); ctx.lineTo(x,y); ctx.lineTo(x+9,y+4); }
+  ctx.closePath(); ctx.fill();
+}
+function gfDrawFairway(ctx,W,H,dark){
+  ctx.fillStyle=dark?'#31402F':'#D9E4CC';
+  ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=dark?'#374930':'#E2EBD6';
+  for(var y=0;y<H;y+=34) ctx.fillRect(0,y,W,17);
+  /* 远树线 */
+  ctx.fillStyle=dark?'rgba(22,32,24,.6)':'rgba(122,148,112,.5)';
+  for(var t=0;t<15;t++){
+    var tx=(t*41+((t*13)%23))%(W+44)-22;
+    ctx.beginPath(); ctx.arc(tx,5,12+((t*7)%9),0,6.2832); ctx.fill();
+  }
+}
+function gfDrawGreen(ctx,x,y,dark){
+  ctx.fillStyle=dark?'rgba(126,166,112,.30)':'rgba(158,196,136,.55)';
+  ctx.beginPath(); ctx.ellipse(x,y,54,40,0,0,6.2832); ctx.fill();
+  ctx.strokeStyle=dark?'rgba(180,205,160,.28)':'rgba(108,148,92,.35)';
+  ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.ellipse(x,y,54,40,0,0,6.2832); ctx.stroke();
+  ctx.fillStyle='#F3EDDF';
+  ctx.beginPath(); ctx.ellipse(x,y,14,10,0,0,6.2832); ctx.fill();
+  ctx.fillStyle='#16130F';
+  ctx.beginPath(); ctx.ellipse(x,y,10,7,0,0,6.2832); ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,.4)';
+  ctx.beginPath(); ctx.ellipse(x,y-1.2,7,4.5,0,0,6.2832); ctx.fill();
+}
+function gfDrawFlag(ctx,x,y,dark,t){
+  ctx.strokeStyle=dark?'#D8D2C4':'#7a7263';
+  ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y-34); ctx.stroke();
+  var wob=Math.sin(t/280+x)*1.6;
+  var w=10+gfWind*1.2+wob;
+  ctx.fillStyle='#D94848';
+  ctx.beginPath();
+  ctx.moveTo(x,y-34);
+  ctx.lineTo(x+w,y-29+Math.sin(t/200+x)*0.9);
+  ctx.lineTo(x,y-23);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle=dark?'#E8E2D4':'#8a8272';
+  ctx.beginPath(); ctx.arc(x,y-35,2,0,6.2832); ctx.fill();
+}
+function gfDrawTee(ctx,x,y,dark){
+  ctx.fillStyle=dark?'rgba(160,130,90,.32)':'rgba(190,160,115,.6)';
+  ctx.beginPath(); ctx.ellipse(x,y+9,16,7,0,0,6.2832); ctx.fill();
+  ctx.strokeStyle=dark?'rgba(205,175,130,.4)':'rgba(150,120,80,.5)';
+  ctx.lineWidth=1;
+  ctx.beginPath(); ctx.ellipse(x,y+9,16,7,0,0,6.2832); ctx.stroke();
+}
+function gfDrawHazard(ctx,h,dark,t){
+  if(h.type==='water'){
+    var g=ctx.createLinearGradient(h.x-h.r,h.y-h.r*0.66,h.x+h.r,h.y+h.r*0.66);
+    g.addColorStop(0,dark?'rgba(74,116,152,.65)':'rgba(110,158,198,.6)');
+    g.addColorStop(1,dark?'rgba(52,86,120,.7)':'rgba(84,132,175,.65)');
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.ellipse(h.x,h.y,h.r,h.r*0.62,0,0,6.2832); ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,.26)';
+    ctx.lineWidth=1.2;
+    for(var i=0;i<2;i++){
+      var off=Math.sin(t/600+i*2+h.x)*3;
+      ctx.beginPath(); ctx.ellipse(h.x,h.y+off-4+i*5,h.r*0.55,h.r*0.22,0,0,6.2832); ctx.stroke();
+    }
+  }else{
+    ctx.fillStyle=dark?'rgba(196,176,132,.4)':'rgba(232,214,168,.85)';
+    ctx.beginPath(); ctx.ellipse(h.x,h.y,h.r,h.r*0.62,0,0,6.2832); ctx.fill();
+    ctx.fillStyle=dark?'rgba(220,205,165,.35)':'rgba(190,170,125,.6)';
+    for(var s=0;s<8;s++){
+      ctx.beginPath();
+      ctx.arc(h.x+Math.cos(h.sa[s])*h.sr[s]*h.r*0.8,h.y+Math.sin(h.sa[s])*h.sr[s]*h.r*0.5,1.1,0,6.2832);
+      ctx.fill();
+    }
+  }
+}
+function gfHit(){
+  var p=gfPower/100;
+  var ang=Math.atan2(gfCup.y-gfBall.y,gfCup.x-gfBall.x)+(Math.random()-0.5)*0.42;
+  var sp=2+p*9;
+  gfBall.vx=Math.cos(ang)*sp+gfWind*0.12;
+  gfBall.vy=Math.sin(ang)*sp;
+  gfStrokes++;
+  gfStat();
+  thud();
+}
+function gfFrame(){
+  var cv=document.getElementById('gfCanvas');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height;
+  var dark=document.documentElement.getAttribute('data-theme')!=='light';
+  var t=Date.now();
+  gfDrawFairway(ctx,W,H,dark);
+  /* 障碍 */
+  gfHazards.forEach(function(h){ gfDrawHazard(ctx,h,dark,t); });
+  /* 果岭 + 旗 */
+  gfDrawGreen(ctx,gfCup.x,gfCup.y,dark);
+  gfDrawFlag(ctx,gfCup.x,gfCup.y,dark,t);
+  /* 发球台 */
+  gfDrawTee(ctx,gfBall.x,gfBall.y,dark);
+  /* 风向箭头 */
+  var n=Math.abs(gfWind);
+  for(var i=0;i<n;i++) gfArrow(ctx,10+i*15,16+Math.sin(t/400+i)*2,gfWind>0?1:-1,dark);
+  /* 击球轨迹 */
+  if(gfTrail.length){
+    for(var i=0;i<gfTrail.length;i++){
+      var p=gfTrail[i];
+      ctx.fillStyle='rgba(250,246,236,'+(0.04+0.14*i/gfTrail.length).toFixed(3)+')';
+      ctx.beginPath(); ctx.arc(p.x,p.y,2.4,0,6.2832); ctx.fill();
+    }
+  }
+  /* 瞄准线 + 球杆 */
+  if(!gfMoving&&!gfDone){
+    var ang=Math.atan2(gfCup.y-gfBall.y,gfCup.x-gfBall.x);
+    ctx.setLineDash([5,6]);
+    ctx.strokeStyle=dark?'rgba(240,235,225,.3)':'rgba(60,54,44,.3)';
+    ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(gfBall.x,gfBall.y);
+    ctx.lineTo(gfBall.x+Math.cos(ang)*44,gfBall.y+Math.sin(ang)*44);
+    ctx.stroke(); ctx.setLineDash([]);
+    var cang=ang+Math.PI*0.82;
+    ctx.strokeStyle=dark?'#C9C2B2':'#8d8574';
+    ctx.lineWidth=2.5;
+    ctx.beginPath();
+    ctx.moveTo(gfBall.x-Math.cos(cang)*8,gfBall.y-Math.sin(cang)*8);
+    ctx.lineTo(gfBall.x-Math.cos(cang)*30,gfBall.y-Math.sin(cang)*30);
+    ctx.stroke();
+    ctx.strokeStyle=dark?'#9aa0a6':'#6d6a63';
+    ctx.lineWidth=4;
+    ctx.beginPath();
+    ctx.moveTo(gfBall.x-Math.cos(cang)*8-Math.sin(cang)*3,gfBall.y-Math.sin(cang)*8+Math.cos(cang)*3);
+    ctx.lineTo(gfBall.x-Math.cos(cang)*8+Math.sin(cang)*3,gfBall.y-Math.sin(cang)*8-Math.cos(cang)*3);
+    ctx.stroke();
+  }
+  /* 球物理 */
+  if(gfMoving){
+    gfBall.vx*=0.985; gfBall.vy*=0.985;
+    gfBall.x+=gfBall.vx; gfBall.y+=gfBall.vy;
+    gfTrail.push({x:gfBall.x,y:gfBall.y});
+    if(gfTrail.length>26) gfTrail.shift();
+    if(gfBall.x<8||gfBall.x>W-8){ gfBall.vx*=-0.6; gfBall.x=Math.max(8,Math.min(W-8,gfBall.x)); }
+    if(gfBall.y<8||gfBall.y>H-8){ gfBall.vy*=-0.6; gfBall.y=Math.max(8,Math.min(H-8,gfBall.y)); }
+    gfHazards.forEach(function(h){
+      var ddx=gfBall.x-h.x,ddy=gfBall.y-h.y;
+      if(ddx*ddx+ddy*ddy<h.r*h.r&&Math.abs(gfBall.vx)+Math.abs(gfBall.vy)<1.4){
+        gfBall.vx=0; gfBall.vy=0;
+        gfMoving=false;
+        gfStat();
+        document.getElementById('gfHint').textContent=h.type==='water'
+          ?'球掉进水坑了——按规则罚一杆，不过这里不罚：捡出来放在边上，再来。'
+          :'球陷进沙坑了——不罚杆，轻轻打出来。';
+      }
+    });
+    var cdx=gfBall.x-gfCup.x,cdy=gfBall.y-gfCup.y;
+    if(cdx*cdx+cdy*cdy<13*13){
+      gfMoving=false;
+      ding();
+      if(gfHole>=3){
+        gfDone=true;
+        document.getElementById('gfHint').textContent='三洞打完，一共 '+gfTotal+' 杆。没有标准杆，只有「下一杆更稳」。点「重新开局」再来。';
+      }else{
+        gfHole++; gfTotal+=gfStrokes;
+        setTimeout(gfLevel,600);
+        document.getElementById('gfHint').textContent='进洞！这一洞 '+gfStrokes+' 杆，去下一洞。';
+      }
+    }
+    if(Math.abs(gfBall.vx)+Math.abs(gfBall.vy)<0.06&&gfMoving){ gfMoving=false; gfStat(); }
+  }
+  /* 球（带影子和高光） */
+  ctx.fillStyle='rgba(0,0,0,.28)';
+  ctx.beginPath(); ctx.ellipse(gfBall.x+2,gfBall.y+7,6,3.4,0,0,6.2832); ctx.fill();
+  var bg=ctx.createRadialGradient(gfBall.x-2,gfBall.y-2,1,gfBall.x,gfBall.y,7);
+  bg.addColorStop(0,'#FFFFFF'); bg.addColorStop(1,'#D9D2C2');
+  ctx.fillStyle=bg;
+  ctx.beginPath(); ctx.arc(gfBall.x,gfBall.y,6.5,0,6.2832); ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.22)'; ctx.lineWidth=1; ctx.stroke();
+  /* 蓄力条 */
+  if(gfCharging){
+    gfPower+=gfDir*2.4;
+    if(gfPower>=100){ gfPower=100; gfDir=-1; }
+    if(gfPower<=0){ gfPower=0; gfDir=1; }
+    document.getElementById('gfPower').style.width=gfPower+'%';
+  }
+  gfRAF=requestAnimationFrame(gfFrame);
+}
+function gfStop(){
+  if(gfRAF){ cancelAnimationFrame(gfRAF); gfRAF=0; }
+  gfCharging=false; gfPower=0;
+  document.getElementById('gfPower').style.width='0%';
+}
+function gfInit(){
+  var cv=document.getElementById('gfCanvas');
+  cv.addEventListener('pointerdown',function(e){
+    e.preventDefault();
+    if(gfDone) return;
+    audioInit();
+    gfCharging=true; gfPower=0; gfDir=1;
+  });
+  window.addEventListener('pointerup',function(){
+    if(gfCharging){
+      gfCharging=false;
+      if(!gfMoving&&!gfDone){ gfHit(); gfMoving=true; }
+      document.getElementById('gfPower').style.width='0%';
+    }
+  });
+  document.getElementById('gfNew').addEventListener('click',function(){
+    gfHole=1; gfTotal=0; gfDone=false; gfLevel();
+  });
+  gfLevel();
+  /* 渲染循环交给 ENTER/LEAVE 管理 */
+}
+ENTER.golf=function(){ if(!gfRAF) gfFrame(); };
+LEAVE.golf=gfStop;
+
+/* ================= 静心拼图 ================= */
+var pzSize=3,pzTiles=[],pzMoves=0,pzImg='';
+function pzGenImage(){
+  var c=document.createElement('canvas');
+  c.width=c.height=300;
+  var x=c.getContext('2d');
+  var palettes=[
+    ['#3B3A5E','#B85C6E','#E8A33D','#F2E3C9'],
+    ['#22303C','#3E6B5C','#8FA3B8','#F2EAD9'],
+    ['#4A3428','#B87A1E','#D98E8E','#F7F2E8'],
+    ['#1F2A33','#5F7A99','#C8A76F','#EDE7DD']
+  ];
+  var pal=palettes[Math.floor(Math.random()*palettes.length)];
+  var g=x.createLinearGradient(0,0,0,300);
+  g.addColorStop(0,pal[0]); g.addColorStop(0.55,pal[1]); g.addColorStop(1,pal[2]);
+  x.fillStyle=g; x.fillRect(0,0,300,300);
+  /* 太阳/月亮 */
+  var cx=60+Math.random()*180,cy=60+Math.random()*100,r=26+Math.random()*18;
+  x.fillStyle=pal[3];
+  x.globalAlpha=0.9;
+  x.beginPath(); x.arc(cx,cy,r,0,6.2832); x.fill();
+  x.globalAlpha=0.25;
+  x.beginPath(); x.arc(cx,cy,r+16,0,6.2832); x.fill();
+  x.globalAlpha=1;
+  /* 山影 */
+  for(var l=0;l<2;l++){
+    x.fillStyle=l===0?'rgba(0,0,0,.28)':'rgba(0,0,0,.45)';
+    x.beginPath(); x.moveTo(0,300);
+    var base=210+l*36;
+    for(var px=0;px<=300;px+=30){
+      x.lineTo(px,base-Math.abs(Math.sin(px*0.013+l*2))*70-Math.sin(px*0.05+l)*12);
+    }
+    x.lineTo(300,300); x.closePath(); x.fill();
+  }
+  /* 星点 */
+  x.fillStyle=pal[3];
+  for(var i=0;i<26;i++){
+    x.globalAlpha=0.3+Math.random()*0.5;
+    x.beginPath(); x.arc(Math.random()*300,Math.random()*140,Math.random()*1.8+0.4,0,6.2832); x.fill();
+  }
+  x.globalAlpha=1;
+  return c.toDataURL();
+}
+function pzSolved(){
+  var a=[];
+  for(var i=0;i<pzSize*pzSize;i++) a.push(i);
+  return a;
+}
+function pzRender(){
+  var board=document.getElementById('pzBoard');
+  var cellPx=Math.min(300,Math.max(240,(window.innerWidth||360)-110));
+  cellPx=Math.floor((cellPx-(pzSize-1)*3-6)/pzSize);
+  board.innerHTML='';
+  var grid=document.createElement('div');
+  grid.className='puzzle-grid';
+  grid.style.gridTemplateColumns='repeat('+pzSize+','+cellPx+'px)';
+  grid.style.width=(cellPx*pzSize+(pzSize-1)*3+6)+'px';
+  pzTiles.forEach(function(t,i){
+    var b=document.createElement('button');
+    b.className='opt pz-cell';
+    b.style.width=cellPx+'px'; b.style.height=cellPx+'px';
+    b.style.borderRadius='7px';
+    b.style.padding='0';
+    var img=document.createElement('img');
+    img.src=pzImg;
+    img.style.width=(cellPx*pzSize)+'px'; img.style.height=(cellPx*pzSize)+'px';
+    img.style.objectFit='cover';
+    img.style.objectPosition=(-(t%pzSize)*cellPx)+'px '+(-(Math.floor(t/pzSize))*cellPx)+'px';
+    b.appendChild(img);
+    if(i+1===pzSize*pzSize&&t===pzSize*pzSize-1) b.classList.add('right');
+    b.addEventListener('click',function(){ pzTryMove(i); });
+    grid.appendChild(b);
+  });
+  board.appendChild(grid);
+}
+function pzTryMove(i){
+  var empty=pzTiles.indexOf(pzSize*pzSize-1);
+  var r1=Math.floor(i/pzSize),c1=i%pzSize,r2=Math.floor(empty/pzSize),c2=empty%pzSize;
+  if(Math.abs(r1-r2)+Math.abs(c1-c2)!==1) return;
+  pzTiles[empty]=pzTiles[i]; pzTiles[i]=pzSize*pzSize-1;
+  pzMoves++;
+  document.getElementById('pzMoves').textContent=pzMoves;
+  pzRender();
+  if(pzTiles.every(function(t,i){ return t===i; })){
+    S.puzzle.done++; save();
+    var key='n'+pzSize;
+    var best=S.puzzle.best[key];
+    if(best===undefined||pzMoves<best){ S.puzzle.best[key]=pzMoves; }
+    save();
+    ding();
+    document.getElementById('pzNote').style.display='block';
+    document.getElementById('pzNote').innerHTML='<b>拼好了，'+pzMoves+' 步。</b>今晚的第 '+(S.puzzle.done)+' 幅。<br>'+((S.puzzle.best[key]===pzMoves)?'新纪录！':'这个尺寸你的最佳是 '+S.puzzle.best[key]+' 步。');
+    document.getElementById('pzBest').textContent=S.puzzle.best[key];
+    refreshHome();
+  }
+}
+function pzNewGame(){
+  pzImg=pzGenImage();
+  pzTiles=pzSolved();
+  /* 从完成态随机走 300 步，保证可解 */
+  for(var s=0;s<300;s++){
+    var empty=pzTiles.indexOf(pzSize*pzSize-1);
+    var r=Math.floor(empty/pzSize),c=empty%pzSize;
+    var dirs=[];
+    if(r>0) dirs.push(empty-pzSize);
+    if(r<pzSize-1) dirs.push(empty+pzSize);
+    if(c>0) dirs.push(empty-1);
+    if(c<pzSize-1) dirs.push(empty+1);
+    var pick=dirs[Math.floor(Math.random()*dirs.length)];
+    pzTiles[empty]=pzTiles[pick]; pzTiles[pick]=pzSize*pzSize-1;
+  }
+  if(pzTiles.every(function(t,i){ return t===i; })) pzNewGame();
+  pzMoves=0;
+  document.getElementById('pzMoves').textContent='0';
+  document.getElementById('pzNote').style.display='none';
+  document.getElementById('pzBest').textContent=(S.puzzle.best['n'+pzSize]!==undefined)?S.puzzle.best['n'+pzSize]:'—';
+  document.getElementById('pzDone').textContent=S.puzzle.done;
+  pzRender();
+}
+function pzInit(){
+  document.getElementById('pzSize').addEventListener('click',function(){
+    pzSize=pzSize===3?4:3;
+    this.textContent=pzSize===3?'切换 4×4':'切换 3×3';
+    pzNewGame();
+  });
+  document.getElementById('pzNew').addEventListener('click',function(){ pzNewGame(); });
+  pzNewGame();
+}
+ENTER.puzzle=function(){ pzRender(); };
+
+/* ================= 启动 ================= */
+function boot(){
+  applyTheme();
+  renderNav();
+  bubInit(); brInit(); windInit();
+  rdInit(); qaInit(); pmInit(); idInit(); stInit();
+  bkInit(); plInit(); gfInit(); pzInit();
+  rd2Init(); poInit(); pnInit(); rpInit(); sdInit(); ltInit();
+  modalInit(); backupInit();
+  refreshHome(); aboutRefresh();
+  var h=(location.hash||'').replace('#','');
+  if(h&&VIEW_IDS.indexOf(h)>=0&&h!=='home') show(h); else show('home');
+}
+boot();
+
+</script>
+</body>
+</html>
