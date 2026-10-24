@@ -247,6 +247,7 @@ html[data-theme="light"] .game-cv{background:#F6F1E6}
 .pz-cell img{width:100%;height:100%;display:block;pointer-events:none}
 .pz-cell .num{position:absolute;left:4px;top:2px;font-size:10px;color:var(--tx2);text-shadow:0 1px 2px rgba(0,0,0,.4)}
 /* ---------- 听风/呼吸 复用旧样式 ---------- */
+#langNote:empty{display:none}
 .wind-row{display:flex;align-items:center;gap:12px;padding:12px 2px;border-bottom:1px dashed var(--line)}
 .wind-ic{font-size:20px;width:26px;text-align:center}
 .wind-nm{width:48px;font-size:14px}
@@ -318,7 +319,7 @@ html[data-theme="light"] .cta-lucky{color:#FFFDF7}
 <body>
 
 <div class="topbar">
-  <div class="brand" data-en="XianIdle<small>v1.1</small>">拾闲<small>XianIdle · v1.1</small></div>
+  <div class="brand" data-en="XianIdle<small>v1.2</small>">拾闲<small>XianIdle · v1.2</small></div>
   <div class="sp"></div>
   <button class="mbtn" id="btnTheme">🌙 切到纸感</button>
   <button class="mbtn" id="btnLang">EN</button>
@@ -348,6 +349,8 @@ html[data-theme="light"] .cta-lucky{color:#FFFDF7}
         <div class="hero-cta">
           <button class="cta-lucky" id="btnLucky" data-en="🎲 Not sure which one? Pick one for me">🎲 不知道玩哪个？随便来一个</button>
           <span class="cta-note" data-en="or pick any card below — nothing here can be failed">或者从下面的卡片里随便点一张 · 这里没有「输」这回事</span>
+          <!-- 英文模式下补一句：界面双语，但诗句/故事/电台名保留中文原文（内容层，不翻译） -->
+          <span class="cta-note" id="langNote" data-zh="" data-en="Interface is bilingual — verses, stories and station names stay in the original Chinese."></span>
         </div>
       </div>
       <div class="sec-title"><h2>静一静</h2><span>先让心慢下来</span></div>
@@ -617,7 +620,7 @@ html[data-theme="light"] .cta-lucky{color:#FFFDF7}
     <section class="view" id="v-plane">
       <div class="gbar"><button class="gback" data-back="1">←</button><span class="gtitle">纸飞机<small>只能用高度换距离 · 气流是唯一的动力</small></span><span class="sp"></span><button class="btn" id="plnNew">重新起飞</button></div>
       <div class="plane-wrap cv-wrap">
-        <div class="plane-hud">这一程 <b id="plnKm">0.0</b> km · 接住气流 <b id="plnUp">0</b> 道<br>最远一程 <b id="plnBest">0.0</b> km · 捎到的话 <b id="plnWords">0</b> 句</div>
+        <div class="plane-hud"><span data-zh="这一程 " data-en="This run ">这一程 </span><b id="plnKm">0.0</b> <span data-zh="km · 接住气流 " data-en="km · ">km · 接住气流 </span><b id="plnUp">0</b><span data-zh=" 道" data-en=" thermals"> 道</span><br><span data-zh="最远一程 " data-en="Best run ">最远一程 </span><b id="plnBest">0.0</b> <span data-zh="km · 捎到的话 " data-en="km · ">km · 捎到的话 </span><b id="plnWords">0</b><span data-zh=" 句" data-en=" words"> 句</span></div>
         <canvas id="plCanvas" class="game-cv" width="360" height="560" style="touch-action:none"></canvas>
         <div class="bub-stat" data-en="<b>Hold to climb</b> (you rise but lose speed; stall out and you fall) · <b>Release to dive</b> (trade height for speed) · fly into a warm thermal and it lifts you · every three thermals it carries one of your words · touching the ground is only a rest — a gust will pick it up again"><b>按住抬头</b>（爬升，但速度往下掉，掉光了会失速）· <b>松开低头</b>（俯冲换速度）· 飞进暖色的上升气流就会被托起来 · 每接住三道气流，它会替你捎一句话 · 落到地面只是歇一歇，一阵风又会把它托上去</div>
       </div>
@@ -812,7 +815,7 @@ html[data-theme="light"] .cta-lucky{color:#FFFDF7}
 
 <div class="foot">
   单文件 · 零外部请求 · 声音全部本机合成<br>
-  <b>拾闲 XianIdle v1.1 · © 永远的兰兰（Lanlan Eternal）· 保留所有权利</b>
+  <b>拾闲 XianIdle v1.2 · © 永远的兰兰（Lanlan Eternal）· 保留所有权利</b>
 </div>
 
 <!-- ========== 弹窗 ========== -->
@@ -893,7 +896,7 @@ html[data-theme="light"] .cta-lucky{color:#FFFDF7}
 <div class="mask" id="mkAbout"><div class="panel">
   <h2>关于拾闲</h2>
   <p>下班后的解压盒：捏泡泡、深呼吸、听风、猜电台，还有一家只售声音的小店。</p>
-  <div class="kv"><span>版本</span><span>v1.1（24 个可玩 · 371 题细说 · 中英双语 · 故事 34 节点 10 结局）</span></div>
+  <div class="kv"><span>版本</span><span>v1.2（24 个可玩 · 371 题细说 · 中英双语 · 故事 34 节点 10 结局）</span></div>
   <div class="kv" data-en='<span>Chinese name</span><span>拾闲</span>'><span>中文名</span><span>拾闲</span></div>
   <div class="kv" data-en='<span>English name</span><span>XianIdle</span>'><span>英文名</span><span>XianIdle</span></div>
   <div class="kv"><span>作者</span><span>永远的兰兰（Lanlan Eternal）</span></div>
@@ -960,7 +963,7 @@ var LANG=(function(){
   return 'zh';
 })();
 function L(zh,en){ return (LANG==='en'&&en!=null&&en!=='')?en:zh; }
-var I18N_EN={"☀️ 切到纸感":"☀️ Paper theme","🌙 切到夜深":"🌙 Night theme","帮助":"Help","常见问题":"FAQ","免责声明":"Disclaimer","关于":"About","拾闲":"XianIdle","拾 闲 · XIANIDLE":"X I A N I D L E","没有计时器，没有红点，也没有排行榜。":"No timers. No red dots. No leaderboards.","泡泡、呼吸声、猜不完的电台，和一点点安静的玩心。桌面和手机都能玩，声音全部在本机合成。":"Bubbles, breathing, endless radio guessing, and a little quiet playfulness. Works on desktop and phone — every sound is made on your own device.","静一静":"Quiet","先让心慢下来":"Let the mind slow down first","玩一玩":"Play","有手感、有获得感，但没有失败":"Tactile and satisfying — with nothing to lose","猜一猜":"Guess","都是选择题，不用打字 · 每题选完都有一段「细说」":"All multiple choice, no typing · every answer comes with a “Deep Read”","聊一聊":"Talk","预告":"Coming soon","捏泡泡":"Bubbles","一屏幕泡泡，捏爆有回声":"A whole screen of bubbles; every pop answers back","已捏 0 个 →":"Popped 0 →","一呼一吸":"Breathe","4-7-8 呼吸法，跟着圆圈慢下来":"4-7-8 breathing; follow the circle down","静心 0 分钟 →":"Calm 0 min →","听风":"Wind","细雨 · 山风 · 篝火，自己调":"Rain, breeze, campfire — mix your own","三路混音 →":"Six-layer mix →","水面涟漪":"Ripples","点一下，看波纹一圈圈散开":"One tap, and the rings spread out","已起 0 圈 →":"0 ripples →","指尖流沙":"Sand","划一道，就留一道沙痕":"Draw a line, leave a line","随手涂 →":"Just doodle →","放孔明灯":"Lanterns","点一下天，灯就升上去，不会掉":"Tap the sky; the lantern rises and never falls","已放 0 盏 →":"0 lit →","安静方块":"Quiet Blocks","堆满了也不会输，它帮你托底":"Fill the board and you still don’t lose — it catches you","已消 0 行 →":"0 lines cleared →","纸飞机":"Paper Plane","顺风滑翔，气流是唯一的动力":"Glide on the wind; thermals are your only engine","累计 0 km →":"0 km total →","一杆高尔夫":"Golf","一按钮蓄力，一分钟一洞":"One button to charge; a hole a minute","三洞休闲局 →":"Three relaxed holes →","静心拼图":"Puzzle","3×3 起步，图案每晚不一样":"Starts at 3×3; a new picture every night","已拼 0 幅 →":"0 solved →","雷电":"Thunder","无限命射击，挨一下只闪一下":"Endless-life shooter; a hit just makes you blink","最高 0 分 →":"Best 0 pts →","落袋桌球":"Pool","没有对手，也不用计时":"No opponent, no clock","已进 0 球 →":"0 potted →","太空弹珠":"Pinball","环道绕顶 · 五弹柱 · 圆钉阵，掉下去自动补球":"Loop ramp, five bumpers, a field of pins — lose the ball and a new one drops in","一步一格":"Hop Tiles","按住蓄力跳过去，掉下去有云接住":"Hold to charge, hop across; a cloud catches you if you miss","跳过 0 块 →":"0 tiles hopped →","扔纸团":"Paper Toss","拉弓瞄准，抛物线扔进办公室纸篓":"Pull back, aim, arc it into the office bin","猜电台":"Radio","真电台直播，猜中是哪个台":"Real live radio — guess which station","题库 0 台 →":"0 stations →","猜提问":"Guess the Question","给你一句回答，猜那句提问 · 选完讲背景与出处":"You get an answer; guess the question · with background and sources","已答 0 题 →":"0 answered →","猜同时":"How Far Apart","这两件事，其实隔了几百年？不给年份，全靠年代感":"Two events — how far apart are they? No years given, only a sense of era","题库 0 题 →":"0 questions →","猜来历":"Origins","跑步机最初是刑具，气泡膜想当墙纸":"The treadmill began as a punishment; bubble wrap wanted to be wallpaper","猜规矩":"Why the Rule","舷窗为什么是圆角？键盘为什么乱序？":"Why are portholes round? Why is the keyboard scrambled?","猜反常识":"Common Myths","你以为是常识的那些，其实不是":"The things you call common sense — mostly aren’t","猜诗歌":"Poetry","接下句 · 猜作者 · 猜诗名 · 附创作背景":"Finish the line · name the poet · name the poem · with background","题库 0 首 →":"0 poems →","猜典故":"Idioms","一个故事，猜一个成语 · 附史书原文":"A story; name the idiom · with the original text","题库 0 则 →":"0 stories →","故事秘境":"Sound Shop","一家只售声音的小店，十种结局":"A little shop that sells only sounds — ten endings","已达成 0 个结局 →":"0 endings reached →","树洞":"Tree Hollow","下班后第一个说话对象":"The first one you talk to after work","语音版 · M3 上线":"Coming in M3","捏爆的瞬间，有点解气":"That little pop feels good","已捏爆 0 个":"Popped 0","吸气 4 · 屏息 7 · 呼气 8":"Inhale 4 · hold 7 · exhale 8","准备好了吗":"Ready?","吸气 4 秒 · 屏息 7 秒 · 呼气 8 秒":"Inhale 4s · hold 7s · exhale 8s","开 始":"S T A R T","和风细雨 · 六层环境声交织":"Soft rain and breeze · six layers woven together","和风":"Breeze","细雨":"Rain","溪流":"Brook","竹叶":"Leaves","夜虫":"Crickets","篝火":"Campfire","和风细雨":"Soft rain","溪边午后":"Brookside noon","雨夜·篝火":"Rainy night fire","竹林夜":"Bamboo night","全 静":"A L L   Q U I E T","起 风":"S T A R T","六个推子可以随意叠。每层都做过柔化（低通 7kHz + 22 秒一次的极慢「呼吸」），所以叠得再多也只是厚，不会燥。":"Stack the six faders however you like. Each layer is softened (7 kHz low-pass, plus a very slow “breath” every 22 seconds), so no matter how much you stack it only gets thicker, never harsh.","转动旋钮，凭线索猜台名":"Turn the dial; guess the station from the clues","换一题":"Next","本局猜对":"right this round","最佳单题":"best single","题待猜":"left to guess","旋钮还没转":"Dial not turned yet","再听一会儿":"Listen a bit more","🔊 静音":"🔊 Mute","🔇 取消静音":"🔇 Unmute","重试接流":"Reconnect","转动旋钮，开始猜":"Turn the dial to begin","再给一条线索（-10 分）":"One more clue (-10 pts)","接下句 · 猜作者 · 猜诗名":"Finish the line · name the poet · name the poem","猜对":"right","已答":"answered","—— 猜下一句 ——":"— GUESS THE NEXT LINE —","一个故事，一个成语":"One story, one idiom","—— 这个故事说的是哪个成语 ——":"— WHICH IDIOM DOES THIS STORY TELL? —","你以为它们隔了几百年":"You think they’re centuries apart","—— 这两件事，时间上差了多远 ——":"— HOW FAR APART ARE THESE TWO? —","它最初根本不是干这个的":"That was never what it was for","—— 它最初被发明出来，是为了做什么 ——":"— WHAT WAS IT ORIGINALLY INVENTED FOR? —","每条怪规定背后都有原因":"Every odd rule has a reason behind it","—— 这条奇怪的规定／设计，当初为什么这样定 ——":"— WHY WAS THIS STRANGE RULE MADE THIS WAY? —","你以为是常识，其实不是":"You call it common sense — it isn’t","—— 你以为是常识，其实不是 ——":"— YOU CALL IT COMMON SENSE — IT ISN’T —","一家只售声音的小店 · 十种结局":"A little shop that sells only sounds · ten endings","从头读":"Start over","🌧 雨声背景：关":"🌧 Rain: off","🌧 雨声背景：开":"🌧 Rain: on","暂停":"Pause","继续":"Resume","重开一局":"New game","已消 0 行 · 温柔托底 0 次":"0 lines cleared · 0 gentle rescues","只能用高度换距离 · 气流是唯一的动力":"Height buys distance · thermals are the only engine","重新起飞":"Fly again","这一程":"This run","km · 接住气流":" km · thermals","道":" thermals","最远一程":"Best run","km · 捎到的话":" km · words carried","句":" words","按住抬头":"Hold to climb","（爬升，但速度往下掉，掉光了会失速）·":" (you rise but lose speed; stall out and you fall) ·","松开低头":"Release to dive","（俯冲换速度）· 飞进暖色的上升气流就会被托起来 · 每接住三道气流，它会替你捎一句话 · 落到地面只是歇一歇，一阵风又会把它托上去":" (trade height for speed) · fly into a warm thermal and it lifts you · every three thermals it carries one of your words · touching the ground is only a rest — a gust will pick it up again","三洞休闲局 · 无标准杆":"Three relaxed holes · no par","重新开局":"New round","第":"Hole ","/3 洞":"/3","本洞":"This hole","杆":" shots","距洞":"To hole","码":" yd","总计":"Total","风":"Wind","无风":"Calm","按住画面蓄力，松开击球。方向大致朝洞口，风力会让球偏一点——掉水坑不罚杆，捡出来重打就是。":"Hold to charge, release to strike. Aim is roughly at the hole; wind bends it a little. Water costs you nothing — fish it out and hit again.","把打碎的晚霞拼回去":"Put the broken sunset back together","切换 4×4":"Switch to 4×4","切换 3×3":"Switch to 3×3","换一张":"New picture","步":" moves","本尺寸最佳":" best at this size","已拼":"Solved","幅":" pictures","给你一句回答，猜是哪句提问":"You get an answer; guess the question","—— 时代 ——":"— ERA —","—— 视野 ——":"— WIDER WORLD —","下面四句话，哪一句问出口，会得到上面这句回答？":"Which of these four, if asked, would get the reply above?","无限命 · 打不完也输不了":"Endless lives · you can neither finish it nor lose it","拖着机身走（或方向键）· 子弹自动发射 · 挨一下只是闪一下，":"Drag to fly (or arrow keys) · guns fire by themselves · a hit only makes you blink, ","不掉命、没有 Game Over":"no lives lost, no Game Over","本局进袋":"This round","累计进袋":"Total potted","出杆":"Shots","从白球往后拖，拉得越远力越大，松手出杆 · 白球进袋不算失误，摆回来继续":"Drag back from the cue ball — the further you pull, the harder it goes. Let go to shoot. Potting the cue ball is no foul; it comes right back.","军衔晋升 · 任务轮换 · 翻板两边都灵":"Rank promotions · rotating missions · both flippers work","军衔":"Rank","最好":"Best","任务完成":"Missions","命中":"Hits","◀ 左翻板":"◀ Left flipper","发射 🚀":"Launch 🚀","右翻板 ▶":"Right flipper ▶","按住「发射」（或空格）蓄力，球顺着右侧环道绕一圈再落下 · 左右按钮打翻板 · 掉下去自动再发一颗":"Hold Launch (or Space) to charge; the ball runs the loop ramp before dropping in · the buttons work the flippers · lose it and a new ball loads","俯视等距 · 越跳越远，间距也会变":"Isometric view · the gaps widen and wander as you go","完美":"Perfect","连中":"Streak","按住蓄力 · 松手起跳":"Hold to charge · release to hop","按住画面或空格蓄力，松手沿等距轴跳到下一块方块上 · ":"Hold the screen or Space to charge; release to hop along the axis · ","方块越跳越小、间距越跳越不齐":"tiles shrink and gaps grow uneven","，前面几乎等距，后面忽远忽近 · 落在顶面正中得「完美」并连中（音阶一格格往上爬）· ":", nearly even at first and wild later · land dead centre for “Perfect” and a streak (the scale climbs note by note) · ","跳空会有云把你接回来，从来不会输":"miss and a cloud carries you back — you never lose","办公室投篮 · 每进两球难度上一级":"Office hoops · every two baskets raises the bar","连进":"Streak","难度":"Level","按住纸团往后拉，松手扔出去 · 虚线是路线 · 空调风会吹偏它，越扔桶越小越远":"Pull the ball back and let go · the dotted line is your arc · air-con drift bends it; the bin shrinks and moves further out","点一下，看它散开":"Tap once and watch it spread","点一下水面 · 已起 0 圈涟漪":"Tap the water · 0 ripples so far","划一道，就留一道":"Draw a line, leave a line","手指划过就是一道沙痕 · 抹平重来，反正也不值钱":"Every swipe leaves a furrow · smooth it over and start again; none of it matters","它不会掉下来":"It never falls back down","点一下天，放一盏灯 · 已放 0 盏":"Tap the sky to release a lantern · 0 lit","对着它说说话，它记得你上周三提过的事。":"Talk to it; it remembers what you mentioned last Wednesday.","本地记忆 · 语音优先 · 选择题式谈心——M3 上线。":"Local memory · voice first · choose-an-answer heart-to-hearts — arrives in M3.","在那之前，猜电台和故事秘境都可以先陪你。":"Until then, Radio and Sound Shop can keep you company.","单文件 · 零外部请求 · 声音全部本机合成":"Single file · zero external requests · all sound synthesised on your device","拾闲 XianIdle v1.1 · © 永远的兰兰（Lanlan Eternal）· 保留所有权利":"XianIdle v1.1 · © Lanlan Eternal · All rights reserved","帮助 · 怎么玩":"Help · How to play","这是什么":"What this is","「拾闲」是一个下班后的解压盒。没有计时器、没有失败、没有排行榜——一局什么时候停，你说了算。桌面浏览器和手机浏览器都是完整版，硬件版（3.5 寸小主机）会随后推出。":"XianIdle is a decompression box for after work. No timers, no failure, no leaderboards — you decide when a session ends. The desktop and mobile browsers are both the full version; a hardware edition (a 3.5-inch little box) will follow.","二十四个可玩的":"Twenty-four things to play","三个新的\"反着想\"猜题":"Three new \"think-backwards\" quizzes","每题选完都有一段「细说」":"Every answer comes with a “Deep Read”","几个约定":"A few ground rules","内容、声音与出处":"Content, sound and sources","知道了":"Got it","为什么没有计时器和排行榜？":"Why no timers or leaderboards?","下班后不想再被任何东西追着跑。这里反过来：没有失败，只有「再来一局？」。":"After work you don’t want anything chasing you again. This is the reverse: no failure, only “one more round?”","数据存在哪？":"Where is my data kept?","只存在你自己浏览器的 localStorage，清缓存会丢。可在「关于」页导出 JSON 备份。":"Only in your own browser’s localStorage; clearing the cache will lose it. You can export a JSON backup from the About page.","为什么没有声音？":"Why is there no sound?","浏览器要求先有一次点击才会出声——进入任一玩法并点一下即可。请检查设备音量与标签页静音。":"Browsers require one click before audio can start — open any game and tap once. Also check your device volume and the tab’s mute state.","猜电台的台名都真实存在吗？":"Are the radio stations real?","题库来自「拾声」网络收音机工程的 1254 条台单，并补入公开电台目录里的国内台，逐条实测后保留 147 个真能出声的——题目里播放的就是这些台的公开直播流。个别台临时抽风连不上时，会自动降级为线索模式，猜中双倍分。":"The bank comes from the 1254-station list of the XianSheng internet-radio project, plus public Chinese stations from open directories; after testing each one it keeps 147 that genuinely play — what you hear in a question is their public live stream. If a station is briefly unreachable it falls back to clue mode, and a correct guess scores double.","为什么在预览面板里电台不播放？":"Why won’t the radio play inside a preview panel?","能离线用吗？":"Does it work offline?","能。单文件、零外部请求，存到本地双击即用。":"Yes. One single file, zero external requests — save it and double-click.","英文模式翻到哪一层？":"How far does English mode go?","硬件版呢？":"What about the hardware version?","网页版验证玩法和内容，硬件版验证形态与触感，届时随固件一同发布。":"The web version proves out the play and the content; the hardware edition proves out the form and the feel. It ships together with the firmware.","关于拾闲":"About XianIdle","下班后的解压盒：捏泡泡、深呼吸、听风、猜电台，还有一家只售声音的小店。":"A decompression box for after work: bubbles, deep breaths, wind, radio guessing — and a little shop that sells only sounds.","版本":"Version","中文名":"Chinese name","英文名":"English name","作者":"Author","累计捏爆泡泡":"Bubbles popped","静心时长":"Time breathing","猜电台得分":"Radio score","猜题累计答对":"Quiz answers right","方块 / 纸飞机 / 一步一格 / 扔纸团":"Blocks / Plane / Tiles / Toss","设置备份":"Back up settings","主题、音量、计数只存在本机浏览器。换设备或清缓存前，建议先导出：":"Theme, volume and counters live only in this browser. Export before you switch devices or clear the cache:","导出设置 JSON":"Export settings JSON","导入设置 JSON":"Import settings JSON","授权":"Licence","可自由使用、原样转发，请保留署名。若要改动，请只留给自己看，改过的版本不要对外分发。":"Free to use and pass on as-is; please keep the credit. If you change it, keep it to yourself — don’t distribute a modified version.","© 永远的兰兰（Lanlan Eternal）· 保留所有权利":"© Lanlan Eternal · All rights reserved","设置已导入":"Settings imported","文件不是有效的设置 JSON":"That file isn’t a valid settings JSON","分":" pts","块":" tiles","次":" hits","击落":" downed","连击":" combo","学员":"Cadet","重新开始":"Restart","重来一局":"New game","重新摆球":"Re-rack","抹 平":"S M O O T H","收 灯":"C O L L E C T","猜题的重点其实不在答对，而在选完之后那段解读——事情的来历、背后的机制、以及通常不会有人讲到的那一层。":"The point of the quizzes isn’t getting it right — it’s the passage of interpretation you get afterwards: where it came from, how it actually works, and the layer almost nobody reaches.","答错也照样给，而且给得更值得看：先知道对的是哪个，再知道为什么是它。":"Wrong answers get it too, and arguably deserve it more: first you learn which one was right, then why it had to be that one.","所有交互以选择题为主，不用打字；键盘玩家可以用方向键玩方块。":"Everything is multiple choice — no typing. Keyboard players can use the arrow keys for blocks.","声音全部在本机实时合成（Web Audio），不联网、不上传任何数据。":"All sound is synthesised live on your own device (Web Audio). Nothing goes online, nothing is uploaded.","手机浏览器打开并「添加到主屏幕」，体验更接近硬件。":"Open it in a mobile browser and “Add to Home Screen” — it feels closer to hardware.","画面全部用 Canvas 现画，音效全部用 Web Audio 实时合成——整个页面没有引入任何外部图片、音频或字体文件（唯一要联网的是猜电台，它需要连到电台的直播地址）。":"Every graphic is drawn live on a canvas and every sound is synthesised live with Web Audio — the page pulls in no external image, audio or font file at all (the one thing that goes online is Radio, which has to reach the station’s live stream).","猜题的「细说」、故事秘境的全文、所有代码，都是为这个项目现写的。":"The “Deep Read” passages, the full text of Sound Shop and all the code were written for this project.","引用诗词、成语均取自公有领域古籍（最早到先秦，最晚到清代），一律标明出处。":"Poetry and idiom quotations are taken from public-domain classics (earliest pre-Qin, latest Qing), always with their source named.","本工具为非官方第三方独立作品，与任何电台、平台、机构无关联。":"This is an unofficial, independent third-party work, unaffiliated with any station, platform or institution.","「猜电台」会播放题库电台的公开直播流用于猜题，流媒体版权归各电台/平台所有；本工具仅作游戏用途，不存储、不转售任何音频。":"“Radio” plays the publicly published live streams of the stations in its bank, for the purposes of a guessing game. Streaming copyright belongs to the stations and platforms; this tool is for play only — no audio is stored or resold.","除上述公开直播流外，其余音效均在本地实时合成；本工具不采集、不上传任何用户数据。":"Apart from those public live streams, every sound is synthesised locally in real time. This tool collects and uploads no user data whatsoever.","预览版功能持续变动，可能与最终硬件版存在差异。":"The preview version keeps changing and may differ from the final hardware edition.","按「现状」提供，不保证适用性；因使用本工具造成的任何损失，风险自负。":"Provided “as is”, with no warranty of fitness; any loss arising from its use is at your own risk.","涉及商标与名称的权利归各自权利人所有。":"Rights in trademarks and names belong to their respective owners.","v1.1（24 个可玩 · 371 题细说 · 中英双语 · 故事 34 节点 10 结局）":"v1.1 (24 games · 371 Deep Reads · bilingual · a 34-node story with 10 endings)","永远的兰兰（Lanlan Eternal）":"Lanlan Eternal"};
+var I18N_EN={"☀️ 切到纸感":"☀️ Paper theme","🌙 切到夜深":"🌙 Night theme","帮助":"Help","常见问题":"FAQ","免责声明":"Disclaimer","关于":"About","拾闲":"XianIdle","拾 闲 · XIANIDLE":"X I A N I D L E","没有计时器，没有红点，也没有排行榜。":"No timers. No red dots. No leaderboards.","泡泡、呼吸声、猜不完的电台，和一点点安静的玩心。桌面和手机都能玩，声音全部在本机合成。":"Bubbles, breathing, endless radio guessing, and a little quiet playfulness. Works on desktop and phone — every sound is made on your own device.","静一静":"Quiet","先让心慢下来":"Let the mind slow down first","玩一玩":"Play","有手感、有获得感，但没有失败":"Tactile and satisfying — with nothing to lose","猜一猜":"Guess","都是选择题，不用打字 · 每题选完都有一段「细说」":"All multiple choice, no typing · every answer comes with a “Deep Read”","聊一聊":"Talk","预告":"Coming soon","捏泡泡":"Bubbles","一屏幕泡泡，捏爆有回声":"A whole screen of bubbles; every pop answers back","已捏 0 个 →":"Popped 0 →","一呼一吸":"Breathe","4-7-8 呼吸法，跟着圆圈慢下来":"4-7-8 breathing; follow the circle down","静心 0 分钟 →":"Calm 0 min →","听风":"Wind chimes","细雨 · 山风 · 篝火，自己调":"Rain, breeze, campfire — mix your own","三路混音 →":"Six-layer mix →","水面涟漪":"Ripples","点一下，看波纹一圈圈散开":"One tap, and the rings spread out","已起 0 圈 →":"0 ripples →","指尖流沙":"Sand","划一道，就留一道沙痕":"Draw a line, leave a trace","随手涂 →":"Just doodle →","放孔明灯":"Lanterns","点一下天，灯就升上去，不会掉":"Tap the sky; the lantern rises and never falls","已放 0 盏 →":"0 lit →","安静方块":"Quiet Blocks","堆满了也不会输，它帮你托底":"Fill the board and you still don’t lose — it catches you","已消 0 行 →":"0 lines cleared →","纸飞机":"Paper Plane","顺风滑翔，气流是唯一的动力":"Glide on the wind; thermals are your only engine","累计 0 km →":"0 km total →","一杆高尔夫":"Golf","一按钮蓄力，一分钟一洞":"One button to charge; a hole a minute","三洞休闲局 →":"Three relaxed holes →","静心拼图":"Puzzle","3×3 起步，图案每晚不一样":"Starts at 3×3; a new picture every night","已拼 0 幅 →":"0 solved →","雷电":"Thunder","无限命射击，挨一下只闪一下":"Endless-life shooter; a hit just makes you blink","最高 0 分 →":"Best 0 pts →","落袋桌球":"Pool","没有对手，也不用计时":"No opponent, no clock","已进 0 球 →":"0 potted →","太空弹珠":"Pinball","环道绕顶 · 五弹柱 · 圆钉阵，掉下去自动补球":"Loop ramp, five bumpers, a field of pins — lose the ball and a new one drops in","一步一格":"Hop Tiles","按住蓄力跳过去，掉下去有云接住":"Hold to charge, hop across; a cloud catches you if you miss","跳过 0 块 →":"0 tiles hopped →","扔纸团":"Paper Toss","拉弓瞄准，抛物线扔进办公室纸篓":"Pull back, aim, arc it into the office bin","猜电台":"Radio","真电台直播，猜中是哪个台":"Real live radio — guess which station","题库 0 台 →":"0 stations →","猜提问":"Guess the Question","给你一句回答，猜那句提问 · 选完讲背景与出处":"You get an answer; guess the question · with background and sources","已答 0 题 →":"0 answered →","猜同时":"How Far Apart","这两件事，其实隔了几百年？不给年份，全靠年代感":"Two events — how far apart are they? No years given, only a sense of era","题库 0 题 →":"0 questions →","猜来历":"Origins","跑步机最初是刑具，气泡膜想当墙纸":"The treadmill began as a punishment; bubble wrap wanted to be wallpaper","猜规矩":"Why the Rule","舷窗为什么是圆角？键盘为什么乱序？":"Why are portholes round? Why is the keyboard scrambled?","猜反常识":"Common Myths","你以为是常识的那些，其实不是":"The things you call common sense — mostly aren’t","猜诗歌":"Poetry","接下句 · 猜作者 · 猜诗名 · 附创作背景":"Finish the line · name the poet · name the poem · with background","题库 0 首 →":"0 poems →","猜典故":"Idioms","一个故事，猜一个成语 · 附史书原文":"A story; name the idiom · with the original text","题库 0 则 →":"0 stories →","故事秘境":"Sound Shop","一家只售声音的小店，十种结局":"A little shop that sells only sounds — ten endings","已达成 0 个结局 →":"0 endings reached →","树洞":"Tree Hollow","下班后第一个说话对象":"The first one you talk to after work","语音版 · M3 上线":"Coming in M3","捏爆的瞬间，有点解气":"That little pop feels good","已捏爆 0 个":"Popped 0","吸气 4 · 屏息 7 · 呼气 8":"Inhale 4 · hold 7 · exhale 8","准备好了吗":"Ready?","吸气 4 秒 · 屏息 7 秒 · 呼气 8 秒":"Inhale 4s · hold 7s · exhale 8s","开 始":"S T A R T","和风细雨 · 六层环境声交织":"Soft rain and breeze · six layers woven together","和风":"Breeze","细雨":"Rain","溪流":"Brook","竹叶":"Leaves","夜虫":"Crickets","篝火":"Campfire","和风细雨":"Soft rain","溪边午后":"Brookside noon","雨夜·篝火":"Rainy night fire","竹林夜":"Bamboo night","全 静":"A L L   Q U I E T","起 风":"R I S E","六个推子可以随意叠。每层都做过柔化（低通 7kHz + 22 秒一次的极慢「呼吸」），所以叠得再多也只是厚，不会燥。":"Stack the six faders however you like. Each layer is softened (7 kHz low-pass, plus a very slow “breath” every 22 seconds), so no matter how much you stack it only gets thicker, never harsh.","转动旋钮，凭线索猜台名":"Turn the dial; guess the station from the clues","换一题":"Next","本局猜对":"right this round","最佳单题":"best single","题待猜":"left to guess","旋钮还没转":"Dial not turned yet","再听一会儿":"Listen a bit more","🔊 静音":"🔊 Mute","🔇 取消静音":"🔇 Unmute","重试接流":"Reconnect","转动旋钮，开始猜":"Turn the dial to begin","再给一条线索（-10 分）":"One more clue (-10 pts)","接下句 · 猜作者 · 猜诗名":"Finish the line · name the poet · name the poem","猜对":"right","已答":"answered","—— 猜下一句 ——":"— GUESS THE NEXT LINE —","一个故事，一个成语":"One story, one idiom","—— 这个故事说的是哪个成语 ——":"— WHICH IDIOM DOES THIS STORY TELL? —","你以为它们隔了几百年":"You think they’re centuries apart","—— 这两件事，时间上差了多远 ——":"— HOW FAR APART ARE THESE TWO? —","它最初根本不是干这个的":"That was never what it was for","—— 它最初被发明出来，是为了做什么 ——":"— WHAT WAS IT ORIGINALLY INVENTED FOR? —","每条怪规定背后都有原因":"Every odd rule has a reason behind it","—— 这条奇怪的规定／设计，当初为什么这样定 ——":"— WHY WAS THIS STRANGE RULE MADE THIS WAY? —","你以为是常识，其实不是":"You call it common sense — it isn’t","—— 你以为是常识，其实不是 ——":"— YOU CALL IT COMMON SENSE — IT ISN’T —","一家只售声音的小店 · 十种结局":"A little shop that sells only sounds · ten endings","从头读":"Start over","🌧 雨声背景：关":"🌧 Rain: off","🌧 雨声背景：开":"🌧 Rain: on","暂停":"Pause","继续":"Resume","重开一局":"Restart","已消 0 行 · 温柔托底 0 次":"0 lines cleared · 0 gentle rescues","只能用高度换距离 · 气流是唯一的动力":"Height buys distance · thermals are the only engine","重新起飞":"Fly again","按住抬头":"Hold to climb","（爬升，但速度往下掉，掉光了会失速）·":" (you rise but lose speed; stall out and you fall) ·","松开低头":"Release to dive","（俯冲换速度）· 飞进暖色的上升气流就会被托起来 · 每接住三道气流，它会替你捎一句话 · 落到地面只是歇一歇，一阵风又会把它托上去":" (trade height for speed) · fly into a warm thermal and it lifts you · every three thermals it carries one of your words · touching the ground is only a rest — a gust will pick it up again","三洞休闲局 · 无标准杆":"Three relaxed holes · no par","重新开局":"New round","第":"Hole ","/3 洞":"/3","本洞":"This hole","杆":" shots","距洞":"To hole","码":" yd","总计":"Total","风":"Wind","无风":"Calm","按住画面蓄力，松开击球。方向大致朝洞口，风力会让球偏一点——掉水坑不罚杆，捡出来重打就是。":"Hold to charge, release to strike. Aim is roughly at the hole; wind bends it a little. Water costs you nothing — fish it out and hit again.","把打碎的晚霞拼回去":"Put the broken sunset back together","切换 4×4":"Switch to 4×4","切换 3×3":"Switch to 3×3","换一张":"New picture","步":" moves","本尺寸最佳":" best at this size","已拼":"Solved","幅":" pictures","给你一句回答，猜是哪句提问":"You get an answer; guess the question","—— 时代 ——":"— ERA —","—— 视野 ——":"— WIDER WORLD —","下面四句话，哪一句问出口，会得到上面这句回答？":"Which of these four, if asked, would get the reply above?","无限命 · 打不完也输不了":"Endless lives · you can neither finish it nor lose it","拖着机身走（或方向键）· 子弹自动发射 · 挨一下只是闪一下，":"Drag to fly (or arrow keys) · guns fire by themselves · a hit only makes you blink, ","不掉命、没有 Game Over":"no lives lost, no Game Over","本局进袋":"This round","累计进袋":"Total potted","出杆":"Shots","从白球往后拖，拉得越远力越大，松手出杆 · 白球进袋不算失误，摆回来继续":"Drag back from the cue ball — the further you pull, the harder it goes. Let go to shoot. Potting the cue ball is no foul; it comes right back.","军衔晋升 · 任务轮换 · 翻板两边都灵":"Rank promotions · rotating missions · both flippers work","军衔":"Rank","最好":"Best","任务完成":"Missions","命中":"Hits","◀ 左翻板":"◀ Left flipper","发射 🚀":"Launch 🚀","右翻板 ▶":"Right flipper ▶","按住「发射」（或空格）蓄力，球顺着右侧环道绕一圈再落下 · 左右按钮打翻板 · 掉下去自动再发一颗":"Hold Launch (or Space) to charge; the ball runs the loop ramp before dropping in · the buttons work the flippers · lose it and a new ball loads","俯视等距 · 越跳越远，间距也会变":"Isometric view · the gaps widen and wander as you go","完美":"Perfect","连中":"Combo","按住蓄力 · 松手起跳":"Hold to charge · release to hop","按住画面或空格蓄力，松手沿等距轴跳到下一块方块上 · ":"Hold the screen or Space to charge; release to hop along the axis · ","方块越跳越小、间距越跳越不齐":"tiles shrink and gaps grow uneven","，前面几乎等距，后面忽远忽近 · 落在顶面正中得「完美」并连中（音阶一格格往上爬）· ":", nearly even at first and wild later · land dead centre for “Perfect” and a streak (the scale climbs note by note) · ","跳空会有云把你接回来，从来不会输":"miss and a cloud carries you back — you never lose","办公室投篮 · 每进两球难度上一级":"Office hoops · every two baskets raises the bar","连进":"Streak","难度":"Level","按住纸团往后拉，松手扔出去 · 虚线是路线 · 空调风会吹偏它，越扔桶越小越远":"Pull the ball back and let go · the dotted line is your arc · air-con drift bends it; the bin shrinks and moves further out","点一下，看它散开":"Tap once and watch it spread","点一下水面 · 已起 0 圈涟漪":"Tap the water · 0 ripples so far","划一道，就留一道":"Draw a line, leave a line","手指划过就是一道沙痕 · 抹平重来，反正也不值钱":"Every swipe leaves a furrow · smooth it over and start again; none of it matters","它不会掉下来":"It never falls back down","点一下天，放一盏灯 · 已放 0 盏":"Tap the sky to release a lantern · 0 lit","对着它说说话，它记得你上周三提过的事。":"Talk to it; it remembers what you mentioned last Wednesday.","本地记忆 · 语音优先 · 选择题式谈心——M3 上线。":"Local memory · voice first · choose-an-answer heart-to-hearts — arrives in M3.","在那之前，猜电台和故事秘境都可以先陪你。":"Until then, Radio and Sound Shop can keep you company.","单文件 · 零外部请求 · 声音全部本机合成":"Single file · zero external requests · all sound synthesised on your device","拾闲 XianIdle v1.1 · © 永远的兰兰（Lanlan Eternal）· 保留所有权利":"XianIdle v1.1 · © Lanlan Eternal · All rights reserved","帮助 · 怎么玩":"Help · How to play","这是什么":"What this is","「拾闲」是一个下班后的解压盒。没有计时器、没有失败、没有排行榜——一局什么时候停，你说了算。桌面浏览器和手机浏览器都是完整版，硬件版（3.5 寸小主机）会随后推出。":"XianIdle is a decompression box for after work. No timers, no failure, no leaderboards — you decide when a session ends. The desktop and mobile browsers are both the full version; a hardware edition (a 3.5-inch little box) will follow.","二十四个可玩的":"Twenty-four things to play","三个新的\"反着想\"猜题":"Three new \"think-backwards\" quizzes","每题选完都有一段「细说」":"Every answer comes with a “Deep Read”","几个约定":"A few ground rules","内容、声音与出处":"Content, sound and sources","知道了":"Got it","为什么没有计时器和排行榜？":"Why no timers or leaderboards?","下班后不想再被任何东西追着跑。这里反过来：没有失败，只有「再来一局？」。":"After work you don’t want anything chasing you again. This is the reverse: no failure, only “one more round?”","数据存在哪？":"Where is my data kept?","只存在你自己浏览器的 localStorage，清缓存会丢。可在「关于」页导出 JSON 备份。":"Only in your own browser’s localStorage; clearing the cache will lose it. You can export a JSON backup from the About page.","为什么没有声音？":"Why is there no sound?","浏览器要求先有一次点击才会出声——进入任一玩法并点一下即可。请检查设备音量与标签页静音。":"Browsers require one click before audio can start — open any game and tap once. Also check your device volume and the tab’s mute state.","猜电台的台名都真实存在吗？":"Are the radio stations real?","题库来自「拾声」网络收音机工程的 1254 条台单，并补入公开电台目录里的国内台，逐条实测后保留 147 个真能出声的——题目里播放的就是这些台的公开直播流。个别台临时抽风连不上时，会自动降级为线索模式，猜中双倍分。":"The bank comes from the 1254-station list of the XianSheng internet-radio project, plus public Chinese stations from open directories; after testing each one it keeps 147 that genuinely play — what you hear in a question is their public live stream. If a station is briefly unreachable it falls back to clue mode, and a correct guess scores double.","为什么在预览面板里电台不播放？":"Why won’t the radio play inside a preview panel?","能离线用吗？":"Does it work offline?","能。单文件、零外部请求，存到本地双击即用。":"Yes. One single file, zero external requests — save it and double-click.","英文模式翻到哪一层？":"How far does English mode go?","硬件版呢？":"What about the hardware version?","网页版验证玩法和内容，硬件版验证形态与触感，届时随固件一同发布。":"The web version proves out the play and the content; the hardware edition proves out the form and the feel. It ships together with the firmware.","关于拾闲":"About XianIdle","下班后的解压盒：捏泡泡、深呼吸、听风、猜电台，还有一家只售声音的小店。":"A decompression box for after work: bubbles, deep breaths, wind, radio guessing — and a little shop that sells only sounds.","版本":"Version","中文名":"Chinese name","英文名":"English name","作者":"Author","累计捏爆泡泡":"Bubbles popped","静心时长":"Time breathing","猜电台得分":"Radio score","猜题累计答对":"Quiz answers right","方块 / 纸飞机 / 一步一格 / 扔纸团":"Blocks / Plane / Tiles / Toss","设置备份":"Back up settings","主题、音量、计数只存在本机浏览器。换设备或清缓存前，建议先导出：":"Theme, volume and counters live only in this browser. Export before you switch devices or clear the cache:","导出设置 JSON":"Export settings JSON","导入设置 JSON":"Import settings JSON","授权":"Licence","可自由使用、原样转发，请保留署名。若要改动，请只留给自己看，改过的版本不要对外分发。":"Free to use and pass on as-is; please keep the credit. If you change it, keep it to yourself — don’t distribute a modified version.","© 永远的兰兰（Lanlan Eternal）· 保留所有权利":"© Lanlan Eternal · All rights reserved","设置已导入":"Settings imported","文件不是有效的设置 JSON":"That file isn’t a valid settings JSON","分":" pts","块":" tiles","次":" hits","击落":" downed","连击":" combo","学员":"Cadet","重新开始":"Restart","重来一局":"New game","重新摆球":"Re-rack","抹 平":"S M O O T H","收 灯":"C O L L E C T","猜题的重点其实不在答对，而在选完之后那段解读——事情的来历、背后的机制、以及通常不会有人讲到的那一层。":"The point of the quizzes isn’t getting it right — it’s the passage of interpretation you get afterwards: where it came from, how it actually works, and the layer almost nobody reaches.","答错也照样给，而且给得更值得看：先知道对的是哪个，再知道为什么是它。":"Wrong answers get it too, and arguably deserve it more: first you learn which one was right, then why it had to be that one.","所有交互以选择题为主，不用打字；键盘玩家可以用方向键玩方块。":"Everything is multiple choice — no typing. Keyboard players can use the arrow keys for blocks.","声音全部在本机实时合成（Web Audio），不联网、不上传任何数据。":"All sound is synthesised live on your own device (Web Audio). Nothing goes online, nothing is uploaded.","手机浏览器打开并「添加到主屏幕」，体验更接近硬件。":"Open it in a mobile browser and “Add to Home Screen” — it feels closer to hardware.","画面全部用 Canvas 现画，音效全部用 Web Audio 实时合成——整个页面没有引入任何外部图片、音频或字体文件（唯一要联网的是猜电台，它需要连到电台的直播地址）。":"Every graphic is drawn live on a canvas and every sound is synthesised live with Web Audio — the page pulls in no external image, audio or font file at all (the one thing that goes online is Radio, which has to reach the station’s live stream).","猜题的「细说」、故事秘境的全文、所有代码，都是为这个项目现写的。":"The “Deep Read” passages, the full text of Sound Shop and all the code were written for this project.","引用诗词、成语均取自公有领域古籍（最早到先秦，最晚到清代），一律标明出处。":"Poetry and idiom quotations are taken from public-domain classics (earliest pre-Qin, latest Qing), always with their source named.","本工具为非官方第三方独立作品，与任何电台、平台、机构无关联。":"This is an unofficial, independent third-party work, unaffiliated with any station, platform or institution.","「猜电台」会播放题库电台的公开直播流用于猜题，流媒体版权归各电台/平台所有；本工具仅作游戏用途，不存储、不转售任何音频。":"“Radio” plays the publicly published live streams of the stations in its bank, for the purposes of a guessing game. Streaming copyright belongs to the stations and platforms; this tool is for play only — no audio is stored or resold.","除上述公开直播流外，其余音效均在本地实时合成；本工具不采集、不上传任何用户数据。":"Apart from those public live streams, every sound is synthesised locally in real time. This tool collects and uploads no user data whatsoever.","预览版功能持续变动，可能与最终硬件版存在差异。":"The preview version keeps changing and may differ from the final hardware edition.","按「现状」提供，不保证适用性；因使用本工具造成的任何损失，风险自负。":"Provided “as is”, with no warranty of fitness; any loss arising from its use is at your own risk.","涉及商标与名称的权利归各自权利人所有。":"Rights in trademarks and names belong to their respective owners.","v1.1（24 个可玩 · 371 题细说 · 中英双语 · 故事 34 节点 10 结局）":"v1.1 (24 games · 371 Deep Reads · bilingual · a 34-node story with 10 endings)","永远的兰兰（Lanlan Eternal）":"Lanlan Eternal"};
 var I18N_ZH=(function(){ var m={},k,v; /* 反转前先把值折叠空白：walkSwap 查表时也折叠，键不折叠就永远对不上（「全 静」会一直卡在英文） */ for(k in I18N_EN){ v=String(I18N_EN[k]).replace(/\s+/g,' ').trim(); if(!v) continue; if(!(v in m)) m[v]=k; } return m; })();
 function walkSwap(root,map){
   if(!root||!root.childNodes) return;
@@ -1015,7 +1018,7 @@ function applyLang(){
   var _bb=document.getElementById('brBtn');
   if(_bb) _bb.textContent = brRun ? L('停 下','S T O P') : L('开 始','S T A R T');
   var _wp=document.getElementById('wPlay');
-  if(_wp) _wp.textContent = windPlaying ? L('静 音','S I L E N T') : L('起 风','S T A R T');
+  if(_wp) _wp.textContent = windPlaying ? L('静 音','S I L E N T') : L('起 风','R I S E');
   if(typeof windStateText==='function') windStateText();
   if(typeof gfWindText==='function') gfWindText();
   if(typeof gfHintRefresh==='function') gfHintRefresh();
@@ -1361,7 +1364,7 @@ function windStop(){
   windPlaying=false; fireOn=false;
   setGain(G.wind,0); setGain(G.rain,0); setGain(G.brook,0);
   setGain(G.leaves,0); setGain(G.insect,0); setGain(G.fire,0);
-  var b=document.getElementById('wPlay'); if(b) b.textContent=L('起 风','S T A R T');
+  var b=document.getElementById('wPlay'); if(b) b.textContent=L('起 风','R I S E');
   windStateText();
 }
 function windToggle(){ if(windPlaying) windStop(); else windPlay(); }
@@ -1434,6 +1437,8 @@ function dialStop(){
 
 /* ================= 题库 ================= */
 var RADIO_CATS=["新闻综合","交通台","音乐","文艺","说书","戏曲","怀旧老歌","网络台","教育台","电视伴音","综合","宗教"];
+/* 分类的英文说法：线索句是界面文案，别让 “It’s a 「新闻综合」 station” 这种中英夹生露出来 */
+var RADIO_CATS_EN=["news & current affairs","traffic","music","arts & culture","storytelling","Chinese opera","oldies","internet-only","education","TV simulcast","general","religious"];
 var RADIO_PROVS=["北京","天津","河北","山西","内蒙古","辽宁","吉林","黑龙江","上海","江苏","浙江","安徽","福建","江西","山东","河南","湖北","湖南","广东","广西","海南","重庆","四川","贵州","云南","西藏","陕西","甘肃","青海","宁夏","新疆","中国台湾","中国香港","中国澳门","其他华语","北美","欧洲","日韩","新马","东南亚","大洋洲","海外中文","全国/网络"];
 var RADIO_BANK=[{"n":"上海戏曲广播","c":5,"p":8,"u":"https://lhttp.qtfm.cn/live/269/64k.mp3","play":1,"alts":[]},{"n":"潮州戏曲广播","c":5,"p":18,"u":"https://lhttp.qingting.fm/live/4595/64k.mp3","play":1,"alts":[]},{"n":"绍兴戏曲广播","c":5,"p":10,"u":"https://lhttp.qtfm.cn/live/5054/64k.mp3","play":1,"alts":[]},{"n":"苏州戏曲广播","c":5,"p":9,"u":"https://lhttp.qtfm.cn/live/20211622/64k.mp3","play":1,"alts":[]},{"n":"安徽戏曲广播","c":5,"p":11,"u":"https://lhttp.qtfm.cn/live/1952/64k.mp3","play":1,"alts":[]},{"n":"北京文艺广播","c":5,"p":0,"u":"https://lhttp.qtfm.cn/live/333/64k.mp3","play":1,"alts":[]},{"n":"南宁故事广播","c":4,"p":19,"u":"https://lhttp.qtfm.cn/live/20440/64k.mp3","play":1,"alts":[]},{"n":"济南故事广播","c":4,"p":14,"u":"https://lhttp.qtfm.cn/live/1672/64k.mp3","play":1,"alts":[]},{"n":"廊坊交通长书广播","c":4,"p":2,"u":"https://lhttp.qtfm.cn/live/3948/64k.mp3","play":1,"alts":[]},{"n":"沧州长书文艺广播","c":4,"p":2,"u":"https://lhttp.qingting.fm/live/5021902/64k.mp3","play":1,"alts":[]},{"n":"唐山小说娱乐广播","c":4,"p":2,"u":"https://lhttp.qtfm.cn/live/1660/64k.mp3","play":1,"alts":[]},{"n":"上海经典音乐广播","c":6,"p":8,"u":"https://lhttp.qtfm.cn/live/267/64k.mp3","play":1,"alts":[]},{"n":"武汉经典音乐广播","c":6,"p":16,"u":"https://lhttp.qtfm.cn/live/1297/64k.mp3","play":1,"alts":[]},{"n":"沈阳经典音乐广播","c":6,"p":5,"u":"https://lhttp.qtfm.cn/live/5022520/64k.mp3","play":1,"alts":[]},{"n":"太原老年之声","c":6,"p":3,"u":"https://lhttp.qtfm.cn/live/20211701/64k.mp3","play":1,"alts":[]},{"n":"广州金曲音乐广播","c":6,"p":18,"u":"https://lhttp.qtfm.cn/live/20192/64k.mp3","play":1,"alts":[]},{"n":"高阳县怀旧金曲964","c":6,"p":2,"u":"https://lhttp.qtfm.cn/live/5021555/64k.mp3","play":1,"alts":[]},{"n":"崇州年代音乐1022","c":6,"p":22,"u":"https://lhttp.qtfm.cn/live/20500066/64k.mp3","play":1,"alts":[]},{"n":"昆明老年广播","c":6,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1937/64k.mp3","play":1,"alts":[]},{"n":"阿基米德故事会","c":7,"p":8,"u":"https://lhttp.qtfm.cn/live/20500182/64k.mp3","play":1,"alts":[]},{"n":"黄梅之声","c":7,"p":42,"u":"https://lhttp-hw.qtfm.cn/live/5022280/64k.mp3","play":1,"alts":[]},{"n":"500 首华语经典","c":7,"p":42,"u":"https://lhttp.qtfm.cn/live/5022308/64k.mp3","play":1,"alts":[]},{"n":"杭州华语之声网络广播","c":7,"p":10,"u":"https://lhttp.qtfm.cn/live/20505/64k.mp3","play":1,"alts":[]},{"n":"襄阳文化教育广播","c":8,"p":16,"u":"https://lhttp.qtfm.cn/live/5057/64k.mp3","play":1,"alts":[]},{"n":"张家口综艺广播","c":3,"p":2,"u":"https://lhttp.qtfm.cn/live/5021910/64k.mp3","play":1,"alts":[]},{"n":"新疆维语文艺广播","c":3,"p":30,"u":"https://lhttp.qtfm.cn/live/20639/64k.mp3","play":1,"alts":[]},{"n":"伊犁文艺交通广播","c":3,"p":30,"u":"https://lhttp.qtfm.cn/live/5022689/64k.mp3","play":1,"alts":[]},{"n":"内蒙古文艺之声","c":3,"p":4,"u":"https://lhttp.qtfm.cn/live/1886/64k.mp3","play":1,"alts":[]},{"n":"北京音乐广播","c":2,"p":0,"u":"https://lhttp.qtfm.cn/live/332/64k.mp3","play":1,"alts":[]},{"n":"大理电台苍洱调频","c":2,"p":24,"u":"https://lhttp.qtfm.cn/live/1940/64k.mp3","play":1,"alts":[]},{"n":"89.3芒果音乐台","c":2,"p":17,"u":"https://lhttp.qtfm.cn/live/4979/64k.mp3","play":1,"alts":[]},{"n":"哈尔滨古典音乐广播","c":2,"p":7,"u":"https://lhttp.qtfm.cn/live/5022338/64k.mp3","play":1,"alts":[]},{"n":"浙江音乐调频","c":2,"p":10,"u":"https://lhttp.qtfm.cn/live/4866/64k.mp3","play":1,"alts":[]},{"n":"张家口986音乐广播","c":2,"p":2,"u":"https://lhttp.qtfm.cn/live/5021801/64k.mp3","play":1,"alts":[]},{"n":"安阳1008音乐广播","c":2,"p":15,"u":"https://lhttp.qtfm.cn/live/2123/64k.mp3","play":1,"alts":[]},{"n":"苏州都市音乐广播","c":2,"p":9,"u":"https://lhttp.qtfm.cn/live/2803/64k.mp3","play":1,"alts":[]},{"n":"四川音乐广播","c":2,"p":22,"u":"https://lhttp.qtfm.cn/live/1110/64k.mp3","play":1,"alts":[]},{"n":"北京交通广播","c":1,"p":0,"u":"https://lhttp.qingting.fm/live/336/64k.mp3","play":1,"alts":[]},{"n":"上海交通广播","c":1,"p":8,"u":"https://lhttp.qtfm.cn/live/266/64k.mp3","play":1,"alts":[]},{"n":"苏州交通经济广播","c":1,"p":9,"u":"https://lhttp.qtfm.cn/live/2806/64k.mp3","play":1,"alts":[]},{"n":"CNR-1 中国之声","c":0,"p":0,"u":"https://lhttp.qtfm.cn/live/15318317/64k.mp3","play":1,"alts":[]},{"n":"广东珠江经济台","c":0,"p":18,"u":"https://lhttp.qtfm.cn/live/1259/64k.mp3","play":1,"alts":[]},{"n":"福建经济广播","c":0,"p":12,"u":"https://lhttp.qtfm.cn/live/1732/64k.mp3","play":1,"alts":[]},{"n":"武汉经济广播","c":0,"p":16,"u":"https://lhttp-hw.qtfm.cn/live/20200/64k.mp3","play":1,"alts":[]},{"n":"泸州对农经济生活广播","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/5021565/64k.mp3","play":1,"alts":[]},{"n":"100.8包河之声","c":0,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/5022668/64k.mp3","play":1,"alts":[]},{"n":"义安电台","c":10,"p":11,"u":"https://lhttp.qingting.fm/live/5021979/64k.mp3","play":1,"alts":[]},{"n":"合肥交通信息广播","c":1,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1960/64k.mp3","play":1,"alts":[]},{"n":"合肥文旅广播","c":10,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1961/64k.mp3","play":1,"alts":[]},{"n":"合肥文艺广播","c":3,"p":11,"u":"https://lhttp-hw.qtfm.cn/live/1975/64k.mp3","play":1,"alts":[]},{"n":"CityFM城市音乐台","c":2,"p":42,"u":"https://lhttp.qtfm.cn/live/20500153/64k.mp3","play":1,"alts":[]},{"n":"万盛融媒体中心综合广播","c":0,"p":42,"u":"https://lhttp-hw.qtfm.cn/live/15318480/64k.mp3","play":1,"alts":[]},{"n":"80后音悦台·河南网络电台","c":7,"p":15,"u":"https://play-radio-stream3.hndt.com/now/SFZeH2cb/chunklist.m3u8","play":1,"alts":[]},{"n":"三门峡交通文艺广播","c":1,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/15318227/64k.mp3","play":1,"alts":[]},{"n":"三门峡综合广播","c":0,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/5022134/64k.mp3","play":1,"alts":[]},{"n":"信阳平桥广播","c":10,"p":15,"u":"https://lhttp.qingting.fm/live/15318156/64k.mp3","play":1,"alts":[]},{"n":"兰考综合广播","c":0,"p":15,"u":"https://lhttp-hw.qtfm.cn/live/20500167/64k.mp3","play":1,"alts":[]},{"n":"DLR-3大连体育广播","c":10,"p":5,"u":"https://lhttp.qingting.fm/live/1085/64k.mp3","play":1,"alts":[]},{"n":"DLR-5大连少儿广播","c":8,"p":5,"u":"https://lhttp.qtfm.cn/live/5022506/64k.mp3","play":1,"alts":[]},{"n":"99.1大连都市之声广播","c":0,"p":5,"u":"https://lhttp.qtfm.cn/live/1086/64k.mp3","play":1,"alts":[]},{"n":"东港新东港广播","c":10,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/5022186/64k.mp3","play":1,"alts":[]},{"n":"凌源综合广播","c":0,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/15318298/64k.mp3","play":1,"alts":[]},{"n":"大连交通广播","c":1,"p":5,"u":"https://lhttp-hw.qtfm.cn/live/3997/64k.mp3","play":1,"alts":[]},{"n":"101仙居融媒体广播","c":0,"p":10,"u":"https://lhttp-hw.qtfm.cn/live/5021908/64k.mp3","play":1,"alts":[]},{"n":"105平阳电台","c":10,"p":10,"u":"https://lhttp-hw.qtfm.cn/live/5022624/64k.mp3","play":1,"alts":[]},{"n":"97舟山交通音乐广播","c":1,"p":10,"u":"https://lhttp.qingting.fm/live/1161/64k.mp3","play":1,"alts":[]},{"n":"998舟山新闻综合广播","c":0,"p":10,"u":"https://lhttp.qingting.fm/live/1160/64k.mp3","play":1,"alts":[]},{"n":"东阳综合广播","c":0,"p":10,"u":"https://lhttp.qtfm.cn/live/21181/64k.mp3","play":1,"alts":[]},{"n":"临安综合广播","c":0,"p":10,"u":"https://lhttp.qtfm.cn/live/20005/64k.mp3","play":1,"alts":[]},{"n":"98.3如皋人民广播电台","c":0,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/20207734/64k.mp3","play":1,"alts":[]},{"n":"东海综合广播","c":0,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/20500220/64k.mp3","play":1,"alts":[]},{"n":"仪征人民广播电台","c":0,"p":9,"u":"https://lhttp.qingting.fm/live/15318182/64k.mp3","play":1,"alts":[]},{"n":"南京音乐广播","c":2,"p":9,"u":"https://lhttp-hw.qtfm.cn/live/4963/64k.mp3","play":1,"alts":[]},{"n":"南通交通广播","c":1,"p":9,"u":"https://lhttp.qtfm.cn/live/5021533/64k.mp3","play":1,"alts":[]},{"n":"南通生活广播","c":10,"p":9,"u":"https://lhttp.qtfm.cn/live/21275/64k.mp3","play":1,"alts":[]},{"n":"七星关人民广播电台","c":0,"p":23,"u":"https://lhttp.qingting.fm/live/5021866/64k.mp3","play":1,"alts":[]},{"n":"习水综合广播","c":0,"p":23,"u":"https://lhttp-hw.qtfm.cn/live/15318201/64k.mp3","play":1,"alts":[]},{"n":"六盘水综合广播","c":0,"p":23,"u":"https://lhttp.qingting.fm/live/20211616/64k.mp3","play":1,"alts":[]},{"n":"兴义市广播电视台","c":10,"p":23,"u":"https://lhttp-hw.qtfm.cn/live/20500110/64k.mp3","play":1,"alts":[]},{"n":"万宁综合广播","c":0,"p":20,"u":"https://lhttp-hw.qtfm.cn/live/20500237/64k.mp3","play":1,"alts":[]},{"n":"三台人民广播电台","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/15318544/64k.mp3","play":1,"alts":[]},{"n":"中江县年代音乐994","c":2,"p":22,"u":"https://lhttp.qtfm.cn/live/20500148/64k.mp3","play":1,"alts":[]},{"n":"乐山综合广播","c":0,"p":22,"u":"https://lhttp.qtfm.cn/live/1122/64k.mp3","play":1,"alts":[]},{"n":"乐山音乐交通广播","c":1,"p":22,"u":"https://lhttp.qtfm.cn/live/4864/64k.mp3","play":1,"alts":[]},{"n":"仁寿人民广播电台","c":0,"p":22,"u":"https://lhttp-hw.qtfm.cn/live/5021453/64k.mp3","play":1,"alts":[]},{"n":"凉山州综合广播","c":0,"p":22,"u":"https://lhttp.qingting.fm/live/5022143/64k.mp3","play":1,"alts":[]},{"n":"三明综合广播","c":0,"p":12,"u":"https://lhttp.qtfm.cn/live/5022100/64k.mp3","play":1,"alts":[]},{"n":"云霄综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/20500106/64k.mp3","play":1,"alts":[]},{"n":"南安市广播电视台综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/5021731/64k.mp3","play":1,"alts":[]},{"n":"南平综合广播","c":0,"p":12,"u":"https://lhttp-hw.qtfm.cn/live/5022065/64k.mp3","play":1,"alts":[]},{"n":"厦门音乐广播","c":2,"p":12,"u":"https://lhttp.qtfm.cn/live/1739/64k.mp3","play":1,"alts":[]},{"n":"上海戏剧曲艺广播","c":5,"p":8,"u":"https://lhttp.qingting.fm/live/269/64k.mp3","play":1,"alts":[]},{"n":"两广之声音乐台","c":2,"p":18,"u":"https://lhttp.qtfm.cn/live/20500149/64k.mp3","play":1,"alts":[]},{"n":"中山综合广播·新锐967","c":0,"p":18,"u":"https://lhttp.qingting.fm/live/1277/64k.mp3","play":1,"alts":[]},{"n":"兴宁电台","c":10,"p":18,"u":"https://lhttp-hw.qtfm.cn/live/20500218/64k.mp3","play":1,"alts":[]},{"n":"南方生活广播","c":10,"p":18,"u":"https://lhttp.qtfm.cn/live/468/64k.mp3","play":1,"alts":[]},{"n":"台山五邑旅游频道","c":10,"p":18,"u":"https://lhttp.qingting.fm/live/5022062/64k.mp3","play":1,"alts":[]},{"n":"临朐人民广播电台","c":0,"p":14,"u":"https://lhttp.qingting.fm/live/20500033/64k.mp3","play":1,"alts":[]},{"n":"临沂交通旅游广播","c":1,"p":14,"u":"https://lhttp.qtfm.cn/live/3993/64k.mp3","play":1,"alts":[]},{"n":"临沂文艺广播","c":3,"p":14,"u":"https://lhttp.qtfm.cn/live/3995/64k.mp3","play":1,"alts":[]},{"n":"临沂经济广播","c":10,"p":14,"u":"https://lhttp.qtfm.cn/live/3994/64k.mp3","play":1,"alts":[]},{"n":"临沂综合广播","c":0,"p":14,"u":"https://lhttp.qtfm.cn/live/3992/64k.mp3","play":1,"alts":[]},{"n":"临沂音乐科教广播","c":2,"p":14,"u":"https://lhttp-hw.qtfm.cn/live/4017/64k.mp3","play":1,"alts":[]},{"n":"乌海交通音乐广播","c":1,"p":4,"u":"https://lhttp.qingting.fm/live/15318704/64k.mp3","play":1,"alts":[]},{"n":"内蒙古交通之声","c":1,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1884/64k.mp3","play":1,"alts":[]},{"n":"内蒙古农村牧区广播","c":10,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1888/64k.mp3","play":1,"alts":[]},{"n":"内蒙古新闻综合广播","c":0,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1883/64k.mp3","play":1,"alts":[]},{"n":"内蒙古蒙语广播","c":10,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1882/64k.mp3","play":1,"alts":[]},{"n":"内蒙古音乐之声","c":2,"p":4,"u":"https://lhttp-hw.qtfm.cn/live/1886/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐交通广播","c":1,"p":30,"u":"https://lhttp.qtfm.cn/live/1919/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐新闻广播","c":0,"p":30,"u":"https://lhttp.qingting.fm/live/1918/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐旅游音乐广播","c":2,"p":30,"u":"https://lhttp.qtfm.cn/live/1920/64k.mp3","play":1,"alts":[]},{"n":"乌鲁木齐维语广播","c":10,"p":30,"u":"https://lhttp.qtfm.cn/live/1923/64k.mp3","play":1,"alts":[]},{"n":"五师人民广播电台双河之声","c":0,"p":30,"u":"https://lhttp.qtfm.cn/live/20207772/64k.mp3","play":1,"alts":[]},{"n":"伊犁哈语广播","c":10,"p":30,"u":"https://lhttp.qingting.fm/live/5022692/64k.mp3","play":1,"alts":[]},{"n":"九江交通广播","c":1,"p":13,"u":"https://lhttp.qingting.fm/live/5021918/64k.mp3","play":1,"alts":[]},{"n":"九江年代音乐台","c":2,"p":13,"u":"https://lhttp.qingting.fm/live/20212210/64k.mp3","play":1,"alts":[]},{"n":"九江文化旅游广播","c":10,"p":13,"u":"https://lhttp.qtfm.cn/live/20212210/64k.mp3","play":1,"alts":[]},{"n":"九江赣北之声广播","c":0,"p":13,"u":"https://lhttp.qtfm.cn/live/5022648/64k.mp3","play":1,"alts":[]},{"n":"南康广播电台","c":10,"p":13,"u":"https://lhttp.qtfm.cn/live/5021869/64k.mp3","play":1,"alts":[]},{"n":"南昌交通音乐广播","c":1,"p":13,"u":"https://lhttp.qtfm.cn/live/1804/64k.mp3","play":1,"alts":[]},{"n":"云南交通之声","c":1,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1928/64k.mp3","play":1,"alts":[]},{"n":"云南新闻广播","c":0,"p":24,"u":"https://lhttp.qtfm.cn/live/1926/64k.mp3","play":1,"alts":[]},{"n":"云南民族广播","c":10,"p":24,"u":"https://lhttp.qtfm.cn/live/1933/64k.mp3","play":1,"alts":[]},{"n":"云南经济广播","c":10,"p":24,"u":"https://lhttp.qtfm.cn/live/1927/64k.mp3","play":1,"alts":[]},{"n":"云南音乐广播","c":2,"p":24,"u":"https://lhttp.qtfm.cn/live/1929/64k.mp3","play":1,"alts":[]},{"n":"大理市电台苍洱调频","c":2,"p":24,"u":"https://lhttp-hw.qtfm.cn/live/1940/64k.mp3","play":1,"alts":[]},{"n":"保定交通频道","c":1,"p":2,"u":"https://lhttp.qtfm.cn/live/20168/64k.mp3","play":1,"alts":[]},{"n":"保定新闻频道","c":0,"p":2,"u":"https://lhttp.qtfm.cn/live/5022440/64k.mp3","play":1,"alts":[]},{"n":"唐山经济广播","c":10,"p":2,"u":"https://lhttp.qtfm.cn/live/15318431/64k.mp3","play":1,"alts":[]},{"n":"唐山综合广播","c":0,"p":2,"u":"https://lhttp.qtfm.cn/live/1657/64k.mp3","play":1,"alts":[]},{"n":"公主岭综合广播","c":0,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/20212386/64k.mp3","play":1,"alts":[]},{"n":"吉林市音乐广播","c":2,"p":6,"u":"https://lhttp.qtfm.cn/live/20211679/64k.mp3","play":1,"alts":[]},{"n":"吉林旅游广播(2)","c":10,"p":6,"u":"https://lhttp.qingting.fm/live/20487/64k.mp3","play":1,"alts":[]},{"n":"四平交通文艺广播","c":1,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/5022465/64k.mp3","play":1,"alts":[]},{"n":"四平综合广播","c":0,"p":6,"u":"https://lhttp-hw.qtfm.cn/live/15318197/64k.mp3","play":1,"alts":[]},{"n":"北京新闻广播","c":0,"p":0,"u":"https://lhttp.qtfm.cn/live/339/64k.mp3","play":1,"alts":[]},{"n":"南宁交通音乐广播","c":1,"p":19,"u":"https://lhttp.qtfm.cn/live/20767/64k.mp3","play":1,"alts":[]},{"n":"南宁综合广播","c":0,"p":19,"u":"https://lhttp.qtfm.cn/live/20358/64k.mp3","play":1,"alts":[]},{"n":"吕梁综合广播","c":0,"p":3,"u":"https://lhttp-hw.qtfm.cn/live/4020/64k.mp3","play":1,"alts":[]},{"n":"垣曲人民广播电台","c":0,"p":3,"u":"https://lhttp.qingting.fm/live/20500090/64k.mp3","play":1,"alts":[]},{"n":"咸阳综合广播","c":0,"p":26,"u":"https://lhttp.qingting.fm/live/5022397/64k.mp3","play":1,"alts":[]},{"n":"哈尔滨冰城融媒体电台","c":0,"p":7,"u":"https://lhttp-hw.qtfm.cn/live/20212259/64k.mp3","play":1,"alts":[]},{"n":"大庆交通广播","c":1,"p":7,"u":"https://lhttp.qtfm.cn/live/20500061/64k.mp3","play":1,"alts":[]},{"n":"大庆综合广播","c":0,"p":7,"u":"https://lhttp.qtfm.cn/live/20500060/64k.mp3","play":1,"alts":[]},{"n":"大庆音乐广播","c":2,"p":7,"u":"https://lhttp.qtfm.cn/live/20500212/64k.mp3","play":1,"alts":[]},{"n":"大足综合广播","c":0,"p":21,"u":"https://lhttp-hw.qtfm.cn/live/20211676/64k.mp3","play":1,"alts":[]}];
 
@@ -1457,7 +1462,7 @@ var NAV=[
   {g:'静一静',ge:'Quiet',items:[
     {id:'bubble',ic:'🫧',nm:'捏泡泡',en:'Bubbles'},
     {id:'breathe',ic:'🌊',nm:'一呼一吸',en:'Breathe'},
-    {id:'wind',ic:'🎐',nm:'听风',en:'Wind'},
+    {id:'wind',ic:'🎐',nm:'听风',en:'Wind chimes'},
     {id:'ripple',ic:'💧',nm:'水面涟漪',en:'Ripples'},
     {id:'sand',ic:'🏖',nm:'指尖流沙',en:'Sand'},
     {id:'lantern',ic:'🏮',nm:'放孔明灯',en:'Lanterns'}]},
@@ -2064,7 +2069,7 @@ function rdShuffle(){
 }
 function rdStation(i){ return RADIO_BANK[rdOrder[i]]; }
 function rdName(s){ return s.n; }
-function rdCatName(s){ return RADIO_CATS[s.c]; }
+function rdCatName(s){ return LANG==='en'?(RADIO_CATS_EN[s.c]||RADIO_CATS[s.c]):RADIO_CATS[s.c]; }
 function rdProvName(s){ return LANG==='en'?'China':(RADIO_PROVS[s.p]||'其他'); }
 function rdIsPlayable(s){ return !!(s&&s.u&&s.play); }
 function rdFreqOf(n){
@@ -2182,6 +2187,8 @@ function rdBuildOpts(){
   picks.sort(function(){ return Math.random()-0.5; });
   return picks;
 }
+/* 同上：选项目顺序按台缓存 */
+var rdOptKey=null,rdOptsCache=null;
 function rdRender(){
   var s=rdCur;
   var texts=rdClueTexts(s);
@@ -2197,7 +2204,9 @@ function rdRender(){
   document.getElementById('rdClueBtn').style.display=rdAnswered?'none':'';
   document.getElementById('rdClueBtn').textContent=L('再给一条线索（-'+(rdScore(rdClues+1)<rdScore(rdClues)?(rdScore(rdClues)-rdScore(rdClues+1)):10)+' 分）','One more clue (-'+(rdScore(rdClues+1)<rdScore(rdClues)?(rdScore(rdClues)-rdScore(rdClues+1)):10)+' pts)');
   var box=document.getElementById('rdOpts');
-  var opts=rdBuildOpts();
+  var opts;
+  if(rdOptKey===s&&rdOptsCache){ opts=rdOptsCache; }
+  else{ opts=rdBuildOpts(); rdOptKey=s; rdOptsCache=opts; }
   box.innerHTML='';
   opts.forEach(function(o,i){
     optMake(box,o.n,o,function(b,v){ rdAnswer(b,v); },i);
@@ -2223,16 +2232,22 @@ function rdAnswer(btn,pick){
     ding();
     document.getElementById('rdNote').style.display='block';
     document.getElementById('rdNote').innerHTML=L('<b>猜中了，+'+gain+' 分'+(mult>1?'（双倍）':'')+'。</b>','<b>Got it! +'+gain+' pts'+(mult>1?' (doubled)':'')+'.</b>')+esc(rdCur.n)+' —— '+esc(rdCatName(rdCur))+' · '+esc(rdProvName(rdCur))+'<br>'+L(mult>1?'这个台浏览器里放不出声，全凭线索也拿下了。':'刚才那段直播就是它，只用了 '+rdClues+' 条线索，耳朵很灵。', mult>1?'That station won’t play in a browser, so this was won on clues alone.':'That live stream was it — and you needed only '+rdClues+' clues. Sharp ears.');
-    document.getElementById('rdStart').textContent=L('下一题','Next');
+    rdStartText();
   }else{
     thud();
     document.getElementById('rdNote').style.display='block';
     document.getElementById('rdNote').innerHTML=L('<b>不是这台。</b>正确答案是 ','<b>Not this one.</b> The answer is ')+'<b>'+esc(rdCur.n)+'</b>（'+esc(rdCatName(rdCur))+' · '+esc(rdProvName(rdCur))+'）。'+L('没关系，下一题找回场子。','Never mind — get it back on the next one.');
-    document.getElementById('rdStart').textContent=L('下一题','Next');
+    rdStartText();
   }
   document.getElementById('rdClueBtn').style.display='none';
   rdLiveUpdate('paused');
   rdStat();
+}
+/* 电台主按钮：文案由「是否答过 / 是否已开播」决定，切语言时按当前状态重设一次 */
+function rdStartText(){
+  var b=document.getElementById('rdStart'); if(!b) return;
+  b.textContent = rdAnswered ? L('下一题','Next')
+    : L(rdArmed?'转动旋钮，换一题':'转动旋钮，开播', rdArmed?'Turn the dial for a new one':'Turn the dial to start');
 }
 function rdStat(){
   document.getElementById('rdScore').textContent=S.radio.score;
@@ -2247,7 +2262,7 @@ function rdNext(withAudio){
   rdClues=rdIsPlayable(rdCur)?1:2;   /* 纯线索模式多送一条补偿 */
   rdAnswered=false;
   document.getElementById('rdNote').style.display='none';
-  document.getElementById('rdStart').textContent=L(rdArmed?'转动旋钮，换一题':'转动旋钮，开播', rdArmed?'Turn the dial for a new one':'Turn the dial to start');
+  rdStartText();
   /* 旋钮视觉 + 半秒调台静态，随后真电台淡入 */
   dialNoise();
   var needle=document.getElementById('rdNeedle');
@@ -2297,6 +2312,7 @@ function rdInit(){
 ENTER.radio=function(){
   if(!rdCur) rdNext(false);
   rdStat();
+  rdStartText();   /* 主按钮文案按当前语言重设（启动时写的是中文） */
 };
 LEAVE.radio=function(){ rdStopAudio(); dialStop(); };
 
@@ -2348,8 +2364,13 @@ function pmQuestion(){
   while(opts.length<4) opts.push('——');
   return {kind:kind,ans:ans,opts:pmShuffleArr(opts)};
 }
+/* 同一道题的选项顺序缓起来：切语言要重绘题干（题干带英文），但选项不该跟着乱跳 */
+var pmOptKey=null,pmOptsCache=null;
 function pmRender(){
-  var q=pmQuestion();
+  var key=pmIdx+'|'+(pmCur?pmCur.a:'');
+  var q;
+  if(pmOptKey===key&&pmOptsCache){ q=pmOptsCache; }
+  else{ q=pmQuestion(); pmOptKey=key; pmOptsCache=q; }
   document.getElementById('pmTag').textContent=L(PM_KIND_TAG[q.kind][0],PM_KIND_TAG[q.kind][1]);
   var main=document.getElementById('pmQ');
   var sub=document.getElementById('pmSub');
@@ -2419,12 +2440,17 @@ function idShuffle(){
   }
   idIdx=0;
 }
+/* 同上：选项顺序按题缓存，避免切语言时重排 */
+var idOptKey=null,idOptsCache=null;
 function idRender(){
   var q=idCur;
   document.getElementById('idQ').textContent=q.q;
   var box=document.getElementById('idOpts');
   box.innerHTML='';
-  pmShuffleArr(q.o.concat([q.a])).forEach(function(o,i){
+  var arr;
+  if(idOptKey===q&&idOptsCache){ arr=idOptsCache; }
+  else{ arr=pmShuffleArr(q.o.concat([q.a])); idOptKey=q; idOptsCache=arr; }
+  arr.forEach(function(o,i){
     optMake(box,o,o,function(b,v){ idAnswer(b,v); },i);
   });
   document.getElementById('idNote').style.display='none';
@@ -2441,7 +2467,7 @@ function idAnswer(btn,pick){
   if(ok){ S.idiom.score+=10; S.idiom.right++; save(); ding(); }
   else{ thud(); }
   document.getElementById('idNote').style.display='block';
-  document.getElementById('idNote').innerHTML=L(ok?'<b>对，+10 分。</b>':'<b>差一点。</b>', ok?'<b>Right, +10.</b>':'<b>So close.</b>')
+  document.getElementById('idNote').innerHTML=L(ok?'<b>对，+10 分。</b>':'<b>差一点。</b>', ok?'<b>Right, +10.</b> ':'<b>So close.</b> ')
     +readHTML(idCur);
   idStat();
 }
@@ -2618,7 +2644,7 @@ function hiss(){                       /* 沙沙 */
 /* 英文模式下只发配了英文的题（视野类 57 题）；中文年代题材那 50 题属中文语境专属，
    不硬翻、也不混进英文牌堆，否则会出现「英文界面里冒出中文题」。 */
 function qaBank(){ return LANG==='en'?QASK_BANK.filter(function(x){return !!x.en;}):QASK_BANK; }
-var qaOrder=[],qaIdx=0,qaCur=null,qaAnswered=false;
+var qaOrder=[],qaIdx=0,qaCur=null,qaAnswered=false,qaLastOk=false,qaPicked=null;
 function qaShuffle(){
   qaOrder=qaBank().map(function(_,i){return i;});
   for(var i=qaOrder.length-1;i>0;i--){
@@ -2631,6 +2657,7 @@ function qaRender(){
   var q=IT(qaCur);
   document.getElementById('qaTag').textContent='—— '+q.t+' ——';
   document.getElementById('qaA').textContent=L('「'+q.a+'」','“'+q.a+'”');
+  /* 这里不缓存选项：pick 的题干有英文版，切语言时四个选项的文字本来就要整套换掉 */
   var opts=pmShuffleArr([q.q].concat(q.o));
   var box=document.getElementById('qaOpts');
   box.innerHTML='';
@@ -2638,6 +2665,25 @@ function qaRender(){
     optMake(box,o,o,function(b,v){ qaAnswer(b,v); },i);
   });
   document.getElementById('qaNote').style.display='none';
+}
+/* 切语言时重绘当前题：选项重排没关系，但要把已答状态和那段解读还原回去 */
+function qaRepaint(){
+  if(!qaCur){ qaNext(); return; }
+  qaRender();
+  if(!qaAnswered) return;
+  var c=IT(qaCur);
+  document.getElementById('qaOpts').querySelectorAll('.opt').forEach(function(b){
+    b.disabled=true;
+    if(b.__v===c.q) b.classList.add('ok');
+    else if(b.__v===qaPicked) b.classList.add('no');
+  });
+  var n=document.getElementById('qaNote');
+  n.style.display='block';
+  n.innerHTML=(qaLastOk?L('<b>对，就是这句，+10 分。</b>','<b>Yes, that’s the one. +10.</b> ')
+                 :L('<b>不是这句。</b>正确的提问是 ','<b>Not this one.</b> The question was '))
+    +'<b>'+L('「'+c.q+'」','“'+c.q+'”')+'</b>'
+    +readHTML(c);
+  qaStat();
 }
 function qaAnswer(btn,pick){
   if(qaAnswered) return;
@@ -2649,11 +2695,12 @@ function qaAnswer(btn,pick){
     if(b.__v===cur.q) b.classList.add('ok');
     else if(b===btn) b.classList.add('no');
   });
+  qaLastOk=ok; qaPicked=pick;
   if(ok){ S.qask.score+=10; S.qask.right=(S.qask.right||0)+1; save(); ding(); }
   else{ thud(); }
   var n=document.getElementById('qaNote');
   n.style.display='block';
-  n.innerHTML=(ok?L('<b>对，就是这句，+10 分。</b>','<b>Yes, that’s the one. +10.</b>')
+  n.innerHTML=(ok?L('<b>对，就是这句，+10 分。</b>','<b>Yes, that’s the one. +10.</b> ')
                  :L('<b>不是这句。</b>正确的提问是 ','<b>Not this one.</b> The question was '))
     +'<b>'+L('「'+cur.q+'」','“'+cur.q+'”')+'</b>'
     +readHTML(cur);
@@ -3072,8 +3119,19 @@ function poRack(){
   }
   po.pot=0; po.shots=0; po.moving=false;
   poStat();
-  document.getElementById('poHint').textContent=L('点住想打的方向，拖得越远力越大，松手出杆。白球进袋不算失误，摆回来继续。',
+  poMsgSet('点住想打的方向，拖得越远力越大，松手出杆。白球进袋不算失误，摆回来继续。',
     'Drag towards the shot you want; the further you pull, the harder it goes. Potting the cue ball is no foul — it comes right back.');
+}
+/* 台球提示条：事件发生时把中英两版都存下来，切语言时取对应那版
+   （原来只在摆台/落袋那一刻写一次，切 EN 后这句就停在中文） */
+var poMsgZ=null, poMsgE=null;
+function poMsgSet(zh,en){
+  poMsgZ=zh; poMsgE=en;
+  var el=document.getElementById('poHint'); if(el) el.textContent=L(zh,en);
+}
+function poMsgLang(){
+  if(poMsgZ==null) return;
+  var el=document.getElementById('poHint'); if(el) el.textContent=(LANG==='en'?poMsgE:poMsgZ);
 }
 function poStat(){
   document.getElementById('poPot').textContent=po.pot;
@@ -3137,15 +3195,14 @@ function poStep(){
       if(dx*dx+dy*dy<PO_PK*PO_PK){
         b.on=0;
         if(b.cue){
-          document.getElementById('poHint').textContent=L('白球进袋了——不算失误，摆回开球点，继续。','Cue ball potted — no foul, back to the break spot, carry on.');
+          poMsgSet('白球进袋了——不算失误，摆回开球点，继续。','Cue ball potted — no foul, back to the break spot, carry on.');
           thud();
         }else{
           po.pot++;
           S.pool.pot=(S.pool.pot||0)+1; save();
           var left=po.balls.filter(function(x){return x.on&&!x.cue;}).length;
-          document.getElementById('poHint').textContent=left>0
-            ?L('进了！还剩 '+left+' 颗，慢慢来。','In! '+left+' left, take your time.')
-            :L('清台了！'+po.pot+' 颗全部落袋，重新摆一局？','Table cleared! All '+po.pot+' potted — rack them up again?');
+          poMsgSet(left>0?'进了！还剩 '+left+' 颗，慢慢来。':'清台了！'+po.pot+' 颗全部落袋，重新摆一局？',
+                   left>0?'In! '+left+' left, take your time.':'Table cleared! All '+po.pot+' potted — rack them up again?');
           ding(); refreshHome();
         }
         poStat();
@@ -3258,7 +3315,7 @@ function poInit(){
   window.addEventListener('pointercancel',function(){ po.aiming=false; po.aim=null; });
   document.getElementById('poNew').addEventListener('click',function(){ poRack(); });
 }
-ENTER.pool=function(){ if(!po.raf) poFrame(); poStat(); };
+ENTER.pool=function(){ if(!po.raf) poFrame(); poStat(); poMsgLang(); };   /* 进来先对齐当前语言（提示条是启动时写的） */
 LEAVE.pool=poStop;
 
 /* ================= 弹珠台（太空弹珠 · 星轨版） ================= */
@@ -5391,8 +5448,19 @@ function tsThrow(){
   ts.phase='fly'; ts.drag=null; ts.rimHit=false;
   ts.gustT=0; ts.gustDone=false;
   tsSnd('throw');
-  ts.msg=L(ts.gust?'这球有阵风，半路会变 · 空心进桶再加 10 分':'看它飞 · 空心进桶再加 10 分', ts.gust?'A gust on this one — it turns mid-flight · +10 more for a swish':'Watch it fly · +10 more for a swish');
+  tsMsgSet(ts.gust?'这球有阵风，半路会变 · 空心进桶再加 10 分':'看它飞 · 空心进桶再加 10 分', ts.gust?'A gust on this one — it turns mid-flight · +10 more for a swish':'Watch it fly · +10 more for a swish');
   tsUI();
+}
+/* 纸团提示条：事件时把中英两版都存下来，切语言取对应那版（画布里那句也跟着变） */
+function tsMsgSet(zh,en){
+  ts.msgZ=zh; ts.msgE=en;
+  ts.msg=L(zh,en);
+}
+function tsMsgLang(){
+  if(ts.msgZ==null) return;
+  ts.msg=(LANG==='en'?ts.msgE:ts.msgZ);
+  var h=document.getElementById('tsHint');
+  if(h) h.textContent=ts.msg;
 }
 function tsScoreIt(){
   var hollow=!ts.rimHit;
@@ -5412,7 +5480,7 @@ function tsScoreIt(){
   tsSnd(hollow?'hollow':'in');
   if(ts.streak>=3) tsSnd('streak');
   if(up){ tsSnd('level'); tsPop(TS_W/2,150,L('难度 '+(nl+1),'Level '+(nl+1))); }
-  ts.msg=L((hollow?'空心！纸团没碰到桶沿':'进了')
+  tsMsgSet((hollow?'空心！纸团没碰到桶沿':'进了')
         +(up?' · 难度升到 '+(nl+1)+'：桶更小、放得更远、风更大':' · 连进 '+ts.streak+' 个'),
         (hollow?'Swish! Not a touch of rim':'In')+(up?' · level up to '+(nl+1)+': smaller bin, further out, more wind':' · '+ts.streak+' in a row'));
   ts.phase='in'; ts.resetT=0;
@@ -5422,7 +5490,7 @@ function tsScoreIt(){
 function tsMiss(){
   ts.streak=0;
   tsSnd('miss');
-  ts.msg=L('没进也没关系，纸团捡起来再扔 · 难度不会退，连进才越来越值钱','No harm in a miss — pick it up and throw again · the level never drops, and streaks are what pay');
+  tsMsgSet('没进也没关系，纸团捡起来再扔 · 难度不会退，连进才越来越值钱','No harm in a miss — pick it up and throw again · the level never drops, and streaks are what pay');
   ts.phase='miss'; ts.resetT=0;
   tsUI();
 }
@@ -5694,7 +5762,7 @@ function tsInit(){
   var nb=document.getElementById('tsNew');
   if(nb) nb.addEventListener('click',function(){ tsReset(); });
   tsReset();
-  ts.msg=L('按住纸团往后拉，松手扔出去 · 空心进桶有额外奖励',
+  tsMsgSet('按住纸团往后拉，松手扔出去 · 空心进桶有额外奖励',
            'Pull the paper back and let go · a clean swish pays extra');
   tsUI();
 }
@@ -5748,7 +5816,7 @@ function tsSnd(kind){
   }
   else if(kind==='miss') jpTone({f0:300,f1:180,dur:0.22,vol:0.07,type:'sine'});
 }
-ENTER.toss=function(){ audioInit(); if(!ts.raf) tsFrame(); tsUI(); };
+ENTER.toss=function(){ audioInit(); if(!ts.raf) tsFrame(); tsUI(); tsMsgLang(); };   /* 同上：提示条别停在启动时的语言 */
 LEAVE.toss=function(){
   if(ts.raf){ cancelAnimationFrame(ts.raf); ts.raf=0; }
   ts.drag=null;
@@ -5804,6 +5872,7 @@ function quizMake(cfg){
       if(b.__v===cur.a) b.classList.add('ok');
       else if(b===btn) b.classList.add('no');
     });
+    q.lastOk=ok; q.picked=pick;
     if(ok){ S[cfg.key].score+=10; S[cfg.key].right=(S[cfg.key].right||0)+1; ding(); }
     else{ thud(); }
     S[cfg.key].done=(S[cfg.key].done||0)+1;
@@ -5811,11 +5880,30 @@ function quizMake(cfg){
     var note=el('Note');
     if(note){
       note.style.display='block';
-      note.innerHTML=L(ok?'<b>对，+10 分。</b>':'<b>差一点。</b>', ok?'<b>Right, +10.</b>':'<b>So close.</b>')
+      note.innerHTML=L(ok?'<b>对，+10 分。</b>':'<b>差一点。</b>', ok?'<b>Right, +10.</b> ':'<b>So close.</b> ')
         +readHTML(cur);
     }
     q.stat();
     refreshHome();
+  };
+  /* 切语言时重绘这一题：题目/选项/标签跟着语言走，已答状态与解析一起还原
+     （以前 xsOnLang 直接 next()，等于把用户正在看的那题连同解读一起抽走） */
+  q.repaint=function(){
+    if(!q.cur){ q.next(); return; }
+    q.render();
+    if(!q.answered) return;
+    var it=IT(q.cur), box=el('Opts');
+    if(box) box.querySelectorAll('.opt').forEach(function(b){
+      b.disabled=true;
+      if(b.__v===it.a) b.classList.add('ok');
+      else if(b.__v===q.picked) b.classList.add('no');
+    });
+    var note=el('Note');
+    if(note){
+      note.style.display='block';
+      note.innerHTML=L(q.lastOk?'<b>对，+10 分。</b>':'<b>差一点。</b>', q.lastOk?'<b>Right, +10.</b> ':'<b>So close.</b> ')
+        +readHTML(it);
+    }
   };
   q.next=function(){
     if(q.idx>=q.order.length) q.shuffle();
@@ -6221,7 +6309,7 @@ function plnReset(){
   pln.trail=[]; pln.fx=[]; pln.pops=[]; pln.inUp=0;
   plnFill();
   plnHud();
-  plnSay(L('按住抬头 · 松开低头 · 飞进暖色的上升气流就会被托起来','Hold to climb · release to dive · fly into a warm thermal and it lifts you'),4.2);
+  plnSayPair('按住抬头 · 松开低头 · 飞进暖色的上升气流就会被托起来','Hold to climb · release to dive · fly into a warm thermal and it lifts you',4.2);
 }
 function plnHud(){
   var a=document.getElementById('plnKm');     if(a) a.textContent=(pln.leg/2600).toFixed(1);
@@ -6232,7 +6320,26 @@ function plnHud(){
   if(typeof refreshSide==='function') refreshSide();
 }
 /* 屏幕正中的一句话（缓慢上浮，很久才散） */
+/* 按画布宽度折行：优先在空格处断，中文按字断 */
+function plnWrap(ctx,txt,maxw){
+  if(ctx.measureText(txt).width<=maxw) return [txt];
+  var out=[],line='',i,ch;
+  for(i=0;i<txt.length;i++){
+    ch=txt[i];
+    if(line&&ctx.measureText(line+ch).width>maxw){
+      if(ch===' '){ out.push(line); line=''; continue; }
+      var sp=line.lastIndexOf(' ');
+      if(sp>0){ out.push(line.slice(0,sp)); line=line.slice(sp+1)+ch; }
+      else{ out.push(line); line=ch; }
+    }else line+=ch;
+  }
+  if(line) out.push(line);
+  return out;
+}
 function plnSay(txt,life){ pln.pops.push({txt:txt,x:0,y:PLN_GY-96,life:life||5,max:life||5,say:1}); }
+/* 画布上的话是提前算好存在数组里的，切语言时按中英两版重取一次，否则会停在生成时的语言 */
+function plnSayPair(zh,en,life){ pln.pops.push({zh:zh,en:en,txt:L(zh,en),x:0,y:PLN_GY-96,life:life||5,max:life||5,say:1}); }
+function plnSayLang(){ (pln.pops||[]).forEach(function(p){ if(p.zh!=null) p.txt=L(p.zh,p.en); }); }
 /* 挂在世界某点上的小飘字 */
 function plnPop(x,y,txt){ pln.pops.push({txt:txt,x:x,y:y,life:1,max:1}); }
 function plnSpark(x,y,n,warm){
@@ -6292,7 +6399,7 @@ function plnStep(){
     plnSndUp();
     if(pln.up%3===0){
       pln.words++; pln.wi=(pln.wi+1)%PLN_SPOKE.length;
-      plnSay(L(PLN_SPOKE[pln.wi].zh,PLN_SPOKE[pln.wi].en),6);
+      plnSayPair(PLN_SPOKE[pln.wi].zh,PLN_SPOKE[pln.wi].en,6);
     }
     plnHud(); save();
   }
@@ -6306,7 +6413,7 @@ function plnStep(){
       var lm=pln.leg/2600;
       if(lm>pln.legBest) pln.legBest=lm;
       pln.leg=0; pln.up=0; plnHud();
-      plnSay(L(lm>=2?('这一程 '+lm.toFixed(1)+' km，纸角都没卷'):'落在屋顶上了，歇一歇', lm>=2?('This run: '+lm.toFixed(1)+' km and not a crease'):'Landed on a rooftop — taking a rest'),3.4);
+      plnSayPair(lm>=2?('这一程 '+lm.toFixed(1)+' km，纸角都没卷'):'落在屋顶上了，歇一歇', lm>=2?('This run: '+lm.toFixed(1)+' km and not a crease'):'Landed on a rooftop — taking a rest',3.4);
       plnSndDown();
     }
   }else if(pln.land===1){                        /* 落稳 */
@@ -6317,7 +6424,7 @@ function plnStep(){
     pln.vy+=(0-pln.vy)*0.2;
     pln.pitch+=(0.18-pln.pitch)*0.12;
     if(pln.landT%4===0) plnSpark(pln.x-6,pln.y+4,2,false);
-    if(pln.landT>26){ pln.land=2; pln.reliftT=0; plnSay(L('风又把它托起来了','A gust lifts it up again'),3); }
+    if(pln.landT>26){ pln.land=2; pln.reliftT=0; plnSayPair('风又把它托起来了','A gust lifts it up again',3); }
   }else{                                         /* 一阵风托起来 */
     pln.reliftT++;
     var k=Math.min(1,pln.reliftT/46);
@@ -6682,10 +6789,16 @@ function plnFrame(){
       var qa=Math.min(1,q.life*0.9);
       if(q.say){
         ctx.font='500 14px system-ui,-apple-system,sans-serif';
-        ctx.fillStyle=dark?'rgba(4,6,12,'+(0.5*qa).toFixed(2)+')':'rgba(255,255,255,'+(0.65*qa).toFixed(2)+')';
-        ctx.fillText(q.txt,W/2,q.y+1);
-        ctx.fillStyle=dark?'rgba(250,242,226,'+(0.95*qa).toFixed(2)+')':'rgba(64,50,34,'+(0.95*qa).toFixed(2)+')';
-        ctx.fillText(q.txt,W/2,q.y);
+        /* 英文比中文长一倍，必须折行，否则两头被画布裁掉 */
+        if(q._k!==q.txt){ q._k=q.txt; q._ls=plnWrap(ctx,q.txt,W-30); }
+        var ls=q._ls||[q.txt];
+        for(var li=0;li<ls.length;li++){
+          var ly=q.y+li*19;
+          ctx.fillStyle=dark?'rgba(4,6,12,'+(0.5*qa).toFixed(2)+')':'rgba(255,255,255,'+(0.65*qa).toFixed(2)+')';
+          ctx.fillText(ls[li],W/2,ly+1);
+          ctx.fillStyle=dark?'rgba(250,242,226,'+(0.95*qa).toFixed(2)+')':'rgba(64,50,34,'+(0.95*qa).toFixed(2)+')';
+          ctx.fillText(ls[li],W/2,ly);
+        }
       }else{
         ctx.font='bold 13px system-ui,-apple-system,sans-serif';
         ctx.fillStyle=dark?'rgba(255,226,164,'+qa.toFixed(2)+')':'rgba(150,96,34,'+qa.toFixed(2)+')';
@@ -6732,7 +6845,7 @@ function plnInit(){
   if(nb) nb.addEventListener('click',function(){ plnReset(); });
   plnReset();
 }
-ENTER.plane=function(){ audioInit(); if(!pln.raf) plnFrame(); plnHud(); };
+ENTER.plane=function(){ audioInit(); if(!pln.raf) plnFrame(); plnHud(); plnSayLang(); };   /* 画布上的话跟着当前语言 */
 LEAVE.plane=plnStop;
 
 /* ================= 一杆高尔夫 ================= */
@@ -6748,7 +6861,7 @@ function gfWindText(){
   var w=document.getElementById('gfWind');
   if(!w) return;
   w.textContent=L(gfWind===0?'无风':(gfWind>0?'东风 '+gfWind+' 级':'西风 '+(-gfWind)+' 级'),
-                 gfWind===0?'Calm':(gfWind>0?'E wind '+gfWind:'W wind '+(-gfWind)));
+                 gfWind===0?'Calm':(gfWind>0?'E · '+gfWind:'W · '+(-gfWind)));
 }
 var gfHole=1,gfStrokes=0,gfTotal=0,gfWind=0,gfCharging=false,gfPower=0,gfDir=1;
 var gfBall=null,gfCup=null,gfHazards=[],gfMoving=false,gfRAF=0,gfDone=false,gfTrail=[];
@@ -7140,14 +7253,18 @@ ENTER.puzzle=function(){ pzRender(); };
    把用户正在看的东西抽走；还没答题时才重画，防止重画后能再得一次分。 */
 window.xsOnLang=function(){
   if(!cur||cur==='home') return;
-  if(cur==='qask'){ qaOrder=[]; qaCur=null; qaAnswered=false; qaNext(); }
+  /* 已答过的题只重绘、不换题：换题会把正在看的解读抽走（分数不会重记，但体验很差） */
+  if(cur==='qask'){ if(qaAnswered) qaRepaint(); else { qaOrder=[]; qaCur=null; qaAnswered=false; qaNext(); } }
   else if(cur==='same'||cur==='origin'||cur==='rule'||cur==='myth'){
     var qq=QUIZ_ALL[['same','origin','rule','myth'].indexOf(cur)];
-    if(qq){ qq.order=[]; qq.cur=null; qq.next(); }
+    if(qq){ if(qq.answered) qq.repaint(); else { qq.order=[]; qq.cur=null; qq.next(); } }
   }
   else if(cur==='poem'){ if(!pmAnswered) pmRender(); pmStat(); }
   else if(cur==='idiom'){ if(!idAnswered) idRender(); idStat(); }
-  else if(cur==='radio'){ if(!rdAnswered) rdRender(); rdStat(); }
+  else if(cur==='radio'){ if(!rdAnswered) rdRender(); rdStat(); rdStartText(); }
+  else if(cur==='plane'){ plnSayLang(); }
+  else if(cur==='pool'){ poMsgLang(); }
+  else if(cur==='toss'){ tsMsgLang(); }
   else if(cur==='story'){ stRender(); }
   else if(cur==='puzzle'){
     document.getElementById('pzSize').textContent=L(pzSize===3?'切换 4×4':'切换 3×3', pzSize===3?'Switch to 4×4':'Switch to 3×3');
